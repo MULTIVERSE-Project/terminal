@@ -1,5 +1,5 @@
 file = {
-	"lua/mvp",
+	"lua/mvp"
 }
 
 module_file = {
