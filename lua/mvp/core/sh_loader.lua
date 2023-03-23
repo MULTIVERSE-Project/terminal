@@ -78,11 +78,11 @@ function mvp.loader.LoadFile(path, realm, fromLuaFolder)
     local fullPath = fromLuaFolder and path or (mvp.loader.relativePath .. path)
 
 	if ((realm == 'server' or path:find('sv_')) and SERVER) then
-		return mvp.loader.LoadSeverFile(fullPath, fromLuaFolder)
+		return mvp.loader.LoadSeverFile(fullPath, true)
 	elseif (realm == 'client' or path:find('cl_')) then
-		return mvp.loader.LoadClientFile(fullPath, fromLuaFolder)
+		return mvp.loader.LoadClientFile(fullPath, true)
     else
-        return mvp.loader.LoadSharedFile(fullPath, fromLuaFolder)
+        return mvp.loader.LoadSharedFile(fullPath, true)
     end
 end
 
@@ -97,10 +97,10 @@ function mvp.loader.LoadFolder(path, realm, fromLuaFolder)
     local files, folders = file.Find(fullPath .. '/*', 'LUA')
 
     for _, file in ipairs(files) do
-        mvp.loader.LoadFile(fullPath .. '/' .. file, realm, fromLuaFolder)
+        mvp.loader.LoadFile(fullPath .. '/' .. file, realm, true)
     end
 
     for _, folder in ipairs(folders) do
-        mvp.loader.LoadFolder(fullPath .. '/' .. folder, realm, fromLuaFolder)
+        mvp.loader.LoadFolder(fullPath .. '/' .. folder, realm, true)
     end
 end
