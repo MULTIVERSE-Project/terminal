@@ -67,6 +67,11 @@ _For more examples, please refer to the [Documentation](https://docs.multiverse-
 
 ## Roadmap
 
+- [ ] Core
+  - [ ] Scripts loader
+  - [ ] Logger
+    - [ ] File logging
+    - [ ] Console logging
 - [ ] In-game config
   - [ ] Config categories
   - [ ] Config options types
