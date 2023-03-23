@@ -18,6 +18,10 @@ end
 
 local p = mvp.loader.Print
 
+--- Loads a file for the client. Must be called on both the client and server.
+-- @realm shared
+-- @string path The path to the file, relative to the mvp/ folder.
+-- @bool[opt=false] fromLuaFolder Whether or not ignore relative path and load from the lua/ folder directly.
 function mvp.loader.LoadClFile(path, fromLuaFolder)
     local fullPath = fromLuaFolder and path or (mvp.loader.relativePath .. path)
 
@@ -30,6 +34,10 @@ function mvp.loader.LoadClFile(path, fromLuaFolder)
     p(Color(255, 174, 0), '▐▌', mvp.WHITE, ' Loaded ', Color(255, 174, 0), 'CL', mvp.WHITE, ' file: ', path)
 end
 
+--- Loads a file fir server and client. Must be called on both the client and server.
+-- @realm shared
+-- @string path The path to the file, relative to the mvp/ folder.
+-- @bool[opt=false] fromLuaFolder Whether or not ignore relative path and load from the lua/ folder directly.
 function mvp.loader.LoadShFile(path, fromLuaFolder)
     local fullPath = fromLuaFolder and path or (mvp.loader.relativePath .. path)
 
@@ -42,6 +50,10 @@ function mvp.loader.LoadShFile(path, fromLuaFolder)
     p(Color(255, 174, 0), '▐', mvp.BLUE, '▌', mvp.WHITE, ' Loaded ', Color(255, 174, 0), '▐', mvp.BLUE, '▌', mvp.WHITE, ' Loaded ', Color(255, 174, 0), 'S', mvp.BLUE, 'H', mvp.WHITE, ' file: ', path)
 end
 
+--- Loads a file for the server. Must be called on the server.
+-- @realm shared
+-- @string path The path to the file, relative to the mvp/ folder.
+-- @bool[opt=false] fromLuaFolder Whether or not ignore relative path and load from the lua/ folder directly.
 function mvp.loader.LoadSvFile(path, fromLuaFolder)
     local fullPath = fromLuaFolder and path or (mvp.loader.relativePath .. path)
 
@@ -52,6 +64,15 @@ function mvp.loader.LoadSvFile(path, fromLuaFolder)
     p(mvp.BLUE, '▐▌', mvp.WHITE, ' Loaded ', mvp.BLUE, 'SV', mvp.WHITE, ' file: ', path)
 end
 
+--- Loads a file based on the realm. If the realm is not specified, it will try to guess it based on the file name.
+--
+-- `sv_` prefix will load the file for the server only,
+-- `cl_` prefix will load the file for the client only,
+-- in other cases, it will load the file for both the server and client (`shared`).
+-- 
+-- @realm shared
+-- @string path The path to the file, relative to the mvp/ folder.
+-- @string[opt] realm The realm to load the file for. Can be `server`, `client` or `shared`.
 function mvp.loader.LoadFile(path, realm)
 	if ((realm == 'server' or path:find('sv_')) and SERVER) then
 		return mvp.loader.LoadSvFile(path)
@@ -62,6 +83,10 @@ function mvp.loader.LoadFile(path, realm)
     end
 end
 
+--- Loads all files in folder recursively. If the realm is not specified, it will try to guess it based on the file name. See `mvp.loader.LoadFile` for more info about file naming.
+-- @realm shared
+-- @string path The path to the folder, relative to the mvp/ folder.
+-- @string[opt] realm The realm to load the files for. Can be `server`, `client` or `shared`.
 function mvp.loader.LoadFolder(path, realm)
     local files, folders = file.Find(path .. '/*', 'LUA')
 
