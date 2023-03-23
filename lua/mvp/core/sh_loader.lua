@@ -22,7 +22,7 @@ local p = mvp.loader.Print
 -- @realm shared
 -- @string path The path to the file, relative to the mvp/ folder.
 -- @bool[opt=false] fromLuaFolder Whether or not ignore relative path and load from the lua/ folder directly.
-function mvp.loader.LoadClFile(path, fromLuaFolder)
+function mvp.loader.LoadClientFile(path, fromLuaFolder)
     local fullPath = fromLuaFolder and path or (mvp.loader.relativePath .. path)
 
     if SERVER then
@@ -31,14 +31,14 @@ function mvp.loader.LoadClFile(path, fromLuaFolder)
         include(fullPath)
     end
 
-    p(Color(255, 174, 0), '▐▌', mvp.WHITE, ' Loaded ', Color(255, 174, 0), 'CL', mvp.WHITE, ' file: ', path)
+    p(mvp.ORANGE, '▐▌', mvp.WHITE, ' Loaded ', mvp.GREEN, path)
 end
 
 --- Loads a file fir server and client. Must be called on both the client and server.
 -- @realm shared
 -- @string path The path to the file, relative to the mvp/ folder.
 -- @bool[opt=false] fromLuaFolder Whether or not ignore relative path and load from the lua/ folder directly.
-function mvp.loader.LoadShFile(path, fromLuaFolder)
+function mvp.loader.LoadSharedFile(path, fromLuaFolder)
     local fullPath = fromLuaFolder and path or (mvp.loader.relativePath .. path)
 
     if SERVER then
@@ -47,21 +47,21 @@ function mvp.loader.LoadShFile(path, fromLuaFolder)
 
     include(fullPath)
 
-    p(Color(255, 174, 0), '▐', mvp.BLUE, '▌', mvp.WHITE, ' Loaded ', Color(255, 174, 0), '▐', mvp.BLUE, '▌', mvp.WHITE, ' Loaded ', Color(255, 174, 0), 'S', mvp.BLUE, 'H', mvp.WHITE, ' file: ', path)
+    p(mvp.ORANGE, '▐', mvp.BLUE, '▌', mvp.WHITE, ' Loaded ', mvp.GREEN, path)
 end
 
 --- Loads a file for the server. Must be called on the server.
 -- @realm shared
 -- @string path The path to the file, relative to the mvp/ folder.
 -- @bool[opt=false] fromLuaFolder Whether or not ignore relative path and load from the lua/ folder directly.
-function mvp.loader.LoadSvFile(path, fromLuaFolder)
+function mvp.loader.LoadServerFile(path, fromLuaFolder)
     local fullPath = fromLuaFolder and path or (mvp.loader.relativePath .. path)
 
     if SERVER then
         include(fullPath)
     end
 
-    p(mvp.BLUE, '▐▌', mvp.WHITE, ' Loaded ', mvp.BLUE, 'SV', mvp.WHITE, ' file: ', path)
+    p(mvp.BLUE, '▐▌', mvp.WHITE, ' Loaded ', mvp.GREEN, path)
 end
 
 --- Loads a file based on the realm. If the realm is not specified, it will try to guess it based on the file name.
@@ -73,13 +73,16 @@ end
 -- @realm shared
 -- @string path The path to the file, relative to the mvp/ folder.
 -- @string[opt] realm The realm to load the file for. Can be `server`, `client` or `shared`.
-function mvp.loader.LoadFile(path, realm)
+-- @bool[opt=false] fromLuaFolder Whether or not ignore relative path and load from the lua/ folder directly.
+function mvp.loader.LoadFile(path, realm, fromLuaFolder)
+    local fullPath = fromLuaFolder and path or (mvp.loader.relativePath .. path)
+
 	if ((realm == 'server' or path:find('sv_')) and SERVER) then
-		return mvp.loader.LoadSvFile(path)
+		return mvp.loader.LoadSeverFile(fullPath, fromLuaFolder)
 	elseif (realm == 'client' or path:find('cl_')) then
-		return mvp.loader.LoadClFile(path)
+		return mvp.loader.LoadClientFile(fullPath, fromLuaFolder)
     else
-        return mvp.loader.LoadShFile(path)
+        return mvp.loader.LoadSharedFile(fullPath, fromLuaFolder)
     end
 end
 
@@ -87,14 +90,17 @@ end
 -- @realm shared
 -- @string path The path to the folder, relative to the mvp/ folder.
 -- @string[opt] realm The realm to load the files for. Can be `server`, `client` or `shared`.
-function mvp.loader.LoadFolder(path, realm)
-    local files, folders = file.Find(path .. '/*', 'LUA')
+-- @bool[opt=false] fromLuaFolder Whether or not ignore relative path and load from the lua/ folder directly.
+function mvp.loader.LoadFolder(path, realm, fromLuaFolder)
+    local fullPath = fromLuaFolder and path or (mvp.loader.relativePath .. path)
+
+    local files, folders = file.Find(fullPath .. '/*', 'LUA')
 
     for _, file in ipairs(files) do
-        mvp.loader.LoadFile(path .. '/' .. file, realm)
+        mvp.loader.LoadFile(fullPath .. '/' .. file, realm, fromLuaFolder)
     end
 
     for _, folder in ipairs(folders) do
-        mvp.loader.LoadFolder(path .. '/' .. folder, realm)
+        mvp.loader.LoadFolder(fullPath .. '/' .. folder, realm, fromLuaFolder)
     end
 end
