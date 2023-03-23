@@ -51,3 +51,25 @@ function mvp.loader.LoadSvFile(path, fromLuaFolder)
 
     p(mvp.BLUE, '▐▌', mvp.WHITE, ' Loaded ', mvp.BLUE, 'SV', mvp.WHITE, ' file: ', path)
 end
+
+function mvp.loader.LoadFile(path, realm)
+	if ((realm == 'server' or path:find('sv_')) and SERVER) then
+		return mvp.loader.LoadSvFile(path)
+	elseif (realm == 'client' or path:find('cl_')) then
+		return mvp.loader.LoadClFile(path)
+    else
+        return mvp.loader.LoadShFile(path)
+    end
+end
+
+function mvp.loader.LoadFolder(path, realm)
+    local files, folders = file.Find(path .. '/*', 'LUA')
+
+    for _, file in ipairs(files) do
+        mvp.loader.LoadFile(path .. '/' .. file, realm)
+    end
+
+    for _, folder in ipairs(folders) do
+        mvp.loader.LoadFolder(path .. '/' .. folder, realm)
+    end
+end
