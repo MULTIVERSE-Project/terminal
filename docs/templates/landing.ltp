@@ -1,0 +1,24 @@
+
+<div class="landing">
+	<p>Documentation for</p>
+	<h1>{{ldoc.project}}</h1>
+	<p>by {{ldoc.title}}</p>
+</div>
+
+<div class="wrapper">
+	<h2>Introduction</h2>
+	<p>Welcome to the documentation page for Terminal, a powerful GMod script that provides a collection of utilities and pre-built UI components to enhance your gaming experience. Terminal is designed to simplify complex tasks and streamline your workflow, allowing you to focus on what matters most - playing and enjoying GMod.</p>
+
+	<p>Whether you are a seasoned GMod developer or a newcomer to the GLua scripting, Terminal is an indispensable tool that will take your developing experience to the next level. With its wide range of features and customizable settings, Terminal offers a seamless experience that caters to your unique needs and preferences.</p>
+
+	<p>In this documentation page, you will find all the information you need to get started with Terminal, from installation and configuration to a comprehensive guide to its features and functionalities. We have also included examples and code snippets to help you better understand how to use Terminal in your own GMod projects.</p>
+
+	<p>Thank you for choosing Terminal, and we hope that this documentation page will help you make the most of this powerful GMod script.</p>
+
+	<h2>Credits</h2>
+	<ul>
+		<li>This documentation is generated using <a href="https://stevedonovan.github.io/ldoc/">LDoc</a>.</li>
+		<li>The original templates were taken and edited from the <a href="https://gethelix.co">Helix gamemode</a>.</li>
+		<li>In our UI we use icons that were made by <a href="https://fontawesome.com">FontAwesome</a></li>
+	</ul>
+</div>
