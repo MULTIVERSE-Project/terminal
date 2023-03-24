@@ -13,13 +13,22 @@ function adapter:Log( level, ... )
     if level == mvp.LOG_DEBUG then
         levelText, levelColor = 'DEBUG', mvp.GREEN
         if mvp.DEBUG then
-            MsgC( mvp.BLUE, '[MVP | Terminal]', levelColor, '[', levelText, '] ', mvp.GRAY, '[', mvp.WHITE, logTime, mvp.GRAY, '] ', mvp.WHITE, ... )
+            local args = {...}
+            if args and #args > 0 then
+                MsgC( mvp.BLUE, '[MVP | Terminal]', levelColor, '[', levelText, '] ', mvp.GRAY, '[', mvp.WHITE, logTime, mvp.GRAY, '] ', mvp.WHITE, unpack(args) )
+            else
+                MsgC( mvp.BLUE, '[MVP | Terminal]', levelColor, '[', levelText, '] ', mvp.GRAY, '[', mvp.WHITE, logTime, mvp.GRAY, '] ' )
+            end
         end
     else
-        MsgC( mvp.BLUE, '[MVP | Terminal]', levelColor, '[', levelText, '] ', mvp.GRAY, '[', mvp.WHITE, logTime, mvp.GRAY, '] ', mvp.WHITE, ... )
+        local args = {...}
+        if args and #args > 0 then
+            MsgC( mvp.BLUE, '[MVP | Terminal]', levelColor, '[', levelText, '] ', mvp.GRAY, '[', mvp.WHITE, logTime, mvp.GRAY, '] ', mvp.WHITE, unpack(args) )
+        else
+            MsgC( mvp.BLUE, '[MVP | Terminal]', levelColor, '[', levelText, '] ', mvp.GRAY, '[', mvp.WHITE, logTime, mvp.GRAY, '] ' )
+        end
     end
 
-    
     MsgC('\n')
 end
 
