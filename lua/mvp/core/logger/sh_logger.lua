@@ -3,9 +3,22 @@ mvp.logger = mvp.logger or {}
 
 mvp.logger.adapters = {}
 
+mvp.logger.ready = false
+mvp.logger.earlyLogs = {}
+
 function mvp.logger.Log(level, ...)
+    if not mvp.logger.ready then
+        mvp.logger.earlyLogs[#mvp.logger.earlyLogs + 1] = {
+            timestamp = os.date('%Y-%m-%d %H:%M:%S'), 
+            level = level, 
+            message = {...}
+        }
+        
+        return
+    end
+
     for _, adapter in pairs(mvp.logger.adapters) do
-        adapter:Log(level, ...)
+        adapter:Log(nil, level, ...) -- let adapter record the time by itself
     end
 end
 
@@ -34,4 +47,11 @@ function mvp.logger.Init()
 
     mvp.logger.ready = true
     mvp.logger.Log(mvp.LOG_INFO, 'Logger initialized and ready to go!')
+    mvp.logger.Log(mvp.LOG_INFO, 'Checking for early logs...')
+
+    for _, log in pairs(mvp.logger.earlyLogs) do
+        for _, adapter in pairs(mvp.logger.adapters) do
+            adapter:Log(log.timestamp, log.level, mvp.GREEN, '[EARLY] ', mvp.WHITE, unpack(log.message))
+        end
+    end
 end

@@ -21,7 +21,7 @@ function adapter:WriteToFile(message)
     local logTime = os.date('%Y-%m-%d %H:%M:%S')
 
     if self.currentWorkingFile then
-        file.Append(self.currentWorkingFile, '[' .. logTime .. '] ' .. message .. '\n')
+        file.Append(self.currentWorkingFile, message .. '\n')
     end
 end
 
@@ -43,10 +43,12 @@ function adapter:SanitazeMessage(message)
     return sanitizedMessage
 end
 
-function adapter:Log(level, ...)
+function adapter:Log(timestamp, level, ...)
     if not self.currentWorkingFile then
         self:Init()
     end
+
+    local logTime = timestamp or os.date('%Y-%m-%d %H:%M:%S')
 
     local message = self:SanitazeMessage({...})
 
@@ -60,13 +62,11 @@ function adapter:Log(level, ...)
     if level == mvp.LOG_DEBUG then
         levelText = 'DEBUG'
         if mvp.DEBUG then
-            self:WriteToFile('[' .. levelText .. '] ' .. message)
+            self:WriteToFile('[' .. logTime .. '] ' .. '[' .. levelText .. '] ' .. message)
         end
     else
-        self:WriteToFile('[' .. levelText .. '] ' .. message)
+        self:WriteToFile('[' .. logTime .. '] ' .. '[' .. levelText .. '] ' .. message)
     end
-
-    print('[' .. levelText .. '] ' .. message)
 end
 
 return adapter

@@ -12,6 +12,10 @@ function mvp.meta.logger:New()
     return logger
 end
 
-function mvp.meta.logger:Log(level, ...)
-    print(message)
+function mvp.meta.logger:Init()
+    error("Not implemented")
+end
+
+function mvp.meta.logger:Log(timestamp, level, ...)
+    error("Not implemented")
 end

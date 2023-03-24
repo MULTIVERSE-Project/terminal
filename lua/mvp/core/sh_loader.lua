@@ -8,12 +8,12 @@ mvp.loader = mvp.loader or {}
 mvp.loader.relativePath = 'mvp/'
 
 function mvp.loader.Print(...)
-    if mvp.logger and mvp.logger.ready then
-        mvp.logger.Log(...)
-    else
+    if not mvp.logger or not mvp.logger.ready then
         MsgC(mvp.CYAN, '[MVP | Terminal]', mvp.ORANGE, '[Loader] ', Color(255, 255, 255), ...)
         MsgC('\n')
     end
+
+    if mvp.logger then mvp.logger.Log(mvp.LOG_INFO, ...) end
 end
 
 local p = mvp.loader.Print

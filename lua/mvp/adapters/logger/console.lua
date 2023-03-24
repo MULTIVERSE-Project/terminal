@@ -1,7 +1,11 @@
 local adapter = mvp.meta.logger:New()
 
-function adapter:Log( level, ... )
-    local logTime = os.date( '%Y-%m-%d %H:%M:%S' )
+function adapter:Init()
+
+end
+
+function adapter:Log( timestamp, level, ... )
+    local logTime = timestamp or os.date( '%Y-%m-%d %H:%M:%S' )
     local levelText, levelColor = 'INFO', mvp.BLUE
 
     if level == mvp.LOG_ERROR then
