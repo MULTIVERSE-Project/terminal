@@ -13,10 +13,10 @@ function adapter:Log( level, ... )
     if level == mvp.LOG_DEBUG then
         levelText, levelColor = 'DEBUG', mvp.GREEN
         if mvp.DEBUG then
-            MsgC( mvp.BLUE, '[MVP | Terminal]', levelColor, '[', levelText, '] ', mvp.GRAY, '[', mvp.WHITE, logTime, mvp.GRAY, '] ', ... )
+            MsgC( mvp.BLUE, '[MVP | Terminal]', levelColor, '[', levelText, '] ', mvp.GRAY, '[', mvp.WHITE, logTime, mvp.GRAY, '] ', mvp.WHITE, ... )
         end
     else
-        MsgC( mvp.BLUE, '[MVP | Terminal]', levelColor, '[', levelText, '] ', mvp.GRAY, '[', mvp.WHITE, logTime, mvp.GRAY, '] ', ... )
+        MsgC( mvp.BLUE, '[MVP | Terminal]', levelColor, '[', levelText, '] ', mvp.GRAY, '[', mvp.WHITE, logTime, mvp.GRAY, '] ', mvp.WHITE, ... )
     end
 
     

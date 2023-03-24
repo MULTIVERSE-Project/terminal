@@ -8,4 +8,4 @@ if SERVER then
     AddCSLuaFile('mvp/init/sh.lua')
 end
 
-include('mvp/init/sh.lua') 
+include('mvp/init/sh.lua')

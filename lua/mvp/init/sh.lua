@@ -10,7 +10,7 @@ mvp.CYAN = Color(0, 168, 255)
 mvp.YELLOW = Color(255, 255, 0, 255)
 mvp.ORANGE = Color(225, 177, 44)
 mvp.GRAY = Color(207, 207, 207)
- 
+
 -- log levels
 mvp.LOG_DEBUG = 0
 mvp.LOG_INFO = 1
