@@ -1,3 +1,8 @@
+--[[--
+Logging module for Terminal. 
+]]
+-- @module mvp.logger
+
 mvp = mvp or {}
 mvp.logger = mvp.logger or {}
 
@@ -6,6 +11,10 @@ mvp.logger.adapters = {}
 mvp.logger.ready = false
 mvp.logger.earlyLogs = {}
 
+--- Logs a message to all adapters.
+-- @realm shared
+-- @param level The log level.
+-- @param ... The message to log.
 function mvp.logger.Log(level, ...)
     if not mvp.logger.ready then
         mvp.logger.earlyLogs[#mvp.logger.earlyLogs + 1] = {
@@ -22,6 +31,9 @@ function mvp.logger.Log(level, ...)
     end
 end
 
+--- Initializes the logger.
+-- @realm shared
+-- @internal
 function mvp.logger.Init()
     mvp.logger.adapters = {}
 
