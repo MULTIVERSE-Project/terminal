@@ -18,8 +18,6 @@ function adapter:Init()
 end
 
 function adapter:WriteToFile(message)
-    local logTime = os.date('%Y-%m-%d %H:%M:%S')
-
     if self.currentWorkingFile then
         file.Append(self.currentWorkingFile, message .. '\n')
     end
@@ -31,7 +29,7 @@ function adapter:SanitazeMessage(message)
     if type(message) == 'table' then
         for k, v in pairs(message) do
             if type(v) == 'table' then
-                continue -- skip tables
+                sanitizedMessage = sanitizedMessage .. ' [table]'
             else
                 sanitizedMessage = sanitizedMessage .. tostring(v)
             end
