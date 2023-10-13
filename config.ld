@@ -33,7 +33,8 @@ pretty_topic_names = true -- strips extension from manual filenames, this does n
 custom_tags = {
 	{"realm", hidden = true},
 	{"internal", hidden = true},
-	{"inherits", hidden = true}
+	{"inherits", hidden = true},
+	{"doc", hidden = true}
 }
 
 custom_display_name_handler = function(item, default_handler)

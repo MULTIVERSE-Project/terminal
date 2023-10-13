@@ -13,8 +13,11 @@ mvp.logger.earlyLogs = {}
 
 --- Logs a message to all adapters.
 -- @realm shared
--- @param level The log level.
+-- @tparam LOG_ENUM level The log level. See @{mvp} for available level enums.
 -- @param ... The message to log.
+-- @usage mvp.logger.Log(mvp.LOG_INFO, 'Hello, world!')
+-- @doc ./docs/examples/test1.md
+-- @doc ./docs/examples/test2.md
 function mvp.logger.Log(level, ...)
     if not mvp.logger.ready then
         mvp.logger.earlyLogs[#mvp.logger.earlyLogs + 1] = {

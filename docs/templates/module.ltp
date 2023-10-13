@@ -124,6 +124,13 @@
 					{% end %}
 				</ul>
 			{% end %}
+
+			{% if (item.tags.doc) then %}
+				<h3>Usage (external files):</h3>
+				{% for doc in ldoc.modules.iter(item.tags.doc) do %}
+					<pre><code>{* ldoc.prettify(ldoc.read_ext_doc(doc)) *}</code></pre>
+				{% end %}
+			{% end %}
 		</section>
 	{% end %}
 {% end %}

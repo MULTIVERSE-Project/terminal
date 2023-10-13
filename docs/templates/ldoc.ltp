@@ -32,6 +32,15 @@ local function moduleDescription(mod)
 
 	return mod.summary
 end
+
+local utils = require 'pl.utils'
+
+function ldoc.read_ext_doc(filename)
+
+	local txt, is_found = utils.readfile(filename)
+
+	return txt
+end
 %}
 
 <html>
