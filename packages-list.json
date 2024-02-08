@@ -16,9 +16,7 @@
         "isFree": false,
         "price": 4.99,
         "links": {
-            "github": "",
-            "workshop": "",
-            "store": ""
+            "store": "https://mvp.tebex.io/package/5308190"
         }
     },
     {
@@ -28,9 +26,7 @@
         "isFree": false,
         "price": 5.99,
         "links": {
-            "github": "",
-            "workshop": "",
-            "store": ""
+            "store": "https://mvp.tebex.io/package/6093184"
         }
     }
 ]
