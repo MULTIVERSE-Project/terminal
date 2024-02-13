@@ -1,6 +1,6 @@
 local PANEL = {}
 
-DEFINE_BASECLASS("DButton")
+DEFINE_BASECLASS("Panel")
 
 AccessorFunc(PANEL, "roundness", "Roundness")
 
