@@ -8,7 +8,7 @@ mvp.meta.package = {}
 mvp.meta.package.__proto = mvp.meta.package
 
 mvp.meta.package.__proto.isPackage = true
-mvp.meta.package.__proto._files = {}
+mvp.meta.package.__proto.isLoaded = false
 
 function mvp.meta.package:New()
     local o = table.Copy(self.__proto)
@@ -61,8 +61,22 @@ function mvp.meta.package:__eq(other)
 end
 
 --[[
+    Dependencies
+]]--
+mvp.meta.package.__proto._dependencies = {}
+function mvp.meta.package:AddDependency(id)
+    self._dependencies = self._dependencies or {}
+    
+    self._dependencies[#self._dependencies + 1] = id
+end
+function mvp.meta.package:GetDependencies()
+    return self._dependencies
+end
+
+--[[
     Package functions
 ]]--
+mvp.meta.package.__proto._files = {}
 function mvp.meta.package:AddFile(path)
     local cwd = "packages/" .. self:GetCWD()
     local fullPath = cwd .. "/" .. path
@@ -102,7 +116,5 @@ function mvp.meta.package:AddConfigsFolder(path)
         path = string.sub(path, 2)
     end
 
-    local cwd = "packages/" .. self:GetCWD() .. "/" .. path
-
-    mvp.loader.LoadFolder(cwd)
+    self:AddFolder(path, true)
 end
