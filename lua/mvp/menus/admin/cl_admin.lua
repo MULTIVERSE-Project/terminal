@@ -121,7 +121,7 @@ function mvp.menus.AdminCredits(container, defaultActive)
     buttons["terminal"] = buttonGroup:AddButton("Terminal", function()
         creditsContent:Clear()
 
-        local contributors = mvp.credits.contributors
+        local contributors = mvp.credits.GetContributors()
 
         local grid = vgui.Create("ThreeGrid", creditsContent)
         grid:Dock(FILL)
@@ -152,10 +152,11 @@ function mvp.menus.AdminCredits(container, defaultActive)
             local button = vgui.Create("mvp.Button", pnl)
             button:Dock(BOTTOM)
             button:DockMargin(0, spaceBetween * 1.3, spaceBetween * 1.3, spaceBetween * 1.3)
-            button:SetTall(mvp.ui.Scale(32))
+            button:SetTall(mvp.ui.Scale(40))
             button:SetFont(mvp.Font(20, 500))
             button:SetRoundness(mvp.ui.ScaleWithFactor(8))
             button:SetText("Steam Profile")
+            button:SetIcon(linkTypeMaterials["workshop"])
             
             button.DoClick = function()
                 gui.OpenURL("https://steamcommunity.com/profiles/" .. v.steamId)
@@ -167,7 +168,7 @@ function mvp.menus.AdminCredits(container, defaultActive)
     buttons["icons"] = buttonGroup:AddButton("Icons", function()
         creditsContent:Clear()
         
-        local icons = mvp.credits.icons
+        local icons = mvp.credits.GetIcons()
 
         local grid = vgui.Create("ThreeGrid", creditsContent)
         grid:Dock(FILL)
@@ -193,7 +194,7 @@ function mvp.menus.AdminCredits(container, defaultActive)
                 surface.DrawTexturedRect(spaceBetween * 2, h * .5 - iconSize * .5, iconSize, iconSize)
 
                 draw.SimpleText(v.name, mvp.Font(24, 600), spaceBetween * 2 + iconSize + spaceBetween, h * .5, mvp.colors.Text, nil, TEXT_ALIGN_BOTTOM)
-                draw.SimpleText("by " .. v.author, mvp.Font(20, 500), spaceBetween * 2 + iconSize + spaceBetween, h * .5, mvp.colors.Text, nil, TEXT_ALIGN_TOP)
+                draw.SimpleText("by " .. v.author.name, mvp.Font(20, 500), spaceBetween * 2 + iconSize + spaceBetween, h * .5, mvp.colors.Text, nil, TEXT_ALIGN_TOP)
             end
 
             local iconButton = vgui.Create("mvp.ImageButton", icon)
@@ -202,7 +203,7 @@ function mvp.menus.AdminCredits(container, defaultActive)
             iconButton:SetImage(linkMaterial)
 
             iconButton.DoClick = function()
-                gui.OpenURL(v.authorLink)
+                gui.OpenURL(v.author.url)
             end
 
 
@@ -219,7 +220,6 @@ function mvp.menus.AdminCredits(container, defaultActive)
     if (not buttons[defaultActive]) then
         defaultActive = "terminal"
     end
-
     buttons[defaultActive]:DoClick()
 end
 
@@ -261,6 +261,19 @@ function mvp.menus.Admin()
         local left = vgui.Create("EditablePanel", pageContent)
         left:Dock(LEFT)
         left:SetWide(pageContent:GetWide() * 0.6 - spaceBetween * 0.5)
+
+        local indevWarning = vgui.Create("EditablePanel", left)
+        indevWarning:Dock(TOP)
+        indevWarning:DockMargin(0, 0, 0, spaceBetween)
+        indevWarning:SetTall(mvp.ui.Scale(100))
+        indevWarning:InvalidateParent(true)
+
+        indevWarning.Paint = function(pnl, w, h)
+            draw.RoundedBox(mvp.ui.ScaleWithFactor(8), 0, 0, w, h, ColorAlpha(mvp.colors.SecondaryBackground, 100))
+
+            draw.SimpleText("IN DEVELOPMENT", mvp.Font(32, 600), spaceBetween, spaceBetween, mvp.colors.Accent)
+            draw.SimpleText("This is a work in progress version of the Terminal. Some features may not work as expected.", mvp.Font(20, 500), spaceBetween, spaceBetween + 24, mvp.colors.Text)
+        end
 
         local notifications = vgui.Create("EditablePanel", left)
         notifications:Dock(TOP)
@@ -537,7 +550,7 @@ function mvp.menus.Admin()
         title:SetTall(mvp.ui.Scale(64))  
         
         title:SetText("Settings")
-        title:SetDescription("This is your settings for the Terminal")
+        title:SetDescription("This is your settings for the Terminal and it's packages. You can change your server name, logo, gamemode and more.")
 
         local restoreConfig = vgui.Create("mvp.Button", title)
         restoreConfig:Dock(RIGHT)
@@ -686,7 +699,22 @@ function mvp.menus.Admin()
 
         configsSpace.fk:DoClick()
     end)
-    buttons["language_editor"] = frame:AddButton("Language Editor", "mvp/terminal/icons/language.png", false, function()
+    -- buttons["language_editor"] = frame:AddButton("Language Editor", "mvp/terminal/icons/language.png", false, function()
+    --     local canvas = frame:GetCanvas()
+
+    --     local content = vgui.Create("EditablePanel", canvas)
+    --     content:Dock(FILL)
+    --     content:InvalidateParent(true)
+
+    --     local title = vgui.Create("mvp.MenuHeader", content)
+    --     title:Dock(TOP)
+    --     title:SetTall(mvp.ui.Scale(64))  
+        
+    --     title:SetText("Language Editor (WIP)")
+    --     title:SetDescription("Here you can edit your language file")
+    -- end)
+
+    buttons["permissions"] = frame:AddButton("Permissions", "mvp/terminal/icons/permissions.png", false, function()
         local canvas = frame:GetCanvas()
 
         local content = vgui.Create("EditablePanel", canvas)
@@ -697,8 +725,8 @@ function mvp.menus.Admin()
         title:Dock(TOP)
         title:SetTall(mvp.ui.Scale(64))  
         
-        title:SetText("Language Editor (WIP)")
-        title:SetDescription("Here you can edit your language file")
+        title:SetText("Permissions")
+        title:SetDescription("All the permissions that Terminal or it's packages registered are listed here.")
     end)
 
     frame:AddSeparator()
