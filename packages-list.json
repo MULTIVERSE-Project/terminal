@@ -1,18 +1,8 @@
 [
     {
-        "id": "3d2d_ui",
-        "name": "3D2D UI",
-        "description": "A simple 3D2D UI library for Garry's Mod.",
-        "isFree": true,
-        "links": {
-            "github": "",
-            "workshop": ""
-        }
-    },
-    {
         "id": "perfecthands",
         "name": "Perfect Hands",
-        "description": "A simple library for creating custom player hands.",
+        "description": "Script that allows to use cool animations.",
         "isFree": false,
         "price": 4.99,
         "links": {
@@ -22,7 +12,7 @@
     {
         "id": "perfecthud",
         "name": "Perfect HUD",
-        "description": "A simple library for creating custom HUDs.",
+        "description": "A siple HUD with different integrations.",
         "isFree": false,
         "price": 5.99,
         "links": {
