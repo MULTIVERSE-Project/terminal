@@ -75,13 +75,11 @@ mvp.loader.LoadFile("core/sh_data.lua")
 mvp.loader.LoadFolder("core/logger")
 mvp.loader.LoadFolder("loggers")
 
-mvp.loader.LoadFolder("credits")
-
 mvp.loader.LoadFile("core/sh_types.lua")
 mvp.loader.LoadFile("core/sh_permissions.lua")
 
 mvp.loader.LoadFolder("core/ui")
-mvp.loader.LoadFile("core/cl_fonts.lua")
+mvp.loader.LoadFile("core/cl_fonts.lua") 
 
 --[[ 
 
@@ -122,6 +120,9 @@ mvp.package.Init()
 ]]-- 
 mvp.loader.LoadFolder("core/gamemode")
 mvp.gamemode.Init()
+
+mvp.loader.LoadFolder("core/credits")
+mvp.loader.LoadFolder("credits") -- there is no need to initialize credits, they are loaded automatically
 
 mvp.loader.LoadFolder("vgui", true)
 mvp.loader.LoadFolder("menus", true) 
