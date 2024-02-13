@@ -23,8 +23,6 @@ function mvp.config.RegisterSection(name, sortIndex)
 end
 
 function mvp.config.RegisterCategory(name, section, sortIndex)
-print(name, section, sortIndex)
-
     if (mvp.config.GetCategoryByName(name)) then 
         return mvp.config.GetCategoryByName(name)
     end
