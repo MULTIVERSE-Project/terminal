@@ -60,8 +60,6 @@ end
 function PANEL:SelectButton(text, ...)
     local but = self.buttons[text]
 
-    print(...)
-
     if (but) then
         but:DoClick(...)
     end

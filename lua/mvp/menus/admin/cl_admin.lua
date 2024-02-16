@@ -84,6 +84,8 @@ local linkTypeNames = {
     ["store"] = "Store"
 }
 
+local warningMaterial = Material("mvp/terminal/icons/warning.png", "smooth mips")
+
 function mvp.menus.AdminCredits(container, defaultActive)
     defaultActive = defaultActive or "terminal"
 
@@ -223,6 +225,203 @@ function mvp.menus.AdminCredits(container, defaultActive)
     buttons[defaultActive]:DoClick()
 end
 
+function mvp.menus.AdminSettings(container, defaultActive)
+    defaultActive = defaultActive or "Terminal"
+
+    local content = vgui.Create("EditablePanel", container)
+    content:Dock(FILL)
+    content:InvalidateParent(true)
+
+    local title = vgui.Create("mvp.MenuHeader", content)
+    title:Dock(TOP)
+    title:SetTall(mvp.ui.Scale(64))  
+    
+    title:SetText("Settings")
+    title:SetDescription("This is your settings for the Terminal and it's packages. You can change your server name, logo, gamemode and more.")
+
+    local restoreConfig = vgui.Create("mvp.Button", title)
+    restoreConfig:Dock(RIGHT)
+    restoreConfig:DockMargin(0, spaceBetween, 0, spaceBetween)
+    restoreConfig:SetText("Restore")
+    restoreConfig:SizeToContentsX(spaceBetween * 4)
+    restoreConfig:SetStyle("danger")
+    restoreConfig:SetFont(mvp.Font(20, 500))
+    restoreConfig:SetEnabled(false)
+    restoreConfig:SetRoundness(mvp.ui.ScaleWithFactor(8))
+
+    local saveConfig = vgui.Create("mvp.Button", title)
+    saveConfig:Dock(RIGHT)
+    saveConfig:DockMargin(0, spaceBetween, spaceBetween, spaceBetween)
+    saveConfig:SetText("Save")
+    saveConfig:SizeToContentsX(spaceBetween * 4)
+    saveConfig:SetStyle("success")
+    saveConfig:SetFont(mvp.Font(20, 500))
+    saveConfig:SetEnabled(false)
+    saveConfig:SetRoundness(mvp.ui.ScaleWithFactor(8))
+
+    local pageContent = vgui.Create("EditablePanel", content)
+    pageContent:Dock(FILL)
+
+    local sections = mvp.config.sections
+
+    local topNavigation = vgui.Create("DHorizontalScroller", pageContent)
+    topNavigation:Dock(TOP)
+    topNavigation:SetTall(mvp.ui.Scale(38))
+    topNavigation:SetOverlap( -spaceBetween * .5 )
+
+    local buttonGroup = vgui.Create("mvp.ButtonGroup")
+    topNavigation:AddPanel(buttonGroup)
+    buttonGroup:SetRoundness(mvp.ui.ScaleWithFactor(8))
+
+    local configsSpace = vgui.Create("EditablePanel", pageContent)
+    configsSpace:Dock(FILL)
+    configsSpace:DockMargin(0, spaceBetween * .5, 0, 0)
+
+    local configSectionButtons = {}
+
+    for k, v in SortedPairsByMemberValue(sections, "sortIndex") do
+        local but = buttonGroup:AddButton(v.name)
+        configSectionButtons[v.name] = but
+
+        but.DoClick = function()
+            
+            configsSpace:Clear()
+            
+            local configContent = vgui.Create("mvp.CategoryList", configsSpace)
+            configContent:Dock(FILL)
+            
+            for _, category in SortedPairsByMemberValue(v.categories, "sortIndex") do
+                local spacing = mvp.ui.Scale(10)
+
+                local cat = configContent:Add(category.name)
+                cat:SetExpanded(true)
+                cat:SetHeaderHeight(mvp.ui.Scale(48))
+                cat:DockMargin(0, 0, 0, spaceBetween)
+
+                cat.angle = cat:GetExpanded() and 180 or 0
+
+                cat.Paint = function(pnl, w, h)
+                    local headerHeight = pnl:GetHeaderHeight()
+
+                    draw.RoundedBox(mvp.ui.ScaleWithFactor(8), 0, 0, w, headerHeight, mvp.colors.SecondaryBackground)
+
+                    surface.SetDrawColor(ColorAlpha(mvp.colors.Text, pnl:GetExpanded() and 255 or 150))
+                    surface.SetMaterial(arrowMaterial)
+                    surface.DrawTexturedRectRotated(w - headerHeight * .5, headerHeight * .5, headerHeight * .5, headerHeight * .5, pnl.angle)
+
+                    if (pnl:GetExpanded()) then
+                        pnl.angle = Lerp(FrameTime() * 10, pnl.angle, 180)
+                    else
+                        pnl.angle = Lerp(FrameTime() * 10, pnl.angle, 0)
+                    end
+                end
+
+                local catHeader = cat.Header
+                catHeader:SetFont(mvp.Font(18, 600))
+                catHeader:DockMargin(spacing - 5, 0, 0, spaceBetween * .5)
+
+                local catContent = vgui.Create("EditablePanel")
+
+                for key, config in SortedPairsByMemberValue(category.configs, "sortIndex") do
+                    if (config.ui.hide) then continue end
+
+                    local configPanel = vgui.Create("DPanel", catContent)
+                    configPanel:Dock(TOP)
+                    configPanel:SetTall(mvp.ui.Scale(64))
+                    configPanel:DockMargin(0, 0, 0, spaceBetween * .5)
+
+                    configPanel.Paint = function(pnl, w, h)
+                        draw.RoundedBox(mvp.ui.ScaleWithFactor(8), 0, 0, w, h, ColorAlpha(mvp.colors.SecondaryBackground, 150))
+
+                        draw.SimpleText(key, mvp.Font(22, 600), spacing, spacing, mvp.colors.Accent)
+                        draw.SimpleText(config.description, mvp.Font(20, 500), spacing, h - spacing, mvp.colors.Text, nil, TEXT_ALIGN_BOTTOM)
+                    end
+
+                    local restoreToDefault = vgui.Create("mvp.ImageButton", configPanel)
+                    restoreToDefault:Dock(RIGHT)
+                    restoreToDefault:DockMargin(0, spaceBetween * 1.3, spacing, spaceBetween * 1.3)
+                    restoreToDefault:InvalidateParent(true)
+
+                    restoreToDefault:SetWide(restoreToDefault:GetTall())
+
+                    restoreToDefault:SetFont(mvp.Font(20, 500))
+                    restoreToDefault:SetRoundness(mvp.ui.ScaleWithFactor(8))
+                    restoreToDefault:SetImage(restoreToDefaultMaterial)
+
+                    if (config.ui.type == "dropdown") then
+                        local choices = config.ui.choices()
+                        local currentChoice = config.value
+
+                        local currentChoiceText = choices[currentChoice] or "None"
+
+                        local valueInput = vgui.Create("mvp.Button", configPanel)
+                        valueInput:Dock(RIGHT)
+                        valueInput:DockMargin(0, spaceBetween * 1.3, spacing, spaceBetween * 1.3)
+                        valueInput:SetWide(mvp.ui.Scale(180))
+                        valueInput:SetFont(mvp.Font(20, 500))
+                        valueInput:SetRoundness(mvp.ui.ScaleWithFactor(8))
+
+                        valueInput:SetText(currentChoiceText)
+                    
+                        valueInput.DoClick = function()
+                            local dropdown = vgui.Create("mvp.DropdownMenu")
+                            dropdown:SetRoundness(mvp.ui.ScaleWithFactor(8))
+                            dropdown:SetMinimumWidth(mvp.ui.Scale(180))
+
+                            for k, v in pairs(choices) do
+                                dropdown:AddOption(v, function()
+                                    valueInput:SetText(v)
+
+                                    
+                                end)
+                            end
+
+                            local x, y = valueInput:LocalToScreen(0, valueInput:GetTall())
+
+                            dropdown:Open(x, y + spacing * .5)
+                        end
+                    elseif (config.typeOf == mvp.type.string) then
+                        local valueInput = vgui.Create("mvp.TextEntry", configPanel)
+                        valueInput:Dock(RIGHT)
+                        valueInput:DockMargin(0, spaceBetween * 1.3, spacing, spaceBetween * 1.3)
+                        valueInput:SetWide(mvp.ui.Scale(180))
+                        valueInput:SetRoundness(mvp.ui.ScaleWithFactor(8))
+
+                        valueInput:SetText(tostring(config.value))
+                    elseif (config.typeOf == mvp.type.number) then
+                        local valueInput = vgui.Create("mvp.TextEntry", configPanel)
+                        valueInput:Dock(RIGHT)
+                        valueInput:DockMargin(0, spaceBetween * 1.3, spacing, spaceBetween * 1.3)
+                        valueInput:SetWide(mvp.ui.Scale(180))
+
+                        valueInput:SetNumeric(true)
+                        valueInput:SetText(tostring(config.value))
+                        valueInput:SetRoundness(mvp.ui.ScaleWithFactor(8))
+                    elseif (config.typeOf == mvp.type.bool) then
+                        local valueInput = vgui.Create("mvp.CheckBox", configPanel)
+                        valueInput:Dock(RIGHT)
+                        valueInput:DockMargin(0, spaceBetween * 1.3,spacing, spaceBetween * 1.3)
+                        valueInput:InvalidateParent(true)
+                        valueInput:SetWide(valueInput:GetTall())
+                        valueInput:SetRoundness(mvp.ui.ScaleWithFactor(8))
+
+                        valueInput:SetChecked(config.value)
+                    end
+                end
+                
+                cat:SetContents(catContent)
+            end
+            
+        end
+    end
+
+    if (not configSectionButtons[defaultActive]) then
+        defaultActive = "Terminal"
+    end
+
+    configSectionButtons[defaultActive]:DoClick()
+end
+
 function mvp.menus.Admin()
     if (IsValid(mvp.menu)) then
         mvp.menu:Remove()
@@ -265,14 +464,20 @@ function mvp.menus.Admin()
         local indevWarning = vgui.Create("EditablePanel", left)
         indevWarning:Dock(TOP)
         indevWarning:DockMargin(0, 0, 0, spaceBetween)
-        indevWarning:SetTall(mvp.ui.Scale(100))
+        indevWarning:SetTall(mvp.ui.Scale(74))
         indevWarning:InvalidateParent(true)
 
         indevWarning.Paint = function(pnl, w, h)
             draw.RoundedBox(mvp.ui.ScaleWithFactor(8), 0, 0, w, h, ColorAlpha(mvp.colors.SecondaryBackground, 100))
 
-            draw.SimpleText("IN DEVELOPMENT", mvp.Font(32, 600), spaceBetween, spaceBetween, mvp.colors.Accent)
-            draw.SimpleText("This is a work in progress version of the Terminal. Some features may not work as expected.", mvp.Font(20, 500), spaceBetween, spaceBetween + 24, mvp.colors.Text)
+            local iconsSize = mvp.ui.Scale(40)
+
+            surface.SetDrawColor(mvp.colors.Yellow)
+            surface.SetMaterial(warningMaterial)
+            surface.DrawTexturedRect(spaceBetween, h * .5 - iconsSize * .5 + 1, iconsSize, iconsSize)    
+
+            draw.SimpleText("This is an in-development version of the Terminal", mvp.Font(28, 600), spaceBetween * 2 + iconsSize, h * .5 + 3, mvp.colors.Text, nil, TEXT_ALIGN_BOTTOM)
+            draw.SimpleText("Some features may not work as expected", mvp.Font(20, 500), spaceBetween * 2 + iconsSize, h * .5 + 5, mvp.colors.Text, nil, TEXT_ALIGN_TOP)
         end
 
         local notifications = vgui.Create("EditablePanel", left)
@@ -297,7 +502,6 @@ function mvp.menus.Admin()
         notificationsList:InvalidateParent(true)
 
         local serverName = mvp.config.GetStored("servername")
-
         if (serverName.value == serverName.default) then
             local header = "Server name not set"
             local text = "You haven't set a server name yet. Currently Terminal will use default value \"" .. serverName.default .. "\" as your server name. You can set a server name in the settings."
@@ -306,14 +510,13 @@ function mvp.menus.Admin()
                 {
                     text = "Settings",
                     callback = function()
-                        frame:SelectButton("Credits", "icons")
+                        frame:SelectButton("Settings", "Server")
                     end
                 }
             })
         end
 
         local serverLogo = mvp.config.GetStored("logo")
-
         if (serverLogo.value == serverLogo.default) then
             local header = "Server logo not set"
             local text = "You haven't set a server logo yet. Currently Terminal will use logo of MULTIVERSE Project in places of your server logo. You can set a server logo in the settings."
@@ -322,7 +525,7 @@ function mvp.menus.Admin()
                 {
                     text = "Settings",
                     callback = function()
-                        frame:SelectButton("Settings")
+                        frame:SelectButton("Settings", "Server")
                     end
                 }
             })
@@ -337,7 +540,7 @@ function mvp.menus.Admin()
                 {
                     text = "Settings",
                     callback = function()
-                        frame:SelectButton("Settings")
+                        frame:SelectButton("Settings", "Server")
                     end
                 },
                 {
@@ -419,17 +622,25 @@ function mvp.menus.Admin()
         grid:Dock(TOP)
         grid:InvalidateParent(true)
 
-        for i = 1, 5 do
+        local installedPackages = mvp.package.GetAll()
+
+        for k, v in pairs(installedPackages) do
             local packagePanel = vgui.Create("DPanel")
             packagePanel:Dock(TOP)
-            packagePanel:SetTall(mvp.ui.Scale(64))
+            packagePanel:SetTall(mvp.ui.Scale(105))
             packagePanel:DockMargin(0, 0, 0, spaceBetween * .5)
 
             packagePanel.Paint = function(pnl, w, h)
                 draw.RoundedBox(mvp.ui.ScaleWithFactor(8), 0, 0, w, h, ColorAlpha(mvp.colors.SecondaryBackground, 150))
 
-                draw.SimpleText(i, mvp.Font(22, 600), spacing, spacing, mvp.colors.Accent)
-                draw.SimpleText(i, mvp.Font(20, 500), spacing, h - spacing, mvp.colors.Text, nil, TEXT_ALIGN_BOTTOM)
+                local packageLoaded = v.isLoaded
+                draw.SimpleText(packageLoaded and "Loaded" or "Not loaded", mvp.Font(20, 600), w - spacing, spacing + 2, packageLoaded and mvp.colors.Green or mvp.colors.Red, TEXT_ALIGN_RIGHT)
+
+                draw.SimpleText(v:GetName(), mvp.Font(22, 700), spacing, spacing, mvp.colors.Accent)
+
+                local wrappedText = mvp.utils.WrapText(v:GetDescription(), mvp.Font(20, 500), w - spacing * 2)
+
+                draw.DrawText(wrappedText, mvp.Font(20, 500), spacing, spacing + mvp.ui.Scale(24), mvp.colors.Text, TEXT_ALIGN_LEFT)
             end
 
             grid:AddCell(packagePanel)
@@ -490,6 +701,8 @@ function mvp.menus.Admin()
     
                 for k, v in pairs(packagesData) do
 
+                    if (installedPackages[v.id]) then continue end
+
                     local packagePanel = vgui.Create("DPanel")
                     packagePanel:Dock(TOP)
                     packagePanel:SetTall(mvp.ui.Scale(140))
@@ -536,199 +749,60 @@ function mvp.menus.Admin()
         end)
     end)
 
-    frame:AddSeparator()
+    if (mvp.permissions.Check(LocalPlayer(), "mvp.terminal.configs")) then
+        frame:AddSeparator()
 
-    buttons["settings"] = frame:AddButton("Settings", "mvp/terminal/icons/settings.png", false, function()
-        local canvas = frame:GetCanvas()
+        buttons["settings"] = frame:AddButton("Settings", "mvp/terminal/icons/settings.png", false, function(_, defaultActiveTab)
+            mvp.menus.AdminSettings(frame:GetCanvas(), defaultActiveTab)
+        end)
 
-        local content = vgui.Create("EditablePanel", canvas)
-        content:Dock(FILL)
-        content:InvalidateParent(true)
+        buttons["permissions"] = frame:AddButton("Permissions", "mvp/terminal/icons/permissions.png", false, function()
+            local canvas = frame:GetCanvas()
 
-        local title = vgui.Create("mvp.MenuHeader", content)
-        title:Dock(TOP)
-        title:SetTall(mvp.ui.Scale(64))  
-        
-        title:SetText("Settings")
-        title:SetDescription("This is your settings for the Terminal and it's packages. You can change your server name, logo, gamemode and more.")
+            local content = vgui.Create("EditablePanel", canvas)
+            content:Dock(FILL)
+            content:InvalidateParent(true)
 
-        local restoreConfig = vgui.Create("mvp.Button", title)
-        restoreConfig:Dock(RIGHT)
-        restoreConfig:DockMargin(0, spaceBetween, 0, spaceBetween)
-        restoreConfig:SetText("Restore")
-        restoreConfig:SizeToContentsX(spaceBetween * 4)
-        restoreConfig:SetStyle("danger")
-        restoreConfig:SetFont(mvp.Font(20, 500))
-        restoreConfig:SetEnabled(false)
-        restoreConfig:SetRoundness(mvp.ui.ScaleWithFactor(8))
+            local title = vgui.Create("mvp.MenuHeader", content)
+            title:Dock(TOP)
+            title:SetTall(mvp.ui.Scale(64))  
+            
+            title:SetText("Permissions")
+            title:SetDescription("All the permissions that Terminal or it's packages registered are listed here.")
 
-        local saveConfig = vgui.Create("mvp.Button", title)
-        saveConfig:Dock(RIGHT)
-        saveConfig:DockMargin(0, spaceBetween, spaceBetween, spaceBetween)
-        saveConfig:SetText("Save")
-        saveConfig:SizeToContentsX(spaceBetween * 4)
-        saveConfig:SetStyle("success")
-        saveConfig:SetFont(mvp.Font(20, 500))
-        saveConfig:SetEnabled(false)
-        saveConfig:SetRoundness(mvp.ui.ScaleWithFactor(8))
+            local pageContent = vgui.Create("EditablePanel", content)
+            pageContent:Dock(FILL)
+            pageContent:InvalidateParent(true)
 
-        local pageContent = vgui.Create("EditablePanel", content)
-        pageContent:Dock(FILL)
+            local permissions = mvp.permissions.GetPermissionList()
 
-        local sections = mvp.config.sections
+            local permissionsList = vgui.Create("mvp.ScrollPanel", pageContent)
+            permissionsList:Dock(FILL)
+            permissionsList:DockMargin(0, spaceBetween, spaceBetween, spaceBetween)
+            permissionsList:InvalidateParent(true)
 
-        local topNavigation = vgui.Create("DHorizontalScroller", pageContent)
-        topNavigation:Dock(TOP)
-        topNavigation:SetTall(mvp.ui.Scale(38))
-        topNavigation:SetOverlap( -spaceBetween * .5 )
+            for k, v in SortedPairsByMemberValue(permissions, "sortOrder") do
+                local permissionPanel = vgui.Create("DPanel", permissionsList:GetCanvas())
+                permissionPanel:Dock(TOP)
+                permissionPanel:SetTall(mvp.ui.Scale(64))
+                permissionPanel:DockMargin(0, 0, 0, spaceBetween * .5)
 
-        local buttonGroup = vgui.Create("mvp.ButtonGroup")
-        topNavigation:AddPanel(buttonGroup)
-        buttonGroup:SetRoundness(mvp.ui.ScaleWithFactor(8))
+                permissionPanel.Paint = function(pnl, w, h)
+                    draw.RoundedBox(mvp.ui.ScaleWithFactor(8), 0, 0, w, h, ColorAlpha(mvp.colors.SecondaryBackground, 150))
 
-        local configsSpace = vgui.Create("EditablePanel", pageContent)
-        configsSpace:Dock(FILL)
-        configsSpace:DockMargin(0, spaceBetween * .5, 0, 0)
-
-        for k, v in SortedPairsByMemberValue(sections, "sortIndex") do
-            local but = buttonGroup:AddButton(v.name)
-
-            but.DoClick = function()
-                
-                configsSpace:Clear()
-                
-                local configContent = vgui.Create("mvp.CategoryList", configsSpace)
-                configContent:Dock(FILL)
-                
-                for _, category in SortedPairsByMemberValue(v.categories, "sortIndex") do
-                    local spacing = mvp.ui.Scale(10)
-
-                    local cat = configContent:Add(category.name)
-                    cat:SetExpanded(true)
-                    cat:SetHeaderHeight(mvp.ui.Scale(48))
-                    cat:DockMargin(0, 0, 0, spaceBetween)
-
-                    cat.angle = cat:GetExpanded() and 180 or 0
-
-                    cat.Paint = function(pnl, w, h)
-                        local headerHeight = pnl:GetHeaderHeight()
-
-                        draw.RoundedBox(mvp.ui.ScaleWithFactor(8), 0, 0, w, headerHeight, mvp.colors.SecondaryBackground)
-
-                        surface.SetDrawColor(ColorAlpha(mvp.colors.Text, pnl:GetExpanded() and 255 or 150))
-                        surface.SetMaterial(arrowMaterial)
-                        surface.DrawTexturedRectRotated(w - headerHeight * .5, headerHeight * .5, headerHeight * .5, headerHeight * .5, pnl.angle)
-
-                        if (pnl:GetExpanded()) then
-                            pnl.angle = Lerp(FrameTime() * 10, pnl.angle, 180)
-                        else
-                            pnl.angle = Lerp(FrameTime() * 10, pnl.angle, 0)
-                        end
-                    end
-
-                    local catHeader = cat.Header
-                    catHeader:SetFont(mvp.Font(18, 600))
-                    catHeader:DockMargin(spacing - 5, 0, 0, spaceBetween * .5)
-
-                    local catContent = vgui.Create("EditablePanel")
-
-                    for key, config in SortedPairsByMemberValue(category.configs, "sortIndex") do
-                        if (config.ui.hide) then continue end
-
-                        local configPanel = vgui.Create("DPanel", catContent)
-                        configPanel:Dock(TOP)
-                        configPanel:SetTall(mvp.ui.Scale(64))
-                        configPanel:DockMargin(0, 0, 0, spaceBetween * .5)
-
-                        configPanel.Paint = function(pnl, w, h)
-                            draw.RoundedBox(mvp.ui.ScaleWithFactor(8), 0, 0, w, h, ColorAlpha(mvp.colors.SecondaryBackground, 150))
-
-                            draw.SimpleText(key, mvp.Font(22, 600), spacing, spacing, mvp.colors.Accent)
-                            draw.SimpleText(config.description, mvp.Font(20, 500), spacing, h - spacing, mvp.colors.Text, nil, TEXT_ALIGN_BOTTOM)
-                        end
-
-                        local restoreToDefault = vgui.Create("mvp.ImageButton", configPanel)
-                        restoreToDefault:Dock(RIGHT)
-                        restoreToDefault:DockMargin(0, spaceBetween * 1.3, spacing, spaceBetween * 1.3)
-                        restoreToDefault:InvalidateParent(true)
-
-                        restoreToDefault:SetWide(restoreToDefault:GetTall())
-
-                        restoreToDefault:SetFont(mvp.Font(20, 500))
-                        restoreToDefault:SetRoundness(mvp.ui.ScaleWithFactor(8))
-                        restoreToDefault:SetImage(restoreToDefaultMaterial)
-
-                        if (config.typeOf == mvp.type.string) then
-                            local valueInput = vgui.Create("mvp.TextEntry", configPanel)
-                            valueInput:Dock(RIGHT)
-                            valueInput:DockMargin(0, spaceBetween * 1.3, spacing, spaceBetween * 1.3)
-                            valueInput:SetWide(mvp.ui.Scale(180))
-                            valueInput:SetRoundness(mvp.ui.ScaleWithFactor(8))
-
-                            valueInput:SetText(tostring(config.value))
-                        elseif (config.typeOf == mvp.type.number) then
-                            local valueInput = vgui.Create("mvp.TextEntry", configPanel)
-                            valueInput:Dock(RIGHT)
-                            valueInput:DockMargin(0, spaceBetween * 1.3, spacing, spaceBetween * 1.3)
-                            valueInput:SetWide(mvp.ui.Scale(180))
-
-                            valueInput:SetNumeric(true)
-                            valueInput:SetText(tostring(config.value))
-                            valueInput:SetRoundness(mvp.ui.ScaleWithFactor(8))
-                        elseif (config.typeOf == mvp.type.bool) then
-                            local valueInput = vgui.Create("mvp.CheckBox", configPanel)
-                            valueInput:Dock(RIGHT)
-                            valueInput:DockMargin(0, spaceBetween * 1.3,spacing, spaceBetween * 1.3)
-                            valueInput:InvalidateParent(true)
-                            valueInput:SetWide(valueInput:GetTall())
-                            valueInput:SetRoundness(mvp.ui.ScaleWithFactor(8))
-
-                            valueInput:SetChecked(config.value)
-                        end
-                    end
-                    
-                    cat:SetContents(catContent)
+                    draw.SimpleText(v.name, mvp.Font(22, 600), spaceBetween, spaceBetween, mvp.colors.Accent)
+                    draw.SimpleText(v.description, mvp.Font(20, 500), spaceBetween, h - spaceBetween, mvp.colors.Text, nil, TEXT_ALIGN_BOTTOM)
                 end
-                
             end
+        end)
+    end
+    if (mvp.permissions.Check(LocalPlayer(), "mvp.terminal.packages")) then
+        frame:AddSeparator()
 
-            if not configsSpace.fk then
-                configsSpace.fk = but
-            end
-        end
-
-        configsSpace.fk:DoClick()
-    end)
-    -- buttons["language_editor"] = frame:AddButton("Language Editor", "mvp/terminal/icons/language.png", false, function()
-    --     local canvas = frame:GetCanvas()
-
-    --     local content = vgui.Create("EditablePanel", canvas)
-    --     content:Dock(FILL)
-    --     content:InvalidateParent(true)
-
-    --     local title = vgui.Create("mvp.MenuHeader", content)
-    --     title:Dock(TOP)
-    --     title:SetTall(mvp.ui.Scale(64))  
-        
-    --     title:SetText("Language Editor (WIP)")
-    --     title:SetDescription("Here you can edit your language file")
-    -- end)
-
-    buttons["permissions"] = frame:AddButton("Permissions", "mvp/terminal/icons/permissions.png", false, function()
-        local canvas = frame:GetCanvas()
-
-        local content = vgui.Create("EditablePanel", canvas)
-        content:Dock(FILL)
-        content:InvalidateParent(true)
-
-        local title = vgui.Create("mvp.MenuHeader", content)
-        title:Dock(TOP)
-        title:SetTall(mvp.ui.Scale(64))  
-        
-        title:SetText("Permissions")
-        title:SetDescription("All the permissions that Terminal or it's packages registered are listed here.")
-    end)
-
+        buttons["packages"] = frame:AddButton("Packages", "mvp/terminal/icons/package.png", false, function(_, defaultActiveTab)
+            -- mvp.menus.AdminSettings(frame:GetCanvas(), defaultActiveTab)
+        end)
+    end
     frame:AddSeparator()
 
     buttons["feedback"] = frame:AddButton("Feedback", "mvp/terminal/icons/feedback.png", false, function()
@@ -757,7 +831,11 @@ hook.Add("mvp.config.Synchronized", "mvp.menus.Admin", function()
 end)
 
 concommand.Add("mvp_terminal", function()
-    mvp.menus.Admin()
+    if (mvp.permissions.Check(LocalPlayer(), "mvp.terminal")) then
+        mvp.menus.Admin()
+    else
+        chat.AddText(mvp.colors.Red, "You don't have permission to use the Terminal")
+    end
 end)
 
 RunConsoleCommand("mvp_terminal")

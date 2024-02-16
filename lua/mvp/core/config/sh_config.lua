@@ -23,8 +23,8 @@ function mvp.config.RegisterSection(name, sortIndex)
 end
 
 function mvp.config.RegisterCategory(name, section, sortIndex)
-    if (mvp.config.GetCategoryByName(name)) then 
-        return mvp.config.GetCategoryByName(name)
+    if (mvp.config.GetCategoryByName(name, section)) then 
+        return mvp.config.GetCategoryByName(name, section)
     end
     
     local nextIndex = #mvp.config.categories + 1
@@ -42,10 +42,16 @@ function mvp.config.RegisterCategory(name, section, sortIndex)
     return nextIndex, categoryTbl
 end
 
-function mvp.config.GetCategoryByName(name)
+function mvp.config.GetCategoryByName(name, section)
     for index, category in ipairs(mvp.config.categories) do
-        if (category.name == name) then
-            return index, category
+        if (not section) then
+            if (category.name == name) then
+                return index, category -- guess we can return first one we find
+            end
+        else
+            if (category.name == name and category.section == section) then
+                return index, category
+            end
         end
     end
 end

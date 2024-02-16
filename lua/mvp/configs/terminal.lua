@@ -48,7 +48,8 @@ mvp.config.Add("language", "english", {
         choices = function()
             return {
                 english = "English",
-                russian = "Russian"
+                russian = "Russian",
+                chinese = "Chinese",
             }
         end
     }
@@ -69,7 +70,7 @@ mvp.config.Add("theme", "dark", {
     }
 }, 3)
 
-local DEVELOPER_GROUP = mvp.config.RegisterCategory("Developer", TERMINAL_SECTION, 99)
+local DEVELOPER_GROUP = mvp.config.RegisterCategory("Developer", TERMINAL_SECTION, 100)
 
 mvp.config.Add("debug", false, {
     description = "Controls whether or not debug messages are printed to the console.",

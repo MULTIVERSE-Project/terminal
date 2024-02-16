@@ -126,3 +126,7 @@ mvp.loader.LoadFolder("credits") -- there is no need to initialize credits, they
 
 mvp.loader.LoadFolder("vgui", true)
 mvp.loader.LoadFolder("menus", true) 
+
+mvp.permissions.AddPermission("mvp.terminal", "superadmin", "Allows access to the Terminal menu", 1)
+mvp.permissions.AddPermission("mvp.terminal.configs", "superadmin", "Allows to change Terminal configurations", 2)
+mvp.permissions.AddPermission("mvp.terminal.packages", "superadmin", "Allows to control what packages are being loaded", 3)

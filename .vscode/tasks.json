@@ -1,0 +1,19 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Create symbolic link",
+            "type": "shell",
+            "command": "MKLINK /J \"D:\\Steam\\Client\\steamapps\\common\\GarrysMod\\garrysmod\\materials\\mvp\\terminal\" \"D:\\Development\\GMod\\SteamCMD\\steamapps\\common\\GarrysModDS\\garrysmod\\addons\\mvp_terminal\\materials\\mvp\\terminal\"",
+            "problemMatcher": [],
+            "windows": {
+                "options": {
+                    "shell": {
+                        "executable": "cmd.exe",
+                        "args": ["/c"]
+                    }
+                }
+            }
+        }
+    ]
+}

@@ -96,8 +96,6 @@ hook.Add("mvp.package.Registered", "mvp.package.DependenceisResolver", function(
     end
 end)
 
-
-
 --- Gets a package by its ID
 -- This function returns a package by its ID. If not ID is specified, it will try to auto-find the package.
 -- Auto-finding the package is only possible if the function is called from a file that is located in the package's folder.
@@ -122,6 +120,29 @@ function mvp.package.Get(id)
     end
 
     return mvp.package.list[id]
+end
+
+--- Gets is package is registered
+-- This function returns if a package is registered.
+-- @tparam string id The ID of the package
+-- @treturn bool If the package is registered
+function mvp.package.IsRegistered(id)
+    return mvp.package.list[id] and true or false
+end
+
+--- Gets is package is loaded
+-- This function returns if a package is loaded.
+-- @tparam string id The ID of the package
+-- @treturn bool If the package is loaded
+function mvp.package.IsLoaded(id)
+    return mvp.package.list[id] and mvp.package.list[id].isLoaded or false
+end
+
+--- Gets all registered packages
+-- This function returns all registered packages.
+-- @treturn table The packages
+function mvp.package.GetAll()
+    return mvp.package.list
 end
 
 --- Adds a lookup value

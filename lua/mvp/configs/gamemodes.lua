@@ -6,6 +6,21 @@ mvp.config.Add("gamemode", "blank", {
     description = "The gamemode you using on your server.",
 
     category = SETTINGS_GROUP, 
+
+    ui = {
+        type = "dropdown",
+        choices = function()
+            local gamemodes = mvp.gamemode.GetList()
+
+            local choices = {}
+
+            for k, v in pairs(gamemodes) do
+                choices[v:GetID()] = v:GetName()
+            end
+
+            return choices
+        end
+    }
 })
 
 local BRANDING_GROUP = mvp.config.RegisterCategory("Branding", GAMEMODES_SECTION, 2)

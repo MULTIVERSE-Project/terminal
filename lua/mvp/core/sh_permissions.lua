@@ -3,7 +3,7 @@ mvp.permissions = mvp.permissions or {}
 
 mvp.permissions.list = mvp.permissions.list or {}
 
-function mvp.permissions.AddPermission(name, defaulAccess, description)
+function mvp.permissions.AddPermission(name, defaulAccess, description, sortOrder)
     local passed, nameErr = mvp.utils.Assert(name, "Cannot add permission: name is nil")
 
     if (not passed) then
@@ -23,9 +23,10 @@ function mvp.permissions.AddPermission(name, defaulAccess, description)
     }
 
     local permissionMVP = {
-        nmae = name,
+        name = name,
         description = description or "This permission has no description",
-        defaultAccess = defaulAccess
+        defaultAccess = defaulAccess,
+        sortOrder = sortOrder or 99
     }
 
     CAMI.RegisterPrivilege(permissionCAMI)
