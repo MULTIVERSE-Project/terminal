@@ -136,3 +136,110 @@ function mvp.utils.WrapText(text, font, maxWidth)
 
     return text, totalHeight
 end
+
+function mvp.utils.DrawEntityDisplay(ent, text, description, displayUse)
+    local pos = ent:GetPos()
+    local ang = ent:GetAngles()
+    local drawAngles = ent:GetAngles()
+
+    drawAngles:RotateAroundAxis(drawAngles:Forward(), 90)
+    drawAngles:RotateAroundAxis(drawAngles:Right(), -90)
+
+    local OBBMaxs = ent:OBBMaxs()
+    pos = pos + ang:Up() * 64
+
+    if (ent:WorldToLocal(pos).z < OBBMaxs.z) then
+        pos = pos + ang:Forward() * OBBMaxs.x
+    end
+
+    cam.Start3D2D(pos, drawAngles, 0.1)        
+        surface.SetFont(mvp.q.Font(48, 800))
+        local textWidth, textHeight = surface.GetTextSize(text)
+
+        surface.SetFont(mvp.q.Font(32, 500))
+        local descWidth, descHeight = surface.GetTextSize(description)
+
+        local width = math.max(textWidth, descWidth)
+        local height = textHeight + descHeight
+
+        local useText = mvp.q.Lang("general.use", string.upper(input.LookupBinding("+use")))
+
+        if (displayUse) then
+            surface.SetFont(mvp.q.Font(24, 500))
+            local useWidth, useHeight = surface.GetTextSize(useText)
+
+            width = math.max(width, useWidth)
+            height = height + useHeight + 5
+        end
+
+        draw.RoundedBox(mvp.ui.ScaleWithFactor(16), -width * .5 - 10, -height * .5 - 10, width + 20, height + 20, Color(0, 0, 0, 200))
+
+        draw.SimpleText(text, mvp.q.Font(48, 800), 0, -height * .5, mvp.colors.Accent, TEXT_ALIGN_CENTER)
+        draw.SimpleText(description, mvp.q.Font(32, 600), 0, -height * .5 + textHeight, mvp.colors.Text, TEXT_ALIGN_CENTER)
+
+        if (displayUse) then
+            mvp.utils.DrawTextWithButtons(useText, mvp.q.Font(27, 500), 0, -height * .5 + textHeight + descHeight + 5, ColorAlpha(mvp.colors.Text, 200), TEXT_ALIGN_CENTER)
+        end
+    cam.End3D2D()
+end
+
+function mvp.utils.DrawTextWithButtons(text, font, x, y, color, alignX, alignY)
+    -- {{btn:%s}}
+    local buttons = {}
+
+    -- split the text into buttons and text
+    for btn in string.gmatch(text, "{{btn:(.-)}}") do
+        table.insert(buttons, btn)
+    end
+    local text = string.Explode("{{btn:(.-)}}", text, true)
+
+    local textWidth, textHeight = 0, 0
+    surface.SetFont(font)
+    for i, v in ipairs(text) do
+        local tw, th = surface.GetTextSize(v)
+
+        textWidth = textWidth + tw
+        textHeight = math.max(textHeight, th)
+
+        if (buttons[i]) then
+            local bw, bh = th * 1.2, th * 1.2
+
+            textWidth = textWidth + bw
+            textHeight = math.max(textHeight, bh)
+        end
+    end
+
+    local x, y = x, y
+    if (alignX == TEXT_ALIGN_CENTER) then
+        x = x - textWidth * .5
+    elseif (alignX == TEXT_ALIGN_RIGHT) then
+        x = x - textWidth
+    end
+
+    if (alignY == TEXT_ALIGN_CENTER) then
+        y = y - textHeight * .5
+    elseif (alignY == TEXT_ALIGN_BOTTOM) then
+        y = y - textHeight
+    end
+
+    local currentX = x
+
+    for i, v in ipairs(text) do
+        local tw, th = surface.GetTextSize(v)
+
+        draw.SimpleText(v, font, currentX, y, color)
+        currentX = currentX + tw
+
+        if (buttons[i]) then
+            local btw = surface.GetTextSize(buttons[i])
+            local bw, bh = math.max(th * 1.2, btw + 10), th * 1.2
+
+            draw.RoundedBox(mvp.ui.ScaleWithFactor(8), currentX, y + textHeight * .5 - bh * .5 - 1, bw, bh, ColorAlpha(mvp.colors.Accent, color.a))
+            draw.SimpleText(buttons[i], font, currentX + bw * .5, y + textHeight * .5 - 1, color, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+
+            currentX = currentX + bw
+        end
+    end
+
+    return textWidth, textHeight
+end

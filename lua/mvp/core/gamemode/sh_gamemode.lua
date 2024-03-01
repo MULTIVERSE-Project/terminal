@@ -17,7 +17,7 @@ function mvp.gamemode.Register(gm)
 
     mvp.gamemode.list[id] = gm
 
-    mvp.logger.Log(mvp.LOG.DEBUG, "Gamemodes", "Registered gamemode '" .. id .. "@" .. gm:GetVersion() .. "'")
+    mvp.logger.Log(mvp.LOG.INFO, "Gamemodes", "Registered gamemode '" .. id .. "@" .. gm:GetVersion() .. "'")
     hook.Run("mvp.gamemode.Registered", gm)
 end
 
@@ -30,7 +30,7 @@ function mvp.gamemode.Get(id)
 end
 
 function mvp.gamemode.GetActiveID()
-    return mvp.config.Get("activeGamemode", "blank")
+    return mvp.config.Get("gamemode", "blank")
 end
 
 function mvp.gamemode.GetActive()
@@ -38,9 +38,49 @@ function mvp.gamemode.GetActive()
 end
 
 function mvp.gamemode.Init()
-    mvp.logger.Log(mvp.LOG.DEBUG, "Gamemodes", "Initializing gamemodes...")
+    mvp.logger.Log(mvp.LOG.INFO, "Gamemodes", "Initializing gamemodes...")
 
     mvp.loader.LoadFolder("gamemodes")
 
-    mvp.logger.Log(mvp.LOG.DEBUG, "Gamemodes", "Initialized gamemodes!")
+    mvp.logger.Log(mvp.LOG.INFO, "Gamemodes", "Initialized gamemodes!")
+end
+
+--[[
+    Gamemode functions
+]]--
+
+function mvp.gamemode.GetBalance(ply)
+    local gm = mvp.gamemode.GetActive()
+
+    return gm:GetMoney(ply)
+end
+
+function mvp.gamemode.GetBalanceFormatted(ply)
+    local gm = mvp.gamemode.GetActive()
+
+    return gm:FormatMoney(ply, gm:GetMoney(ply))
+end
+
+function mvp.gamemode.CanAfford(ply, amount)
+    local gm = mvp.gamemode.GetActive()
+
+    return gm:CanAfford(ply, amount)
+end
+
+function mvp.gamemode.AddMoney(ply, amount)
+    local gm = mvp.gamemode.GetActive()
+
+    return gm:AddMoney(ply, amount)
+end
+
+function mvp.gamemode.TakeMoney(ply, amount)
+    local gm = mvp.gamemode.GetActive()
+
+    return gm:TakeMoney(ply, amount)
+end
+
+function mvp.gamemode.FormatMoney(ply, amount)
+    local gm = mvp.gamemode.GetActive()
+
+    return gm:FormatMoney(ply, amount)
 end

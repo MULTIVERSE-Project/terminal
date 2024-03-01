@@ -14,6 +14,11 @@ local LEVEL_TO_COLOR_MAP = {
 }
 
 function LOGGER:Log(level, caller, ...)
+    local shouldDisplayDebug = mvp.config and mvp.config.Get("debug", false)
+    if (not shouldDisplayDebug and level == mvp.LOG.DEBUG) then
+        return
+    end
+
     local color = LEVEL_TO_COLOR_MAP[level] or Color(255, 255, 255)
 
     local msg = {}

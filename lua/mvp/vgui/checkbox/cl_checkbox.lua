@@ -77,4 +77,3 @@ function PANEL:OnChanged(bool)
 end
 
 vgui.Register("mvp.CheckBox", PANEL, "DButton")
-RunConsoleCommand("mvp_terminal")

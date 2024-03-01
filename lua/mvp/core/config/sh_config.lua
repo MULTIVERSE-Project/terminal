@@ -85,6 +85,7 @@ function mvp.config.Add(key, defaultValue, configuration, sortIndex)
     end
 
     mvp.config.list[key] = {
+        key = key,
         typeOf = typeOf,
         value = currentValue,
         default = defaultValue,
@@ -110,7 +111,7 @@ function mvp.config.Add(key, defaultValue, configuration, sortIndex)
         end
     end
 
-    mvp.logger.Log(mvp.LOG.INFO, "Config", "Added config key '" .. key .. "'")
+    mvp.logger.Log(mvp.LOG.DEBUG, "Config", "Added config key '" .. key .. "'")
     hook.Run("mvp.config.Added", key, defaultValue, configuration)
 end
 
@@ -165,6 +166,7 @@ function mvp.config.InitFolder(path)
 end
 
 function mvp.config.Init()
+    mvp.q.LogInfo("Configs", "Loading Terminal configs system...")
     mvp.config.InitFolder("configs")
 
     hook.Run("mvp.config.Inited")

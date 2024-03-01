@@ -22,7 +22,7 @@ function gm:TakeMoney(ply, sum)
     return ply:getChar():takeMoney(amount)
 end
 
-function gm:FormatMoney(sum)
+function gm:FormatMoney(ply, sum)
     return nut.currency.get(amount)
 end
 

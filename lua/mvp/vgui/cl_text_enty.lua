@@ -20,6 +20,10 @@ function PANEL:Init()
         self:OnLoseFocus()
     end
 
+    self.textEntry.OnValueChange = function(_, val)
+        self:OnValueChange(val)
+    end
+
     -- self:DockPadding(8, 8, 8, 8)
 
     self:SetRoundness(mvp.ui.ScaleWithFactor(16))
@@ -48,6 +52,10 @@ function PANEL:GetText()
     return self.textEntry:GetText()
 end
 
+function PANEL:OnValueChange(val)
+    -- override
+end
+
 function PANEL:Paint(w, h)
     draw.RoundedBox(self.roundness, 0, 0, w, h, self.backgroundColor)
 end
@@ -61,5 +69,3 @@ function PANEL:OnLoseFocus()
 end
 
 vgui.Register("mvp.TextEntry", PANEL, "EditablePanel")
-
-RunConsoleCommand("mvp_terminal")

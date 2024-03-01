@@ -30,14 +30,21 @@ function mvp.package.Register(package)
     end
 
     -- resolve dependencies
+    local shouldLoadImmediately = true
     for _, depId in ipairs(package:GetDependencies()) do
         mvp.package.dependenciesResolverList[id] = mvp.package.dependenciesResolverList[id] or {}
 
-        if (mvp.package.list[depId]) then
+        if (mvp.package.list[depId] and mvp.package.list[depId].isLoaded) then
             mvp.package.dependenciesResolverList[id][depId] = true -- dependency is loaded earlier
         else
             mvp.package.dependenciesResolverList[id][depId] = false -- dependency is not loaded yet
+
+            shouldLoadImmediately = false
         end
+    end
+
+    if (shouldLoadImmediately) then
+        mvp.package.LoadPackage(package)
     end
 end
 
@@ -167,9 +174,31 @@ function mvp.package.AddLookupValue(original, lookFor)
 end
 
 function mvp.package.Init()
-    mvp.logger.Log(mvp.LOG.INFO, "Packages", "Initializing packages...")
+    mvp.logger.Log(mvp.LOG.INFO, "Packages", "Loading packages...")
 
-    mvp.loader.LoadFolder("packages", true)
+    local _, folders = file.Find( mvp.loader.relativePath .. "packages/*", "LUA")
 
-    mvp.logger.Log(mvp.LOG.INFO, "Packages", "Initialized packages!")
+    for k, v in ipairs(folders) do
+        local files = file.Find(mvp.loader.relativePath .. "packages/" .. v .. "/*.lua", "LUA")
+
+        for _, v2 in pairs(files) do
+            if (v2 == "sh_package.lua") then
+                mvp.loader.LoadFile("packages/" .. v .. "/" .. v2)
+            end
+        end
+    end
+
+    for k, v in pairs(mvp.package.dependenciesResolverList) do
+        local missingDeps = {}
+
+        for depId, isLoaded in pairs(v) do
+            if (not isLoaded) then
+                table.insert(missingDeps, depId)
+            end
+        end
+
+        mvp.q.LogFatal("Packages", "Could not resolve dependencies for package '" .. k .. "'! Missing dependencies: " .. table.concat(missingDeps, ", ") .. "!")
+    end
+
+    mvp.logger.Log(mvp.LOG.INFO, "Packages", "Loading packages!")
 end

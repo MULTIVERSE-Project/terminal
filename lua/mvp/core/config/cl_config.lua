@@ -1,6 +1,8 @@
 mvp = mvp or {}
 mvp.config = mvp.config or {}
 
+mvp.config.list = mvp.config.list or {}
+
 -- @todo: retrieve configs from server
 function mvp.config.RequestSynchronization()
     net.Start("mvp.config.RequestSynchronization")
@@ -42,4 +44,8 @@ net.Receive("mvp.config.UpdateValue", function()
     if (value ~= oldValue) then
         hook.Run("mvp.config.Updated", key, value, oldValue)
     end
+end)
+
+concommand.Add("mvp_config_sync", function()
+    mvp.config.RequestSynchronization()
 end)

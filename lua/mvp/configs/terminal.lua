@@ -1,6 +1,6 @@
-local TERMINAL_SECTION = mvp.config.RegisterSection("Terminal", -1)
+local TERMINAL_SECTION = mvp.config.RegisterSection("terminal", -1)
 
-local GENERAL_GROUP = mvp.config.RegisterCategory("General", TERMINAL_SECTION, 1)
+local GENERAL_GROUP = mvp.config.RegisterCategory("general", TERMINAL_SECTION, 1)
 
 mvp.config.Add("prefix", "!", {
     description = "Prefix for all commands.",
@@ -23,66 +23,72 @@ mvp.config.Add("allowConsoleCommand", true, {
     ui = {}
 }, 3)
 
-mvp.config.Add("showConfigPopups", true, {
-    description = "Controls whether or not the config popups when config edited are shown.",
-    category = GENERAL_GROUP,
- 
-    ui = {}
-}, 4) 
-
-local APPEARANCE_GROUP = mvp.config.RegisterCategory("Appearance", TERMINAL_SECTION, 2)
+local APPEARANCE_GROUP = mvp.config.RegisterCategory("appearance", TERMINAL_SECTION, 2)
 
 mvp.config.Add("tag", "[Terminal]", {
     description = "Tag for all chat messages.",
     category = APPEARANCE_GROUP,
 
     ui = {}
-}, 1) 
+}, 1)
 
-mvp.config.Add("language", "english", {
+mvp.config.Add("language", "en", {
     description = "Language for Terminal to use.",
     category = APPEARANCE_GROUP,
 
     ui = {
         type = "dropdown",
         choices = function()
-            return {
-                english = "English",
-                russian = "Russian",
-                chinese = "Chinese",
-            }
+            local storedLanguages = mvp.language.list
+            local languages = {}
+
+            for k, v in pairs(storedLanguages) do
+                languages[k] = k
+            end
+
+            return languages
         end
     }
 }, 2)
 
-mvp.config.Add("theme", "dark", {
-    description = "Theme for the Terminal.",
+mvp.config.Add("useNotifications", true, {
+    description = "Controls whether or not notifications are used.",
     category = APPEARANCE_GROUP,
+
+    ui = {}
+}, 3)
+
+mvp.config.Add("notificationsPosition", "bc", {
+    description = "Position of notifications.",
+    category = APPEARANCE_GROUP,
+
+    postSet = function()
+        if (CLIENT) then
+            mvp.notification.Add(mvp.NOTIFICATION.INFO, mvp.q.Lang("value.notificationsPosition.ps.title"), mvp.q.Lang("value.notificationsPosition.ps.description"), 5)
+        end
+    end,
 
     ui = {
         type = "dropdown",
         choices = function()
-            return {
-                dark = "Dark",
-                light = "Light"
-            }
+            local positionsKeys = {"tl", "tc", "tr", "cl", "cc", "cr", "bl", "bc", "br"}
+            local positions = {}
+
+            for _, pos in ipairs(positionsKeys) do
+                positions[pos] = mvp.q.Lang("general.screen_position." .. pos)
+            end
+
+            return positions
         end
     }
-}, 3)
+}, 4)
 
-local DEVELOPER_GROUP = mvp.config.RegisterCategory("Developer", TERMINAL_SECTION, 100)
+local DEVELOPER_GROUP = mvp.config.RegisterCategory("developer", TERMINAL_SECTION, 100)
 
 mvp.config.Add("debug", false, {
     description = "Controls whether or not debug messages are printed to the console.",
     category = DEVELOPER_GROUP,
 
     ui = {}
-}, 1) 
-
-mvp.config.Add("debugHUD", false, {
-    description = "Controls whether or not debug HUD is shown.",
-    category = DEVELOPER_GROUP,
-
-    ui = {}
-}, 2) 
+}, 1)
 

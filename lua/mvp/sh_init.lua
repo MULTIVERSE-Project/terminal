@@ -50,6 +50,24 @@ mvp.type = {
     array = 512
 } 
 
+mvp.colors = mvp.colors or {}
+
+mvp.colors.Background = Color(32, 32, 32)
+mvp.colors.SecondaryBackground = Color(51, 51, 51)
+mvp.colors.BackgroundHover = Color(63, 63, 63)
+mvp.colors.Accent = Color(255, 192, 92)
+mvp.colors.SecondaryAccent = Color(82, 82, 82)
+
+mvp.colors.Red = Color(255, 92, 92)
+mvp.colors.Blue = Color(92, 92, 255)
+mvp.colors.Green = Color(92, 255, 92)
+mvp.colors.Yellow = Color(255, 255, 46)
+mvp.colors.Purple = Color(255, 92, 255)
+mvp.colors.Cyan = Color(92, 255, 255)
+mvp.colors.Orange = Color(255, 128, 0)
+
+mvp.colors.Text = Color(255, 255, 255)
+
 mvp.LOG = {
     INFO = 1,
     WARN = 2,
@@ -64,7 +82,22 @@ mvp.LOG = {
     [5] = "DEBUG"
 }
 
+mvp.NOTIFICATION = {
+    INFO = 1,
+    WARN = 2,
+    ERROR = 3,
+    SUCCESS = 4,
+    FAIL = 5,
+
+    [1] = "INFO",
+    [2] = "WARN",
+    [3] = "ERROR",
+    [4] = "SUCCESS",
+    [5] = "FAIL"
+}
+
 mvp.loader.LoadFile("core/sh_data.lua")
+mvp.loader.LoadFile("core/sh_quick.lua") -- this file is loaded last, since it uses all other files
 
 --[[ 
 
@@ -75,11 +108,17 @@ mvp.loader.LoadFile("core/sh_data.lua")
 mvp.loader.LoadFolder("core/logger")
 mvp.loader.LoadFolder("loggers")
 
+mvp.q.LogInfo("Terminal", "Loading Terminal...")
+
 mvp.loader.LoadFile("core/sh_types.lua")
 mvp.loader.LoadFile("core/sh_permissions.lua")
 
+mvp.loader.LoadFile("core/sh_language.lua")
+mvp.language.Init()
+
 mvp.loader.LoadFolder("core/ui")
 mvp.loader.LoadFile("core/cl_fonts.lua") 
+mvp.loader.LoadFolder("core/notification")
 
 --[[ 
 
@@ -95,7 +134,7 @@ mvp.loader.LoadFolder("thirdparty", true) -- true means load recursively
     This loads core of the utilities
 
 ]]--
-mvp.loader.LoadFolder("core/utils")
+mvp.loader.LoadFolder("core/util")
 
 --[[ 
 
@@ -105,6 +144,9 @@ mvp.loader.LoadFolder("core/utils")
 ]]--
 mvp.loader.LoadFolder("core/config")
 mvp.config.Init()
+
+mvp.loader.LoadFolder("core/credits")
+mvp.loader.LoadFolder("credits") -- there is no need to initialize credits, they are loaded automatically
 
 --[[ 
 
@@ -119,14 +161,13 @@ mvp.package.Init()
     Gamemodes support
 ]]-- 
 mvp.loader.LoadFolder("core/gamemode")
-mvp.gamemode.Init()
-
-mvp.loader.LoadFolder("core/credits")
-mvp.loader.LoadFolder("credits") -- there is no need to initialize credits, they are loaded automatically
+mvp.gamemode.Init() 
 
 mvp.loader.LoadFolder("vgui", true)
-mvp.loader.LoadFolder("menus", true) 
+mvp.loader.LoadFolder("menus", true) -- files will load first, then folders, so we can load folder recursively
 
 mvp.permissions.AddPermission("mvp.terminal", "superadmin", "Allows access to the Terminal menu", 1)
 mvp.permissions.AddPermission("mvp.terminal.configs", "superadmin", "Allows to change Terminal configurations", 2)
 mvp.permissions.AddPermission("mvp.terminal.packages", "superadmin", "Allows to control what packages are being loaded", 3)
+
+mvp.q.LogInfo("Terminal", "Terminal loaded successfully!")

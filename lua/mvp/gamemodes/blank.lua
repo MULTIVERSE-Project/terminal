@@ -22,7 +22,7 @@ function gm:TakeMoney(ply, sum)
     return true
 end
 
-function gm:FormatMoney(sum)
+function gm:FormatMoney(ply, sum)
     return tostring(sum) .. " mvp$"
 end
 

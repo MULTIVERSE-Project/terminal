@@ -15,14 +15,14 @@ function gm:CanAfford(ply, sum)
 end
 
 function gm:AddMoney(ply, sum)
-    return character:GiveMoney(sum)
+    return ply:GetCharacter():GiveMoney(sum)
 end
 
 function gm:TakeMoney(ply, sum)
-    return character:TakeMoney(sum)
+    return ply:GetCharacter():TakeMoney(sum)
 end
 
-function gm:FormatMoney(sum)
+function gm:FormatMoney(ply, sum)
     return ix.currency.Get(amount)
 end
 

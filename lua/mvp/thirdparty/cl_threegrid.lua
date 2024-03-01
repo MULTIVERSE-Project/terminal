@@ -37,6 +37,8 @@ function PANEL:PerformLayout(w)
 	local margin = self:GetHorizontalMargin()
 	local cellWidth = (width - margin * (cols-  1)) / cols
 
+	if ( self.VBar.Enabled ) then cellWidth = cellWidth - (self.VBar:GetWide() / cols) end
+
 	-- Set the width of each cell
 	for k, v in pairs(self.Cells) do
 		v:SetWide(cellWidth)

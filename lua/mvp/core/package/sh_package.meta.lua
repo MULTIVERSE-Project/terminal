@@ -47,6 +47,9 @@ AccessorFunc(mvp.meta.package, "_version", "Version", FORCE_STRING)
 mvp.meta.package.__proto._license = "Unknown"
 AccessorFunc(mvp.meta.package, "_license", "License", FORCE_STRING)
 
+mvp.meta.package.__proto._icon = nil
+AccessorFunc(mvp.meta.package, "_icon", "Icon")
+
 AccessorFunc(mvp.meta.package, "_cwd", "CWD", FORCE_STRING)
 
 --[[
@@ -81,17 +84,13 @@ function mvp.meta.package:AddFile(path)
     local cwd = "packages/" .. self:GetCWD()
     local fullPath = cwd .. "/" .. path
 
-    if not file.Exists(fullPath, "LUA") then
-        error(string.format("File %s does not exist", fullPath))
-    end
-
     self._files[#self._files + 1] = fullPath
 end
 function mvp.meta.package:AddFolder(path, recursive)
     local cwd = "packages/" .. self:GetCWD()
     local fullPath = cwd .. "/" .. path
 
-    local files, folders = file.Find(fullPath .. "/*", "LUA")
+    local files, folders = file.Find(mvp.loader.relativePath .. fullPath .. "/*", "LUA")
 
     for _, file in ipairs(files) do
         self:AddFile(path .. "/" .. file)

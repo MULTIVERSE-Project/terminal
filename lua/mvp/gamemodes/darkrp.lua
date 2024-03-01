@@ -11,6 +11,7 @@ function gm:GetMoney(ply)
 end
 
 function gm:CanAfford(ply, sum)
+    print(ply, sum)
     return ply:canAfford(sum)
 end
 
@@ -22,7 +23,7 @@ function gm:TakeMoney(ply, sum)
     return ply:addMoney(-sum)
 end
 
-function gm:FormatMoney(sum)
+function gm:FormatMoney(ply, sum)
     return DarkRP.formatMoney(sum)
 end
 

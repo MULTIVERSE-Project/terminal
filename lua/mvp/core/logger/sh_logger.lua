@@ -29,13 +29,19 @@ function mvp.logger.Log(level, caller, ...)
         level = mvp.LOG[level] or mvp.LOG.INFO
     end
 
+    local args = {...}
+
     for _, logger in ipairs(mvp.logger.list) do
-        logger:Log(level, caller, ...)
-
+        pcall(function()
+            logger:Log(level, caller, unpack(args))
+        end)
+        
         if (level == mvp.LOG.ERROR) then
-            local trace = mvp.utils.GetTrace()
+            pcall(function()
+                local trace = mvp.utils.GetTrace()
 
-            logger:Log(level, caller, trace)
+                logger:Log(mvp.LOG.DEBUG, caller, trace)
+            end)
         end
     end
 end

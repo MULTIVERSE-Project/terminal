@@ -33,3 +33,18 @@ mvp.credits.AddIcon(Material("mvp/terminal/icons/permissions.png", "smooth mips"
 mvp.credits.AddIcon(Material("mvp/terminal/icons/warning.png", "smooth mips"), "Warning", "Freepik - Flaticon", "https://www.flaticon.com/authors/freepik")
 -- <a href="https://www.flaticon.com/free-icons/packaging" title="packaging icons">Packaging icons created by sonnycandra - Flaticon</a>
 mvp.credits.AddIcon(Material("mvp/terminal/icons/package.png", "smooth mips"), "Package", "sonnycandra - Flaticon", "https://www.flaticon.com/authors/sonnycandra")
+-- <a href="https://www.flaticon.com/free-icons/save" title="save icons">Save icons created by Yogi Aprelliyanto - Flaticon</a>
+mvp.credits.AddIcon(Material("mvp/terminal/icons/save.png", "smooth mips"), "Save", "Yogi Aprelliyanto - Flaticon", "https://www.flaticon.com/authors/yogi-aprelliyanto")
+
+
+-- <div> Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik"> Freepik </a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com'</a></div>
+-- Success
+
+-- <div> Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik"> Freepik </a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com'</a></div>
+-- Warn
+
+-- <div> Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik"> Freepik </a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com'</a></div>
+-- Error
+
+-- <a href="https://www.flaticon.com/free-icons/info" title="info icons">Info icons created by Freepik - Flaticon</a>
+-- info

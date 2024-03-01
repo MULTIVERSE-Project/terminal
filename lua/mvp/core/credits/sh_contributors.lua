@@ -1,7 +1,7 @@
 mvp = mvp or {}
 mvp.credits = mvp.credits or {}
 
-mvp.credits.contributorsList = mvp.credits.contributorsList or {}
+mvp.credits.contributorsList = {}
 
 function mvp.credits.AddContributor(steamId, name, role)
     mvp.credits.contributorsList[#mvp.credits.contributorsList + 1] = {

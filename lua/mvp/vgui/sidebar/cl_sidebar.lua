@@ -30,12 +30,12 @@ function PANEL:Init()
     self.close:SetAnimations(false)
     self.close:SetIcon("mvp/terminal/close.png", "smooth")
 
-    self.close:SetText("Close")
+    self.close:SetText(mvp.q.Lang("ui.general.close"))
 
     self.close.colors.BackgroundHover = mvp.colors.Red
 end
 
-function PANEL:AddButton(text, icon, matParams, activeByDefault, onClicked)
+function PANEL:AddButton(text, icon, matParams, onClicked, activeByDefault)
     local button = vgui.Create("mvp.SidebarButton", self)
     button:Dock(TOP)
     button:DockMargin(0, 0, 0, 0)

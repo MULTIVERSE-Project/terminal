@@ -1,6 +1,8 @@
 mvp = mvp or {}
 mvp.config = mvp.config or {}
 
+mvp.config.list = mvp.config.list or {}
+
 util.AddNetworkString("mvp.config.Synchronize") -- used to synchronize the client with the server, when the client joins
 util.AddNetworkString("mvp.config.RequestSynchronization") -- used to request a synchronization from the client, when the client joins
 util.AddNetworkString("mvp.config.UpdateValue") -- used when a config value is changed, to update the client
@@ -26,7 +28,7 @@ net.Receive("mvp.config.ChangeValue", function(len, ply)
 end)
 
 function mvp.config.UpdateValue(key, value)
-    local config = mvp.config.stored[key]
+    local config = mvp.config.list[key]
 
     if (not config or not config.typeOf) then
         -- @todo: throw error, for now just return
@@ -117,7 +119,7 @@ function mvp.config.Save()
     local changed = mvp.config.GetChangedValues(false)
 
     for key, value in pairs(changed) do
-        if (mvp.config.stored[key].isMapOnly) then
+        if (mvp.config.list[key].isMapOnly) then
             mapVars[key] = value
         else
             globals[key] = value
@@ -127,3 +129,32 @@ function mvp.config.Save()
     mvp.data.Set("config", globals)
     mvp.data.Set("config", mapVars, true)
 end
+
+hook.Add("mvp.config.Inited", "LoadStoredConfig", function()
+    local globals = mvp.data.Get("config", {}, false, true) or {}
+    local mapVars = mvp.data.Get("config", {}, true, true) or {}
+
+    for key, value in pairs(globals) do
+        local storedConfig = mvp.config.list[key]
+
+        if (storedConfig) then
+            mvp.config.list[key].value = value
+        else
+            mvp.config.list[key] = {
+                value = value
+            }
+        end
+    end
+
+    for key, value in pairs(mapVars) do
+        local storedConfig = mvp.config.list[key]
+
+        if (storedConfig) then
+            mvp.config.list[key].value = value
+        else
+            mvp.config.list[key] = {
+                value = value
+            }
+        end
+    end
+end)

@@ -20,7 +20,7 @@ function mvp.fonts.GetUnscaled(size, font, weight)
         font = font,
         size = size,
         weight = weight,
-        extended = false,
+        extended = true,
         -- antialias = true,
     }
 

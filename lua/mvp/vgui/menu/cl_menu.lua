@@ -35,7 +35,7 @@ function PANEL:GetCanvas()
     return self.content
 end
 
-function PANEL:AddButton(text, icon, activeByDefault, callback)
+function PANEL:AddButton(text, icon, callback, activeByDefault)
     local iconParams = "mips smooth"
 
     if (type(icon) ~= "IMaterial") then
@@ -49,8 +49,8 @@ function PANEL:AddButton(text, icon, activeByDefault, callback)
             callback(...)
         end
     end
-
-    local but = self.sidebar:AddButton(text, icon, iconParams, activeByDefault, c)
+    
+    local but = self.sidebar:AddButton(text, icon, iconParams, c, activeByDefault)
 
     self.buttons[text] = but
 

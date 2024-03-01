@@ -47,6 +47,46 @@ function mvp.permissions.Check(ply, permission)
     return CAMI.PlayerHasAccess(ply, permission)
 end
 
+function mvp.permissions.CheckAll(ply, permissions)
+    local passed, plyErr = mvp.utils.Assert(ply, "Cannot check permissions: ply is nil")
+    if (not passed) then
+        return mvp.logger.Log(mvp.LOG.ERROR, "Permissions", plyErr)
+    end
+
+    local passed, permissionsErr = mvp.utils.Assert(istable(permissions), "Cannot check permissions: permissions is nil or not a table")
+    if (not passed) then
+        return mvp.logger.Log(mvp.LOG.ERROR, "Permissions", permissionsErr)
+    end
+
+    for _, permission in pairs(permissions) do
+        if (not mvp.permissions.Check(ply, permission)) then
+            return false
+        end
+    end
+
+    return true
+end
+
+function mvp.permissions.CheckSome(ply, permissions)
+    local passed, plyErr = mvp.utils.Assert(ply, "Cannot check permissions: ply is nil")
+    if (not passed) then
+        return mvp.logger.Log(mvp.LOG.ERROR, "Permissions", plyErr)
+    end
+
+    local passed, permissionsErr = mvp.utils.Assert(istable(permissions), "Cannot check permissions: permissions is nil or not a table")
+    if (not passed) then
+        return mvp.logger.Log(mvp.LOG.ERROR, "Permissions", permissionsErr)
+    end
+
+    for _, permission in pairs(permissions) do
+        if (mvp.permissions.Check(ply, permission)) then
+            return true
+        end
+    end
+
+    return false
+end
+
 function mvp.permissions.GetPermission(name)
     local passed, nameErr = mvp.utils.Assert(name, "Cannot get permission: name is nil")
     if (not passed) then

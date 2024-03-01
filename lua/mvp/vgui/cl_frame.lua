@@ -8,16 +8,13 @@ local roundness = mvp.ui.ScaleWithFactor(16)
 function PANEL:Init()
     self.top = vgui.Create("EditablePanel", self)
     self.top:Dock(TOP)
-
-    self.top.Paint = function(pnl, w, h)
-        draw.RoundedBoxEx(roundness, 0, 0, w, h, Color(43, 43, 43), true, true, false, false)
-    end
+    self.top:DockMargin(0, 0, 0, 10)
 
     self.title = vgui.Create("DLabel", self.top)
     self.title:Dock(LEFT)
-    self.title:DockMargin(8, 0, 0, 0)
+    self.title:DockMargin(roundness, 10, 0, 0)
+    self.title:SetTextColor(mvp.colors.Text)
     self.title:SetFont(titleFont)
-    self.title:SetTextColor(color_white)
     self.title:SetContentAlignment(4)
 
     self.close = vgui.Create("DButton", self)
@@ -30,7 +27,7 @@ function PANEL:Init()
     self.close.backgroundAlpha = 0
     
     self.close.Paint = function(pnl, w, h)
-        draw.RoundedBoxEx(roundness, 0, 0, w, h, Color(255, 71, 71, pnl.backgroundAlpha), false, true, false, false)
+        draw.RoundedBox(mvp.ui.ScaleWithFactor(8), 0, 0, w, h, ColorAlpha(mvp.colors.Red, pnl.backgroundAlpha), false, true, false, false)
 
         surface.SetDrawColor(pnl.iconColor)
         surface.SetMaterial(closeIcon)
@@ -62,7 +59,7 @@ end
 function PANEL:PerformLayout(w, h)
     self.top:SetTall(mvp.ui.Scale(48))
 
-    self.close:SetPos(w - self.top:GetTall(), 0)
+    self.close:SetPos(w - self.top:GetTall() - 5, 5)
     
     self.close:SetWide(self.top:GetTall())
     self.close:SetTall(self.top:GetTall())

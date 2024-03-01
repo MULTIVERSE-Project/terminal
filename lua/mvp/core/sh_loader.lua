@@ -14,7 +14,7 @@ mvp.loader.Print = function(...)
         return
     end
 
-    mvp.logger.Log(mvp.LOG.INFO, "Loader", ...)
+    mvp.logger.Log(mvp.LOG.DEBUG, "Loader", ...)
 end
 
 --- Sends a file to client and loads it on server.
@@ -76,7 +76,7 @@ end
 -- @usage mvp.loader.LoadFile("terminal/sh_terminal.lua", "server") -- will load the file on server
 function mvp.loader.LoadFile(path, forcedRealm, fromLua)
     path = (fromLua and '' or mvp.loader.relativePath) .. path
-
+    
     if (forcedRealm != nil) then
         forcedRealm = string.lower(forcedRealm)
     end

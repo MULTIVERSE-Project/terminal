@@ -24,6 +24,7 @@ local typeMap = {
     ["number"] = mvp.type.number,
     ["boolean"] = mvp.type.bool,
     ["vector"] = mvp.type.vector,
+    ["table"] = mvp.type.array,
 
     ["Player"] = mvp.type.player
 }
