@@ -19,7 +19,7 @@ function mvp.permissions.AddPermission(name, defaulAccess, description, sortOrde
     local permissionCAMI = {
         Name = name,
         Description = description or "This permission has no description",
-        DefaultAccess = defaulAccess
+        MinAccess = defaulAccess
     }
 
     local permissionMVP = {

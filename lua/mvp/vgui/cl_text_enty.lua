@@ -52,6 +52,16 @@ function PANEL:GetText()
     return self.textEntry:GetText()
 end
 
+function PANEL:SetMultiline(val)
+    self.textEntry:SetMultiline(val)    
+
+    if (val) then
+        self.textEntry:DockMargin(8, 8, 8, 8)
+    else
+        self.textEntry:DockMargin(8, 0, 8, 0)
+    end
+end
+
 function PANEL:OnValueChange(val)
     -- override
 end

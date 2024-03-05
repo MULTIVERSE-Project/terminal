@@ -113,7 +113,7 @@ end)
 function mvp.package.Get(id)
     if (not id) then
         local cwd = debug.getinfo(2, "S").short_src
-        local packageFolder = string.match(cwd, "addons/[^/]+/lua/mvp/packages/([^/]+)/[^/]+")
+        local packageFolder = string.match(cwd, "mvp/packages/([^/]+)/[^/]+")
         
         if (mvp.package.lookup[packageFolder]) then
             packageFolder = mvp.package.lookup[packageFolder]

@@ -10,7 +10,7 @@ function mvp.meta.gamemode:New()
     o.__index = self
 
     local cwd = debug.getinfo(2, "S").short_src
-    local gamemodeFile = string.match(cwd, "addons/[^/]+/lua/mvp/gamemodes/([^/]+)%.lua")
+    local gamemodeFile = string.match(cwd, "mvp/gamemodes/([^/]+)%.lua")
 
     o:SetID(gamemodeFile)
 

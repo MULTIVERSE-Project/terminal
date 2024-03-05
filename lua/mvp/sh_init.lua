@@ -113,12 +113,6 @@ mvp.q.LogInfo("Terminal", "Loading Terminal...")
 mvp.loader.LoadFile("core/sh_types.lua")
 mvp.loader.LoadFile("core/sh_permissions.lua")
 
-mvp.loader.LoadFile("core/sh_language.lua")
-mvp.language.Init()
-
-mvp.loader.LoadFolder("core/ui")
-mvp.loader.LoadFile("core/cl_fonts.lua") 
-mvp.loader.LoadFolder("core/notification")
 
 --[[ 
 
@@ -127,6 +121,14 @@ mvp.loader.LoadFolder("core/notification")
 
 ]]--
 mvp.loader.LoadFolder("thirdparty", true) -- true means load recursively
+
+mvp.loader.LoadFolder("core/ui")
+mvp.loader.LoadFile("core/cl_fonts.lua")
+
+mvp.loader.LoadFolder("core/notification")
+
+mvp.loader.LoadFile("core/sh_language.lua")
+mvp.language.Init()
 
 --[[ 
 

@@ -184,8 +184,7 @@ function mvp.utils.DrawEntityDisplay(ent, text, description, displayUse)
 end
 
 function mvp.utils.DrawTextWithButtons(text, font, x, y, color, alignX, alignY)
-    -- {{btn:%s}}
-    local buttons = {}
+    local buttons = {} -- {{btn:...}}
 
     -- split the text into buttons and text
     for btn in string.gmatch(text, "{{btn:(.-)}}") do
@@ -234,12 +233,70 @@ function mvp.utils.DrawTextWithButtons(text, font, x, y, color, alignX, alignY)
             local btw = surface.GetTextSize(buttons[i])
             local bw, bh = math.max(th * 1.2, btw + 10), th * 1.2
 
-            draw.RoundedBox(mvp.ui.ScaleWithFactor(8), currentX, y + textHeight * .5 - bh * .5 - 1, bw, bh, ColorAlpha(mvp.colors.Accent, color.a))
-            draw.SimpleText(buttons[i], font, currentX + bw * .5, y + textHeight * .5 - 1, color, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+            local col = ColorAlpha(mvp.colors.Text , color.a)
+
+            local y = y - 2
+
+            -- draw.RoundedBox(0, currentX, y, bw, bh, ColorAlpha(mvp.colors.Accent, color.a))
+            mvp.ui.DrawOutlinedRoundedRect(8, currentX, y, bw, bh, 4, col)
+            draw.SimpleText(buttons[i], font, currentX - .5 + bw * .5, y + textHeight * .5 - 0.5, col, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 
             currentX = currentX + bw
-        end
+        end        
     end
 
     return textWidth, textHeight
+end
+
+function mvp.utils.ChatPrint(...)
+    local args = {...}
+    
+    -- for i, v in ipairs(args) do
+    --     if (mvp.utils.IsColor(v)) then
+    --         args[i] = mvp.utils.ColorToFormattedString(v)
+    --     end
+    -- end
+
+    -- find all color codes and replace them with the color
+
+    local text = {}
+    for _, arg in ipairs(args) do
+        if (mvp.utils.IsColor(arg)) then
+            table.insert(text, mvp.utils.ColorToFormattedString(arg))
+        else
+            table.insert(text, arg)
+        end
+    end
+    text = table.concat(text, "")
+
+    local colors = {}
+    for col in string.gmatch(text, "{{color:(.-)}}") do
+        if (mvp.colors[col]) then
+            col = mvp.utils.ColorToFormattedString(mvp.colors[col])
+        end
+
+        table.insert(colors, col)
+    end
+    text = string.Explode("{{color:(.-)}}", text, true)
+
+    local chatText = {}
+
+    for i, v in ipairs(text) do
+        table.insert(chatText, v)
+
+        if (colors[i]) then
+            local r, g, b, a = string.match(colors[i], "(%d+),(%d+),(%d+),(%d+)")
+            table.insert(chatText, Color(r, g, b, a))
+        end
+    end
+
+    chat.AddText(unpack(chatText))
+end
+
+function mvp.utils.ColorToFormattedString(col, onlyNumbers)
+    if (onlyNumbers) then
+        return col.r .. "," .. col.g .. "," .. col.b .. "," .. col.a
+    end
+
+    return "{{color:" .. col.r .. "," .. col.g .. "," .. col.b .. "," .. col.a .. "}}"
 end

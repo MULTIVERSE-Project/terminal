@@ -48,6 +48,11 @@ function mvp.language.GetPhrase(id, ...)
 
     if (type(phrase) == "function") then
         return phrase(...)
+    else
+        -- replace {{lang:(.*)}} with the language phrase
+        phrase = string.gsub(phrase, "{{lang:(.-)}}", function(match)
+            return mvp.language.GetPhrase(match)
+        end)
     end
 
     return string.format(phrase, ...)

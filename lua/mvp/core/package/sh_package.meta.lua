@@ -19,10 +19,21 @@ function mvp.meta.package:New()
     local cwd = debug.getinfo(2, "S").short_src
 
     -- addons/mvp_terminal/lua/mvp/packages/{{cwd}}/sh_package.lua
-    -- convert this regex to lua pattern addons\/[^\/]+\/lua\/mvp\/packages\/([^\/]+)\/sh_package\.lua
-    local packageFolder = string.match(cwd, "addons/[^/]+/lua/mvp/packages/([^/]+)/sh_package%.lua")
+    -- lua/mvp/packages/{{cwd}}/sh_package.lua
+
+    -- match the package folder
+    local packageFolder = string.match(cwd, "mvp/packages/([^/]+)/sh_package%.lua")
     o:SetCWD(packageFolder)
     o:SetID(packageFolder)
+
+    if (mvp.config.Get("debug")) then
+        for i = 1, 5 do
+            local info = debug.getinfo(i, "S")
+            if (info) then
+                print(i, info.short_src, info.linedefined, info.name)
+            end
+        end
+    end
 
     return o
 end

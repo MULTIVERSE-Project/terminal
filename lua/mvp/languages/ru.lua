@@ -4,7 +4,7 @@ l["general.terminal"] = "Terminal"
 
 l["general.by_x"] = "by %s"
 l["general.no_permission"] = "У вас нет разрешения на это."
-l["general.use"] = "Нажмите [ %s ] для взаимодействия"
+l["general.use"] = "Нажмите {{btn:%s}} для взаимодействия"
 
 l["general.screen_position.tl"] = "Верхний левый угол"
 l["general.screen_position.tc"] = "Верхний центр"
