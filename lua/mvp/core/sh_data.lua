@@ -28,7 +28,7 @@ end
 
 function mvp.data.Get(key, default, isMap, skipCache)
     -- mvp/global/[key].txt
-    -- mvp/maps/[map]/[key].txt
+    -- mvp/[map]/[key].txt
 
     local destination = isMap and (game.GetMap() .. "/") or "global/"
     local cacheType = isMap and "map" or "global"
@@ -36,7 +36,7 @@ function mvp.data.Get(key, default, isMap, skipCache)
     local folderPath = mvp.data.bucket .. destination
     local filePath = folderPath .. key .. ".txt"
 
-    if (not skipCache and not mvp.data.cache[cacheType][key]) then
+    if (not skipCache and mvp.data.cache[cacheType][key]) then
         return mvp.data.cache[cacheType][key]
     end
 
