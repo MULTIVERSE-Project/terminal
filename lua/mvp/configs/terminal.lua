@@ -9,13 +9,6 @@ mvp.config.Add("prefix", "!", {
     ui = {} 
 }, 1)
 
-mvp.config.Add("command", "mvp", {
-    description = "Command for opening the terminal.",
-    category = GENERAL_GROUP,
-
-    ui = {}
-}, 2)
-
 mvp.config.Add("allowConsoleCommand", true, {
     description = "Controls whether or not the console command for opening menu is allowed.",
     category = GENERAL_GROUP,

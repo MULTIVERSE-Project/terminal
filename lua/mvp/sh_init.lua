@@ -150,6 +150,9 @@ mvp.config.Init()
 mvp.loader.LoadFolder("core/credits")
 mvp.loader.LoadFolder("credits") -- there is no need to initialize credits, they are loaded automatically
 
+mvp.loader.LoadFolder("core/command")
+mvp.command.Init() 
+
 --[[ 
 
     Packages

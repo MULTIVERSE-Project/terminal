@@ -1,10 +1,12 @@
 local l = {}
 
 l["general.terminal"] = "Terminal"
+l["general.disabled"] = "This feature is disabled."
 
 l["general.by_x"] = "by %s"
 l["general.no_permission"] = "You don't have permission to do that."
 l["general.use"] = "Press {{btn:%s}} to interact"
+l["general.command_x"] = "Command: %s"
 
 l["general.screen_position.tl"] = "Top Left"
 l["general.screen_position.tc"] = "Top Center"
