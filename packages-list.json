@@ -1,13 +1,38 @@
 [
     {
+        "id": "radialmenu",
+        "name": "Radial Menus",
+        "description": "Enables developers to create radial menus for their needs.",
+        "isFree": true,
+        "links": {    
+            "workshop": "https://steamcommunity.com/sharedfiles/filedetails/?id=3172611631"
+        }
+    },
+    {
+        "id": "simpledefcons",
+        "name": "Simple DEFCONs",
+        "description": "DEFCONs system for StarwarsRP servers.",
+        "isFree": true,
+        "links": {    
+            "workshop": "https://steamcommunity.com/sharedfiles/filedetails/?id=3189667365"
+        }
+    },
+    {
         "id": "perfecthands",
         "name": "Perfect Hands",
         "description": "Script that allows to use cool animations.",
         "isFree": false,
-        "price": 4.99,
+        "price": 5.99,
         "links": {
             "store": "https://mvp.tebex.io/package/5308190"
         }
+    },
+    {
+        "id": "perfecthands_store",
+        "name": "Perfect Hands Store",
+        "description": "WIP. Allows players to buy animations for Perfect Hands.",
+        "isFree": false,
+        "price": 4.99
     },
     {
         "id": "perfecthud",
