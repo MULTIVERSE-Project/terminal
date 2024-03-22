@@ -155,7 +155,7 @@ end
 
 local stylesMap = {
     ["primary"] = {
-        ColorAlpha(mvp.colors.Accent, 150),
+        mvp.ui.MuteColor(mvp.colors.Accent),
         mvp.colors.Accent
     },
     ["secondary"] = {
@@ -181,6 +181,13 @@ function PANEL:SetStyle(style)
 
     self.colors.Background = styleColors[1]
     self.colors.BackgroundHover = styleColors[2]
+
+    self.backgroundColor = self.colors.Background
+end
+
+function PANEL:SetCustomStyle(color, hoverColor)
+    self.colors.Background = color
+    self.colors.BackgroundHover = hoverColor
 
     self.backgroundColor = self.colors.Background
 end
