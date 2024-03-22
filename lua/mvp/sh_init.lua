@@ -60,7 +60,7 @@ mvp.colors.SecondaryAccent = Color(82, 82, 82)
 
 mvp.colors.Red = Color(255, 92, 92)
 mvp.colors.Blue = Color(92, 92, 255)
-mvp.colors.Green = Color(92, 255, 92)
+mvp.colors.Green = Color(46, 204, 113) -- rgb(46, 204, 113)
 mvp.colors.Yellow = Color(255, 255, 46)
 mvp.colors.Purple = Color(255, 92, 255)
 mvp.colors.Cyan = Color(92, 255, 255)
