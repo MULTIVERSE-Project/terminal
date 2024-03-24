@@ -57,6 +57,8 @@ function mvp.config.UpdateValue(key, value)
         end
     end
 
+    finalValue = mvp.types.SanitizeType(config.typeOf, finalValue)
+
     -- there are some room for extension here
     -- @notes: additional checks can be added here, for example if the value is a number, check if it is within a certain range
     config.value = finalValue
