@@ -282,7 +282,7 @@ function mvp.menus.admin.Home(container)
             buttons:SetTall(mvp.ui.Scale(40))
             buttons:SetRoundness(mvp.ui.ScaleWithFactor(8))
 
-            for k, v in pairs(v.links) do
+            for k, v in pairs(v.links or {}) do
                 if (v == "") then continue end
 
                 buttons:AddButton(linkTypeNames[k] or k, function()
