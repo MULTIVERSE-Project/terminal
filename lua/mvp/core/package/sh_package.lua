@@ -126,7 +126,12 @@ function mvp.package.Get(id)
         id = packageFolder
     end
 
-    return mvp.package.list[id]
+    local package = mvp.package.list[id]
+    if (not package) then
+        package = mvp.package.list[mvp.package.lookup[id]]
+    end
+
+    return package
 end
 
 --- Gets is package is registered
