@@ -37,7 +37,6 @@ end
 
 function mvp.utils.AssertType(value, expected, funcName, argNum)
     local valueType = mvp.types.GetTypeFromValue(value)
-    print(valueType, expected)
 
     assert(valueType == expected, string.format("bad argument #%i to \"%s\" (expected %s, got %s)", argNum, funcName, mvp.type[expected], mvp.type[valueType]))
 end

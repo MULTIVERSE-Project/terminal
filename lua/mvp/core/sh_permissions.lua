@@ -45,7 +45,6 @@ function mvp.permissions.CheckAll(ply, permissions)
 end
 
 function mvp.permissions.CheckSome(ply, permissions)
-    print("CheckSome", ply, permissions)
     mvp.utils.AssertType(ply, mvp.type.player, "mvp.permissions.CheckSome", 1)
     mvp.utils.AssertType(permissions, mvp.type.array, "mvp.permissions.CheckSome", 2)
 
