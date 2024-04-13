@@ -34,6 +34,7 @@ mvp.type = {
     [16] = "player",
     [32] = "steamid",
     [64] = "bool",
+    [512] = "table", -- array
     [1024] = "color",
     [2048] = "vector",
 
@@ -47,7 +48,8 @@ mvp.type = {
     vector = 2048,
 
     optional = 256,
-    array = 512
+    array = 512,
+    table = 512 -- alias
 } 
 
 mvp.colors = mvp.colors or {}

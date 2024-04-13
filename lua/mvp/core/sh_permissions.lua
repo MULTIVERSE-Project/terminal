@@ -4,17 +4,8 @@ mvp.permissions = mvp.permissions or {}
 mvp.permissions.list = mvp.permissions.list or {}
 
 function mvp.permissions.AddPermission(name, defaulAccess, description, sortOrder)
-    local passed, nameErr = mvp.utils.Assert(name, "Cannot add permission: name is nil")
-
-    if (not passed) then
-        return mvp.logger.Log(mvp.LOG.ERROR, "Permissions", nameErr)
-    end
-
-    local passed, defaulAccessErr = mvp.utils.Assert(defaulAccess, "Setting default access to admin for permission " .. name .. " because it defaulAccess is nil")
-    if (not passed) then
-        mvp.logger.Log(mvp.LOG.WARNING, "Permissions", defaulAccessErr)
-        defaulAccess = "admin"
-    end
+    mvp.utils.AssertType(name, mvp.type.string, "mvp.permissions.AddPermission", 1)
+    mvp.utils.AssertType(defaulAccess, mvp.type.string, "mvp.permissions.AddPermission", 2)
 
     local permissionCAMI = {
         Name = name,
@@ -22,7 +13,7 @@ function mvp.permissions.AddPermission(name, defaulAccess, description, sortOrde
         MinAccess = defaulAccess
     }
 
-    local permissionMVP = {
+    local permissionInternal = {
         name = name,
         description = description or "This permission has no description",
         defaultAccess = defaulAccess,
@@ -30,33 +21,19 @@ function mvp.permissions.AddPermission(name, defaulAccess, description, sortOrde
     }
 
     CAMI.RegisterPrivilege(permissionCAMI)
-    mvp.permissions.list[name] = permissionMVP
+    mvp.permissions.list[name] = permissionInternal
 end
 
 function mvp.permissions.Check(ply, permission)
-    local passed, plyErr = mvp.utils.Assert(ply, "Cannot check permission: ply is nil")
-    if (not passed) then
-        return mvp.logger.Log(mvp.LOG.ERROR, "Permissions", plyErr)
-    end
-
-    local passed, permissionErr = mvp.utils.Assert(permission, "Cannot check permission: permission is nil")
-    if (not passed) then
-        return mvp.logger.Log(mvp.LOG.ERROR, "Permissions", permissionErr)
-    end
+    mvp.utils.AssertType(ply, mvp.type.player, "mvp.permissions.Check", 1)
+    mvp.utils.AssertType(permission, mvp.type.string, "mvp.permissions.Check", 2)
 
     return CAMI.PlayerHasAccess(ply, permission)
 end
 
 function mvp.permissions.CheckAll(ply, permissions)
-    local passed, plyErr = mvp.utils.Assert(ply, "Cannot check permissions: ply is nil")
-    if (not passed) then
-        return mvp.logger.Log(mvp.LOG.ERROR, "Permissions", plyErr)
-    end
-
-    local passed, permissionsErr = mvp.utils.Assert(istable(permissions), "Cannot check permissions: permissions is nil or not a table")
-    if (not passed) then
-        return mvp.logger.Log(mvp.LOG.ERROR, "Permissions", permissionsErr)
-    end
+    mvp.utils.AssertType(ply, mvp.type.player, "mvp.permissions.CheckAll", 1)
+    mvp.utils.AssertType(permissions, mvp.type.array, "mvp.permissions.CheckAll", 2)
 
     for _, permission in pairs(permissions) do
         if (not mvp.permissions.Check(ply, permission)) then
@@ -68,15 +45,9 @@ function mvp.permissions.CheckAll(ply, permissions)
 end
 
 function mvp.permissions.CheckSome(ply, permissions)
-    local passed, plyErr = mvp.utils.Assert(ply, "Cannot check permissions: ply is nil")
-    if (not passed) then
-        return mvp.logger.Log(mvp.LOG.ERROR, "Permissions", plyErr)
-    end
-
-    local passed, permissionsErr = mvp.utils.Assert(istable(permissions), "Cannot check permissions: permissions is nil or not a table")
-    if (not passed) then
-        return mvp.logger.Log(mvp.LOG.ERROR, "Permissions", permissionsErr)
-    end
+    print("CheckSome", ply, permissions)
+    mvp.utils.AssertType(ply, mvp.type.player, "mvp.permissions.CheckSome", 1)
+    mvp.utils.AssertType(permissions, mvp.type.array, "mvp.permissions.CheckSome", 2)
 
     for _, permission in pairs(permissions) do
         if (mvp.permissions.Check(ply, permission)) then
@@ -88,10 +59,7 @@ function mvp.permissions.CheckSome(ply, permissions)
 end
 
 function mvp.permissions.GetPermission(name)
-    local passed, nameErr = mvp.utils.Assert(name, "Cannot get permission: name is nil")
-    if (not passed) then
-        return mvp.logger.Log(mvp.LOG.ERROR, "Permissions", nameErr)
-    end
+    mvp.utils.AssertType(name, mvp.type.string, "mvp.permissions.GetPermission", 1)
 
     return mvp.permissions.list[name]
 end

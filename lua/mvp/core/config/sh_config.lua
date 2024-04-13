@@ -61,16 +61,16 @@ function mvp.config.GetCategory(index)
 end
 
 function mvp.config.Add(key, defaultValue, configuration, sortIndex)
+    mvp.utils.AssertType(key, mvp.type.string, "mvp.config.Add", 1)
+    mvp.utils.Assert(defaultValue ~= nil, "mvp.config.Add", 2)
+    mvp.utils.AssertType(configuration, mvp.type.array, "mvp.config.Add", 3)
+
     configuration = istable(configuration) and configuration or {}
 
     local oldConfig = mvp.config.list[key]
     local typeOf = configuration.typeOf or mvp.types.GetTypeFromValue(defaultValue)
 
-    local success, message = mvp.utils.Assert(typeOf, "Invalid type for config key '" .. key .. "'")
-
-    if (not success) then
-        return mvp.logger.Log(mvp.LOG.ERROR, "Config", message)
-    end
+    mvp.utils.AssertNamed(typeOf, "mvp.config.Add", "configuration.typeOf", 3)
 
     local currentValue = defaultValue
 
