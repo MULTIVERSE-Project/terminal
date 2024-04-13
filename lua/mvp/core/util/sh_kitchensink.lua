@@ -27,16 +27,19 @@ function mvp.utils.UUID(length)
     end)
 end
 
-function mvp.utils.Assert(condition, message)
-    if (condition == nil) then
-        mvp.logger.Log(mvp.LOG.ERROR, nil, "Assertion failed: ", message)
+function mvp.utils.Assert(value, funcName, argNum)
+    assert(value, string.format("bad argument #%i to \"%s\" (got nil)", argNum, funcName))
+end
 
-        error(message, 2) 
+function mvp.utils.AssertNamed(value, name, funcName, argNum)
+    assert(value, string.format("bad argument #%i to \"%s\" (got nil for %s)", argNum, funcName, name))
+end
 
-        return false, message
-    end
+function mvp.utils.AssertType(value, expected, funcName, argNum)
+    local valueType = mvp.types.GetTypeFromValue(value)
+    print(valueType, expected)
 
-    return true, condition
+    assert(valueType == expected, string.format("bad argument #%i to \"%s\" (expected %s, got %s)", argNum, funcName, mvp.type[expected], mvp.type[valueType]))
 end
 
 function mvp.utils.GetTrace()
