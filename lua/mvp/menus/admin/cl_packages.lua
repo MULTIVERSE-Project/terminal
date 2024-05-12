@@ -22,7 +22,7 @@ function mvp.menus.admin.Packages(container)
     pageContent:Dock(FILL)
     pageContent:InvalidateParent(true)
     
-    local grid = vgui.Create("ThreeGrid", pageContent)
+    local grid = vgui.Create("mvp.ThreeGrid", pageContent)
     grid:Dock(FILL)
     grid:InvalidateParent(true)
 

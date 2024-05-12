@@ -101,4 +101,4 @@ end
 
 PANEL.OnRemove = PANEL.Clear
 
-vgui.Register("ThreeGrid", PANEL, "mvp.ScrollPanel")
+vgui.Register("mvp.ThreeGrid", PANEL, "mvp.ScrollPanel")

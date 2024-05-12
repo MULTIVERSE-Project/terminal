@@ -56,7 +56,7 @@ function mvp.menus.admin.Credits(container, defaultActive)
 
         local contributors = mvp.credits.GetContributors()
 
-        local grid = vgui.Create("ThreeGrid", creditsContent)
+        local grid = vgui.Create("mvp.ThreeGrid", creditsContent)
         grid:Dock(FILL)
         grid:InvalidateParent(true)
 
@@ -103,7 +103,7 @@ function mvp.menus.admin.Credits(container, defaultActive)
         
         local icons = mvp.credits.GetIcons()
 
-        local grid = vgui.Create("ThreeGrid", creditsContent)
+        local grid = vgui.Create("mvp.ThreeGrid", creditsContent)
         grid:Dock(FILL)
         grid:InvalidateParent(true)
 
@@ -152,7 +152,7 @@ function mvp.menus.admin.Credits(container, defaultActive)
     buttons["packages"] = buttonGroup:AddButton(mvp.q.Lang("ui.credits.packages"), function()
         creditsContent:Clear() 
         
-        local grid = vgui.Create("ThreeGrid", creditsContent)
+        local grid = vgui.Create("mvp.ThreeGrid", creditsContent)
         grid:Dock(FILL)
         grid:InvalidateParent(true)
 
