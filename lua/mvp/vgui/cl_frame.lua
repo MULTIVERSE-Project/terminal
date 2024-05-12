@@ -1,7 +1,7 @@
 local PANEL = {}
 
 local titleFont = mvp.Font(32, 600)
-local closeIcon = Material("mvp/terminal/close.png", "smooth mips")
+local closeIcon
 
 local roundness = mvp.ui.ScaleWithFactor(16)
 
@@ -50,13 +50,15 @@ function PANEL:Init()
 
     self.close.iconColor = Color(195, 195, 195)
     self.close.backgroundAlpha = 0
+
+    if (not closeIcon) then
+        closeIcon = mvp.ui.images.Create("v_close", "smooth mips")
+    end
     
     self.close.Paint = function(pnl, w, h)
         draw.RoundedBox(mvp.ui.ScaleWithFactor(8), 0, 0, w, h, ColorAlpha(mvp.colors.Red, pnl.backgroundAlpha), false, true, false, false)
 
-        surface.SetDrawColor(pnl.iconColor)
-        surface.SetMaterial(closeIcon)
-        surface.DrawTexturedRect(12, 12, w - 24, h - 24)
+        closeIcon:Draw(12, 12, w - 24, h - 24, pnl.iconColor)
 
         return true
     end

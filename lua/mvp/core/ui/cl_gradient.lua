@@ -16,7 +16,7 @@ mvp.ui.mutedColorsCache = {}
 
 function mvp.ui.MuteColor(col, factor)
     factor = factor or 0.8
-    local colId = col.r .. col.g .. col.b .. col.a .. factor
+    local colId = col.r .. col.g .. col.b .. (col.a or 255) .. factor
     if (mvp.ui.mutedColorsCache[colId]) then
         return mvp.ui.mutedColorsCache[colId]
     end

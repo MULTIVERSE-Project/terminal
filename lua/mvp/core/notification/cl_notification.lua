@@ -40,24 +40,24 @@ local POSITION_MAP = {
 local TYPE_MAP = {
     [mvp.NOTIFICATION.INFO] = {
         color = mvp.colors.Blue,
-        icon = Material("mvp/terminal/notifications/info.png", "smooth")
+        icon = "n_info"
     },
     [mvp.NOTIFICATION.WARN] = {
         color = mvp.colors.Yellow,
-        icon = Material("mvp/terminal/notifications/warn.png", "smooth")
+        icon = "n_warn"
     },
     [mvp.NOTIFICATION.ERROR] = {
         color = mvp.colors.Red,
-        icon = Material("mvp/terminal/notifications/error.png", "smooth")
+        icon = "n_error"
     },
     
     [mvp.NOTIFICATION.SUCCESS] = {
         color = mvp.colors.Green,
-        icon = Material("mvp/terminal/notifications/success.png", "smooth")
+        icon = "n_success"
     },
     [mvp.NOTIFICATION.FAIL] = {
         color = mvp.colors.Red,
-        icon = Material("mvp/terminal/notifications/error.png", "smooth")
+        icon = "n_error"
     }
 }
 
@@ -88,6 +88,7 @@ function mvp.notification.Add( notificationType, title, text, duration )
         notificationType = TYPE_MAP[notificationType]
     end
     local notificationData = TYPE_MAP[notificationType]
+
     local color = notificationData.color
     local icon = notificationData.icon
 
@@ -95,6 +96,10 @@ function mvp.notification.Add( notificationType, title, text, duration )
         local tag = mvp.config.Get("tag", "[Terminal]")
 
         return chat.AddText(mvp.colors.Accent, tag, " ", color, title, " ", mvp.colors.Text, text)
+    end
+
+    if (not notificationData.icon.isImage) then
+        icon = mvp.ui.images.Create(icon, "smooth")
     end
 
     duration = duration or 5
@@ -130,9 +135,7 @@ function mvp.notification.Add( notificationType, title, text, duration )
             draw.RoundedBox(roundness, 0, 0, progress, h, ColorAlpha(color, 5))
         end
 
-        surface.SetDrawColor(color)
-        surface.SetMaterial(icon)
-        surface.DrawTexturedRect(spacing, h * .5 - iconSize * .5, iconSize, iconSize)
+        icon:Draw(spacing, h * .5 - iconSize * .5, iconSize, iconSize, color)
 
         draw.SimpleText(title, mvp.q.Font(26, 600), spacing + iconSize + spacing, h * .5 - 10, mvp.colors.Text, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
         draw.SimpleText(text, mvp.q.Font(21, 400), spacing + iconSize + spacing, h * .5 + 10, mvp.colors.Text, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)

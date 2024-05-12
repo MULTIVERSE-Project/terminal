@@ -1,9 +1,9 @@
 local PANEL = {}
 local padding = mvp.ui.Scale(8)
 
-local checkIcon = Material("mvp/terminal/icons/check.png", "smooth mips")
-
 AccessorFunc(PANEL, "roundness", "Roundness")
+
+local checkIcon
 
 function PANEL:Init()
     self.checked = false
@@ -17,6 +17,10 @@ function PANEL:Init()
 
     self.backgroundColor = self.colors.Background
     self.clipWidth = 0
+
+    if (not checkIcon) then
+        checkIcon = mvp.ui.images.Create("v_check", "smooth mips")
+    end
 end
 
 function PANEL:Paint(w, h)
@@ -26,9 +30,7 @@ function PANEL:Paint(w, h)
     render.SetScissorRect( x, y, x + self.clipWidth, y + h, true )
         draw.RoundedBox(self.roundness, 0, 0, w, h, mvp.colors.SecondaryAccent)
 
-        surface.SetDrawColor(mvp.colors.Text)
-        surface.SetMaterial(checkIcon)
-        surface.DrawTexturedRect(padding, padding + 4, w - padding * 2, h - padding * 2)
+        checkIcon:Draw(padding, padding + 4, w - padding * 2, h - padding * 2, mvp.colors.Text)
     render.SetScissorRect( 0, 0, 0, 0, false )
 end
 

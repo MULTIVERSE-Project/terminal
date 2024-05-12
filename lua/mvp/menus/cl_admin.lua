@@ -19,7 +19,7 @@ function mvp.menus.admin.Open(defaultTab, ...)
     frame:MakePopup()
 
     local buttons = {}
-    buttons["home"] = frame:AddButton(mvp.q.Lang("ui.home"), "mvp/terminal/icons/dashboard.png", function()
+    buttons["home"] = frame:AddButton(mvp.q.Lang("ui.home"), mvp.ui.images.Create("i_dashboard", "smooth mips"), function()
         local canvas = frame:GetCanvas()
 
         mvp.menus.admin.Home(canvas)
@@ -30,7 +30,7 @@ function mvp.menus.admin.Open(defaultTab, ...)
     end
 
     if (mvp.permissions.Check(LocalPlayer(), "mvp.terminal.configs")) then
-        buttons["settings"] = frame:AddButton(mvp.q.Lang("ui.config"), "mvp/terminal/icons/settings.png", function(_, section)
+        buttons["settings"] = frame:AddButton(mvp.q.Lang("ui.config"), mvp.ui.images.Create("i_settings", "smooth mips"), function(_, section)
             local canvas = frame:GetCanvas()
 
             if (not section) then
@@ -42,7 +42,7 @@ function mvp.menus.admin.Open(defaultTab, ...)
             mvp.menus.admin.Settings(canvas, section)
         end)
 
-        buttons["permissions"] = frame:AddButton(mvp.q.Lang("ui.permissions"), "mvp/terminal/icons/permissions.png", function()
+        buttons["permissions"] = frame:AddButton(mvp.q.Lang("ui.permissions"), mvp.ui.images.Create("i_permissions", "smooth mips"), function()
             local canvas = frame:GetCanvas()
 
             mvp.menus.admin.Permissions(canvas)
@@ -50,7 +50,7 @@ function mvp.menus.admin.Open(defaultTab, ...)
     end
 
     if (mvp.permissions.Check(LocalPlayer(), "mvp.terminal.packages")) then
-        buttons["packages"] = frame:AddButton(mvp.q.Lang("ui.packages"), "mvp/terminal/icons/package.png", function()
+        buttons["packages"] = frame:AddButton(mvp.q.Lang("ui.packages"), mvp.ui.images.Create("i_packages", "smooth mips"), function()
             local canvas = frame:GetCanvas()
 
             mvp.menus.admin.Packages(canvas)
@@ -59,7 +59,7 @@ function mvp.menus.admin.Open(defaultTab, ...)
 
     frame:AddSeparator()
 
-    buttons["credits"] = frame:AddButton(mvp.q.Lang("ui.credits"), "mvp/terminal/icons/credits.png", function(_, section)
+    buttons["credits"] = frame:AddButton(mvp.q.Lang("ui.credits"), mvp.ui.images.Create("i_credits", "smooth mips"), function(_, section)
         local canvas = frame:GetCanvas()
 
         if (not section) then

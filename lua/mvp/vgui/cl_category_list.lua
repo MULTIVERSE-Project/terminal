@@ -1,14 +1,17 @@
 local PANEL = {}
 
 DEFINE_BASECLASS( "DScrollPanel" )
-local arrowMaterial = Material("mvp/terminal/vgui/arrow.png", "smooth")
+local arrowMaterial
 
 function PANEL:Init()
     self.pnlCanvas:DockPadding( 2, 2, 2, 2 )
+
+    if (not arrowMaterial) then
+        arrowMaterial = mvp.ui.images.Create("v_arrow", "mips smooth")
+    end
 end
 
 function PANEL:AddItem( item )
-
     item:Dock( TOP )
 
     BaseClass.AddItem( self, item )
@@ -31,8 +34,10 @@ function PANEL:Add( name )
         draw.RoundedBox(mvp.ui.ScaleWithFactor(8), 0, 0, w, headerHeight, mvp.colors.SecondaryBackground)
 
         surface.SetDrawColor(ColorAlpha(mvp.colors.Text, pnl:GetExpanded() and 255 or 150))
-        surface.SetMaterial(arrowMaterial)
-        surface.DrawTexturedRectRotated(w - headerHeight * .5, headerHeight * .5, headerHeight * .5, headerHeight * .5, pnl.angle)
+        arrowMaterial:DrawRotated(w - headerHeight * .5, headerHeight * .5, headerHeight * .5, headerHeight * .5, pnl.angle)
+        
+        -- surface.SetMaterial(arrowMaterial)
+        -- surface.DrawTexturedRectRotated(w - headerHeight * .5, headerHeight * .5, headerHeight * .5, headerHeight * .5, pnl.angle)
 
         if (pnl:GetExpanded()) then
             pnl.angle = Lerp(FrameTime() * 10, pnl.angle, 180)

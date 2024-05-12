@@ -25,16 +25,19 @@ function PANEL:SetIconSize(size)
 end
 
 function PANEL:Paint(w, h)
-    BaseClass.Paint(self, w, h)
-
-    surface.SetDrawColor(self.iconColor)
-    surface.SetMaterial(self.image)
+    BaseClass.Paint(self, w, h)   
     
     local iconSize = self.iconSize
     local iconX = (w - iconSize) / 2
     local iconY = (h - iconSize) / 2
-
-    surface.DrawTexturedRect(iconX, iconY, iconSize, iconSize)
+    
+    if (self.image.isImage) then
+        self.image:Draw(iconX, iconY, iconSize, iconSize, self.iconColor)
+    else
+        surface.SetDrawColor(self.iconColor)
+        surface.SetMaterial(self.image)
+        surface.DrawTexturedRect(iconX, iconY, iconSize, iconSize)
+    end
 end
 
 function PANEL:OnCursorEntered()

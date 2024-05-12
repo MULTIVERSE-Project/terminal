@@ -76,6 +76,15 @@ mvp.config.Add("notificationsPosition", "bc", {
     }
 }, 4)
 
+local ICONS_GROUP = mvp.config.RegisterCategory("webImages", TERMINAL_SECTION, 3)
+
+mvp.config.Add("imagesProxy", "", {
+    description = "You can pass there a proxy URL, which will be used to download images.",
+    category = ICONS_GROUP,
+
+    ui = {}
+}, 1)
+
 local DEVELOPER_GROUP = mvp.config.RegisterCategory("developer", TERMINAL_SECTION, 100)
 
 mvp.config.Add("debug", false, {

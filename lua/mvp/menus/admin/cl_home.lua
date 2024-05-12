@@ -7,11 +7,7 @@ mvp.menus.admin.notifications = mvp.menus.admin.notifications or {}
 local spaceBetween = mvp.ui.Scale(10)
 local spacing = mvp.ui.Scale(10)
 
-local linkTypeMaterials = {
-    ["workshop"] = Material("mvp/terminal/icons/steam.png", "smooth mips"),
-    ["github"] = Material("mvp/terminal/icons/github.png", "smooth mips"),
-    ["store"] = Material("mvp/terminal/icons/store.png", "smooth mips")
-}
+local linkTypeMaterials
 local linkTypeNames = {
     ["workshop"] = "Steam Workshop",
     ["github"] = "GitHub",
@@ -115,6 +111,14 @@ function mvp.menus.admin.AddNotificationPanel(pnl, title, text, color, actions)
 end
 
 function mvp.menus.admin.Home(container)
+    if (not linkTypeMaterials) then
+        linkTypeMaterials = {
+            ["workshop"] = mvp.ui.images.Create("i_workshop", "smooth mips"),
+            ["github"] = mvp.ui.images.Create("i_github", "smooth mips"),
+            ["store"] = mvp.ui.images.Create("i_store", "smooth mips")
+        }
+    end
+
     local content = vgui.Create("EditablePanel", container)
     content:Dock(FILL)
     content:InvalidateParent(true)
@@ -134,8 +138,38 @@ function mvp.menus.admin.Home(container)
     left:Dock(LEFT)
     left:SetWide(pageContent:GetWide() * 0.6 - spaceBetween * 0.5)
 
+    local serverHeader = vgui.Create("EditablePanel", left)
+    serverHeader:Dock(TOP)
+    serverHeader:SetTall(mvp.ui.Scale(80))
+
+    local serverLogo
+
+    if (mvp.config.Get("logo") ~= "blank") then -- backwards compatibility
+        serverLogo = mvp.ui.images.Quick(mvp.config.Get("logo"), "smooth mips")
+    end
+
+    serverHeader.Paint = function(pnl, w, h)
+        draw.RoundedBox(mvp.ui.ScaleWithFactor(8), 0, 0, w, h, ColorAlpha(mvp.colors.SecondaryBackground, 100))
+
+        draw.RoundedBox(mvp.ui.ScaleWithFactor(8), spaceBetween, h * .5 - mvp.ui.Scale(32), mvp.ui.Scale(64), mvp.ui.Scale(64), ColorAlpha(mvp.colors.SecondaryBackground, 150))
+        if (not serverLogo) then
+            draw.SimpleText("?", mvp.Font(32, 600), spaceBetween + mvp.ui.Scale(32), h * .5, mvp.colors.Text, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+        else
+            serverLogo:Draw(spaceBetween + 3, h * .5 - mvp.ui.Scale(32) + 3, mvp.ui.Scale(64) - 6, mvp.ui.Scale(64) - 6, mvp.colors.Text)
+        end
+
+        draw.SimpleText(mvp.config.Get("servername"), mvp.Font(32, 600), spaceBetween + mvp.ui.Scale(64) + spaceBetween, h * .5 - 5, mvp.colors.Accent, TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
+        draw.SimpleText("Terminal Admin for", mvp.Font(22, 400), spaceBetween + mvp.ui.Scale(64) + spaceBetween, h * .5, ColorAlpha(mvp.colors.Text, 150), TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
+
+        if (mvp.config.Get("logo") == "blank") then
+            draw.RoundedBox(mvp.ui.ScaleWithFactor(8), 0, 0, w, h, ColorAlpha(mvp.colors.SecondaryBackground, 150))
+            draw.SimpleText("Change logo in the config!", mvp.Font(32, 800), w * .5, h * .5, mvp.colors.Red, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+        end
+    end
+
     local notifications = vgui.Create("EditablePanel", left)
     notifications:Dock(TOP)
+    notifications:DockMargin(0, spaceBetween, 0, 0)
     notifications:SetTall(mvp.ui.Scale(350))
 
     surface.SetFont(mvp.Font(22, 600))
