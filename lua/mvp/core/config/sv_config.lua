@@ -13,7 +13,9 @@ net.Receive("mvp.config.RequestSynchronization", function(len, ply)
 end)
 
 net.Receive("mvp.config.ChangeValue", function(len, ply)
-    -- @todo: Check if the player is allowed to change the config
+    if (not mvp.permissions.Check(ply, "mvp.terminal.configs")) then
+        return
+    end
     
     local key = net.ReadString()
     local value = net.ReadType()
