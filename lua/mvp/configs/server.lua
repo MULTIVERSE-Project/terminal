@@ -25,8 +25,8 @@ mvp.config.Add("gamemode", "blank", {
 
 local BRANDING_GROUP = mvp.config.RegisterCategory("branding", SERVER_SECTION, 2)
 
-mvp.config.Add("logo", "https://i.imgur.com/VOBcEL7.png", {
-    description = "The logo you want to use on your server. Should be a direct link to the image.",
+mvp.config.Add("logo", "blank", {
+    description = "The logo you want to use on your server. Should be a path to a image in you server's materials folder.",
 
     category = BRANDING_GROUP,
 }, 1) 

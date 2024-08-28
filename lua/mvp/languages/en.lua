@@ -75,7 +75,6 @@ l["ui.notifications.gamemode.action.2"] = "Dissmiss"
 l["section.terminal"] = l["general.terminal"]
 l["section.terminal.general"] = "General"
 l["section.terminal.appearance"] = "Appearance"
-l["section.terminal.webImages"] = "Web Imagse"
 l["section.terminal.developer"] = "Developer"
 
 l["value.prefix.description"] = "Prefix for the all commands."
@@ -88,8 +87,6 @@ l["value.useNotifications.description"] = "Use notifications system. If set to f
 l["value.notificationsPosition.description"] = "Position for notifications on screen."
 l["value.notificationsPosition.ps.title"] = "Terminal notifications position"
 l["value.notificationsPosition.ps.description"] = "This is where the notifications will appear on the screen."
-
-l["value.imagesProxy.description"] = "Use proxy for downloading images. Useful if you have issues with downloading images from the web."
 
 l["value.debug.description"] = "Enable debug mode."
 

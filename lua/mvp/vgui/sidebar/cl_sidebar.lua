@@ -28,7 +28,7 @@ function PANEL:Init()
     self.close:InvalidateParent(true)
     self.close:SetTall(self.close:GetWide())
     self.close:SetAnimations(false)
-    self.close:SetIcon(mvp.ui.images.Create("v_close", "mips smooth"))
+    self.close:SetIcon("mvp/terminal/close.png", "smooth")
 
     self.close:SetText(mvp.q.Lang("ui.general.close"))
 

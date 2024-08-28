@@ -88,7 +88,7 @@ function PANEL:OnCursorExited()
 end
 
 function PANEL:SetIcon(icon, matParams)
-    if (type(icon) ~= "IMaterial" and not icon.isImage) then
+    if (type(icon) == "string") then
         self.icon = Material(icon, matParams)
     else
         self.icon = icon
@@ -105,12 +105,12 @@ function PANEL:Paint(w, h)
 
     draw.RoundedBox(roundness, self._x + self.spaceBetween, self._y + self.spaceBetween, self._w - self.spaceBetween * 2, self._h - self.spaceBetween * 2, self.backgroundColor)
 
-    local iconSize = mvp.ui.Scale(28)
-    if (self.icon and self.icon.isImage) then
-        self.icon:Draw(centerX - iconSize / 2, centerY - iconSize / 2, iconSize, iconSize, self.iconColor)
-    elseif (self.icon) then
+    if (self.icon) then
         surface.SetDrawColor(self.iconColor)
         surface.SetMaterial(self.icon)
+        
+        local iconSize = mvp.ui.Scale(28)
+
         surface.DrawTexturedRect(centerX - iconSize / 2, centerY - iconSize / 2, iconSize, iconSize)
     end
 

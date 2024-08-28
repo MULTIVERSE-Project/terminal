@@ -31,7 +31,7 @@ function PANEL:SetIconSize(size)
 end
 
 function PANEL:SetIcon(icon, params)
-    if (type(icon) ~= "IMaterial" and not icon.isImage) then
+    if (type(icon) ~= "IMaterial") then
         icon = Material(icon, params or "smooth")
     end
 
@@ -103,13 +103,9 @@ function PANEL:Paint(w, h)
         local textX = iconX + iconSize + 5
         local textY = (h - th) * .5
 
-        if (self.icon.isImage) then
-            self.icon:Draw(iconX, iconY, iconSize, iconSize, self:GetTextColor())
-        else
-            surface.SetDrawColor(self:GetTextColor())
-            surface.SetMaterial(self.icon)
-            surface.DrawTexturedRect(iconX, iconY, iconSize, iconSize)
-        end
+        surface.SetDrawColor(self:GetTextColor())
+        surface.SetMaterial(self.icon)
+        surface.DrawTexturedRect(iconX, iconY, iconSize, iconSize)
 
         draw.SimpleText(self:GetText(), self:GetFont(), textX, textY, self:GetTextColor(), TEXT_ALIGN_LEFT)
 

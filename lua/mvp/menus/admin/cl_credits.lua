@@ -6,18 +6,14 @@ mvp.menus.admin = mvp.menus.admin or {}
 local spaceBetween = mvp.ui.Scale(10)
 local spacing = mvp.ui.Scale(10)
 
-local linkMaterial
-local steamMaterial
+local linkMaterial = Material("mvp/terminal/vgui/link.png", "smooth mips")
+local linkTypeMaterials = {
+    ["workshop"] = Material("mvp/terminal/icons/steam.png", "smooth mips"),
+    ["github"] = Material("mvp/terminal/icons/github.png", "smooth mips"),
+    ["store"] = Material("mvp/terminal/icons/store.png", "smooth mips")
+}
 
 function mvp.menus.admin.Credits(container, defaultActive)
-    if (not linkMaterial) then
-        linkMaterial = mvp.ui.images.Create("v_link", "smooth mips")
-    end
-
-    if (not steamMaterial) then
-        steamMaterial = mvp.ui.images.Create("i_workshop", "smooth mips")
-    end
-
     defaultActive = defaultActive or "terminal"
 
     local content = vgui.Create("EditablePanel", container)
@@ -89,7 +85,7 @@ function mvp.menus.admin.Credits(container, defaultActive)
             button:SetFont(mvp.Font(20, 500))
             button:SetRoundness(mvp.ui.ScaleWithFactor(8))
             button:SetText(mvp.q.Lang("ui.credits.steam_profile"))
-            button:SetIcon(steamMaterial)
+            button:SetIcon(linkTypeMaterials["workshop"])
             
             button.DoClick = function()
                 gui.OpenURL("https://steamcommunity.com/profiles/" .. v.steamId)
@@ -116,21 +112,17 @@ function mvp.menus.admin.Credits(container, defaultActive)
             icon:SetTall(mvp.ui.Scale(64))
             icon:DockMargin(0, 0, 0, spaceBetween * .5)
 
+            local iconMaterial = v.icon
             local iconSize = mvp.ui.Scale(32)
-            local iconMaterial = v.isImage and mvp.ui.images.Create(v.icon, "mips smooth") or v.icon
-            
+
             local text = mvp.q.Lang("general.by_x", v.author.name)
 
             icon.Paint = function(pnl, w, h)
                 draw.RoundedBox(mvp.ui.ScaleWithFactor(8), 0, 0, w, h, ColorAlpha(mvp.colors.SecondaryBackground, 150))
 
-                if (v.isImage) then
-                    iconMaterial:Draw(spaceBetween * 2, h * .5 - iconSize * .5, iconSize, iconSize, mvp.colors.Text)
-                else
-                    surface.SetDrawColor(mvp.colors.Text)
-                    surface.SetMaterial(iconMaterial)
-                    surface.DrawTexturedRect(spaceBetween * 2, h * .5 - iconSize * .5, iconSize, iconSize)
-                end
+                surface.SetDrawColor(mvp.colors.Text)
+                surface.SetMaterial(iconMaterial)
+                surface.DrawTexturedRect(spaceBetween * 2, h * .5 - iconSize * .5, iconSize, iconSize)
 
                 draw.SimpleText(v.name, mvp.Font(24, 600), spaceBetween * 2 + iconSize + spaceBetween, h * .5, mvp.colors.Accent, nil, TEXT_ALIGN_BOTTOM)
                 draw.SimpleText(text, mvp.Font(20, 500), spaceBetween * 2 + iconSize + spaceBetween, h * .5, mvp.colors.Text, nil, TEXT_ALIGN_TOP)

@@ -124,39 +124,7 @@ mvp.loader.LoadFile("core/sh_permissions.lua")
 ]]--
 mvp.loader.LoadFolder("thirdparty", true) -- true means load recursively
 
-mvp.loader.LoadFolder("core/util")
-
 mvp.loader.LoadFolder("core/ui")
-
-if (CLIENT) then
-    -- [Images]
-    -- Icons (i_)
-    mvp.ui.images.Register("i_dashboard", "https://i.imgur.com/1AWrbtH.png")
-    mvp.ui.images.Register("i_settings", "https://i.imgur.com/EUJGd6V.png")
-    mvp.ui.images.Register("i_permissions", "https://i.imgur.com/hr3LFTl.png")
-    mvp.ui.images.Register("i_packages", "https://i.imgur.com/tXgg35S.png")
-    mvp.ui.images.Register("i_credits", "https://i.imgur.com/swGFbqE.png")
-
-    mvp.ui.images.Register("i_workshop", "https://i.imgur.com/FWyIzeg.png")
-    mvp.ui.images.Register("i_github", "https://i.imgur.com/g5wWuI8.png")
-    mvp.ui.images.Register("i_store", "https://i.imgur.com/vKONJEZ.png")
-
-    -- Notifications (n_)
-    mvp.ui.images.Register("n_info", "https://i.imgur.com/f1N0TIQ.png")
-    mvp.ui.images.Register("n_warn", "https://i.imgur.com/oLveKU4.png")
-    mvp.ui.images.Register("n_error", "https://i.imgur.com/hePAY01.png")
-    mvp.ui.images.Register("n_success", "https://i.imgur.com/WSdxGbe.png")
-
-    -- Vgui (v_)
-    mvp.ui.images.Register("v_close", "https://i.imgur.com/SHRlo4p.png")
-    mvp.ui.images.Register("v_arrow", "https://i.imgur.com/cy4RysP.png")
-    mvp.ui.images.Register("v_link", "https://i.imgur.com/6oFFjMQ.png")
-    mvp.ui.images.Register("v_undo", "https://i.imgur.com/WtDaJFl.png")
-    mvp.ui.images.Register("v_save", "https://i.imgur.com/sR8Dwte.png")
-    mvp.ui.images.Register("v_check", "https://i.imgur.com/GqUhbb7.png")
-
-end
-
 mvp.loader.LoadFile("core/cl_fonts.lua")
 
 mvp.loader.LoadFolder("core/notification")
@@ -170,7 +138,7 @@ mvp.language.Init()
     This loads core of the utilities
 
 ]]--
-mvp.loader.LoadFolder("core/transaction")
+mvp.loader.LoadFolder("core/util")
 
 --[[ 
 

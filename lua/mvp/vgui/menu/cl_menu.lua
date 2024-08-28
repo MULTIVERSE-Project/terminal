@@ -38,7 +38,7 @@ end
 function PANEL:AddButton(text, icon, callback, activeByDefault)
     local iconParams = "mips smooth"
 
-    if (type(icon) ~= "IMaterial" and not icon.isImage) then
+    if (type(icon) ~= "IMaterial") then
         icon = Material(icon, iconParams)
     end
 

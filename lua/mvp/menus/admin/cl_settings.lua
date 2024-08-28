@@ -5,6 +5,8 @@ mvp.menus.admin = mvp.menus.admin or {}
 
 mvp.menus.admin.editedConfigs = mvp.menus.admin.editedConfigs or {}
 
+local restoreToDefaultMaterial = Material("mvp/terminal/vgui/undo.png", "smooth")
+
 local spaceBetween = mvp.ui.Scale(10)
 local spacing = mvp.ui.Scale(10)
 
@@ -164,12 +166,7 @@ function mvp.menus.admin.SettingsInput(container, restoreToDefaulButton, config)
     return valueInput
 end
 
-local restoreToDefaultMaterial
 function mvp.menus.admin.SettingsCategory(container, configs)
-    if (not restoreToDefaultMaterial) then
-        restoreToDefaultMaterial = mvp.ui.images.Create("v_undo", "smooth")
-    end
-
     for key, config in SortedPairsByMemberValue(configs, "sortIndex") do
         if (config.ui.hide) then continue end
 
@@ -245,7 +242,7 @@ function mvp.menus.admin.Settings(container, defaultActive)
     saveConfig:SetFont(mvp.Font(20, 500))
     saveConfig:SetEnabled(false)
     saveConfig:SetRoundness(mvp.ui.ScaleWithFactor(8))
-    saveConfig:SetIcon(mvp.ui.images.Create("v_save", "mips"))
+    saveConfig:SetIcon(Material("mvp/terminal/icons/save.png", "smooth"))
     saveConfig:SizeToContentsX(spaceBetween * 4)
 
     function saveConfig:DoClick()
