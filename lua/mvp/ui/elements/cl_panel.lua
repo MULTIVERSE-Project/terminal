@@ -1,0 +1,1 @@
+mvp.ui.gui.Register("tui.Panel", {Init = function() end}) -- bruh

@@ -205,6 +205,12 @@ mvp.gamemode.Init()
 mvp.loader.LoadFolder("vgui", true)
 mvp.loader.LoadFolder("menus", true) -- files will load first, then folders, so we can load folder recursively
 
+-- v2 ui
+mvp.loader.LoadFile("ui/cl_config.lua")
+mvp.loader.LoadFolder("ui/libs", true)
+mvp.loader.LoadFolder("ui/core", true)
+mvp.loader.LoadFolder("ui/elements", true)
+
 mvp.permissions.AddPermission("mvp.terminal", "superadmin", "Allows access to the Terminal menu", 1)
 mvp.permissions.AddPermission("mvp.terminal.configs", "superadmin", "Allows to change Terminal configurations", 2)
 mvp.permissions.AddPermission("mvp.terminal.packages", "superadmin", "Allows to control what packages are being loaded", 3)

@@ -17,6 +17,17 @@ function mvp.utils.IsColor(color)
     return type(color) == "table" and color.r and color.g and color.b and color.a
 end
 
+function mvp.utils.Hash(val)
+    local hash = 0
+    local len = string.len(val)
+
+    for i = 1, len do
+        hash = string.byte(val, i) + bit.lshift(hash, 6) + bit.lshift(hash, 16) - hash
+    end
+
+    return hash
+end
+
 function mvp.utils.UUID(length)
     local template = string.rep("x", length or 32, "")
     math.randomseed(SysTime())
