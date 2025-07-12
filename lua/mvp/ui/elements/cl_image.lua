@@ -1,4 +1,4 @@
-PANEL = {}
+local PANEL = {}
 
 AccessorFunc(PANEL, "_material", "Material")
 AccessorFunc(PANEL, "_color", "Color")

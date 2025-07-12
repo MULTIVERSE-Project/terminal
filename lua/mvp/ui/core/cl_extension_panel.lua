@@ -22,6 +22,15 @@ function PANEL:Combine(pnl, name)
         return pnl[name](pnl, ...)
     end
 end
+function PANEL:CombineAccessor(pnl, accessorName)
+    self:Combine(pnl, "Get" .. accessorName)
+    self:Combine(pnl, "Set" .. accessorName)
+end
+function PANEL:MakeDispatchFn(pnl, fnName)
+    pnl[fnName] = function(_, ...)
+        return self:Call(fnName, nil, ...)
+    end
+end
 
 -- Animations
 local function unclampedLerp(delta, from, to)

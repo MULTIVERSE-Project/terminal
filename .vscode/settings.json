@@ -1,15 +1,15 @@
 {
-    "todohighlight.keywords": [
-        {
-            "text": "@todo:",
-            "backgroundColor": "yellow",
-            "overviewRulerColor": "grey"
-        },
-        {
-            "text": "@notes:",
-            "backgroundColor": "green",
-            "color": "white",
-            "overviewRulerColor": "grey"
-        }
-    ]
+  "todohighlight.keywords": [
+    {
+      "text": "@todo:",
+      "backgroundColor": "yellow",
+      "overviewRulerColor": "grey"
+    },
+    {
+      "text": "@notes:",
+      "backgroundColor": "green",
+      "color": "white",
+      "overviewRulerColor": "grey"
+    }
+  ]
 }

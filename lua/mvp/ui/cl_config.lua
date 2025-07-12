@@ -39,7 +39,9 @@ mvp.ui.config.colors.tertiary = Color(60, 54, 50, 255)
 mvp.ui.config.colors.accent = Color(201, 138, 75, 255)
 
 mvp.ui.config.colors.gray = Color(67, 72, 82) -- rgb()
-mvp.ui.config.colors.red = Color(255, 87, 87)
+mvp.ui.config.colors.red = Color(235, 77, 75)
+mvp.ui.config.colors.green = Color(39, 174, 96)
 
 mvp.ui.config.colors.text = Color(243, 243, 243)
+mvp.ui.config.colors.textMuted = Color(167, 167, 167)
 mvp.ui.config.colors.textDark = Color(49, 49, 49)

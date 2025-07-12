@@ -103,7 +103,7 @@ mvp.loader.LoadFile("core/sh_quick.lua") -- this file is loaded last, since it u
 
 --[[ 
 
-    Logger
+    #section: Logger
     This loads core of the logger and then loads all loggers, since we need to have logging before anything else
 
 ]]--
@@ -118,15 +118,33 @@ mvp.loader.LoadFile("core/sh_permissions.lua")
 
 --[[ 
 
-    Thirdparty
+    #section: Thirdparty
     This loads thirdparty libraries, we need to load them before anything else
 
 ]]--
 mvp.loader.LoadFolder("thirdparty", true) -- true means load recursively
 
+--[[ 
+
+    #section: Utilities
+    All the utility functions and helpers are loaded here. This is a core part of the framework, so it is loaded first.
+    It contains functions for data manipulation, string manipulation, table manipulation, etc.
+
+]]--
 mvp.loader.LoadFolder("core/util")
 
+--[[ 
+
+    #section: UI
+    All the UI supporting code and elements are loaded here.
+
+]]--
 mvp.loader.LoadFolder("core/ui")
+-- v2 ui
+mvp.loader.LoadFile("ui/cl_config.lua")
+mvp.loader.LoadFolder("ui/libs", true)
+mvp.loader.LoadFolder("ui/core", true)
+mvp.loader.LoadFolder("ui/elements", true)
 
 if (CLIENT) then
     -- [Images]
@@ -164,17 +182,11 @@ mvp.loader.LoadFolder("core/notification")
 mvp.loader.LoadFile("core/sh_language.lua")
 mvp.language.Init()
 
---[[ 
-
-    Utilities
-    This loads core of the utilities
-
-]]--
-mvp.loader.LoadFolder("core/transaction")
+-- mvp.loader.LoadFolder("core/transaction")
 
 --[[ 
 
-    Configurations
+    #section: Configurations
     This loads core of the configurations
 
 ]]--
@@ -189,7 +201,7 @@ mvp.command.Init()
 
 --[[ 
 
-    Packages
+    #section: Packages
     This loads core of the packages
 
 ]]--
@@ -197,19 +209,14 @@ mvp.loader.LoadFolder("core/package")
 mvp.package.Init()
 
 --[[
-    Gamemodes support
+    #section: Gamemodes support
+    This loads core of the gamemodes support, which allows to interact with economy and jobs (classes) of the gamemode.
 ]]-- 
 mvp.loader.LoadFolder("core/gamemode")
 mvp.gamemode.Init() 
 
 mvp.loader.LoadFolder("vgui", true)
 mvp.loader.LoadFolder("menus", true) -- files will load first, then folders, so we can load folder recursively
-
--- v2 ui
-mvp.loader.LoadFile("ui/cl_config.lua")
-mvp.loader.LoadFolder("ui/libs", true)
-mvp.loader.LoadFolder("ui/core", true)
-mvp.loader.LoadFolder("ui/elements", true)
 
 mvp.permissions.AddPermission("mvp.terminal", "superadmin", "Allows access to the Terminal menu", 1)
 mvp.permissions.AddPermission("mvp.terminal.configs", "superadmin", "Allows to change Terminal configurations", 2)

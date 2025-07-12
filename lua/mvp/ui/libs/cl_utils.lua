@@ -239,3 +239,24 @@ do -- Stencil Masks
         render.SetStencilEnable(false)
     end
 end
+
+do -- Text utils
+    local surface_SetFont, surface_GetTextSize = surface.SetFont, surface.GetTextSize
+
+    function mvp.ui.utils.GetTextSize(text, font)
+        if (font) then
+            surface_SetFont(font)
+        end
+
+        return surface_GetTextSize(text)
+    end
+
+    function mvp.ui.utils.GetTextWidth(text, font)
+        return mvp.ui.utils.GetTextSize(text, font)
+    end
+
+    function mvp.ui.utils.GetTextHeight(text, font)
+        local _, height = mvp.ui.utils.GetTextSize(text, font)
+        return height
+    end
+end

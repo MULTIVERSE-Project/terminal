@@ -1,4 +1,4 @@
-PANEL = {}
+local PANEL = {}
 
 local backgroundCol = mvp.ui.config.colors.primary
 local accentCol = mvp.ui.config.colors.secondary
@@ -21,6 +21,10 @@ end
 function PANEL:PerformLayout(w, h)
     self.header:Dock(TOP)
     self.header:SetTall(mvp.ui.scale.GetScaleY(32))
+end
+
+function PANEL:ShowCloseButton(show)
+    self.header.close:SetVisible(show)
 end
 
 function PANEL:Paint(w, h)
@@ -52,7 +56,8 @@ function PANEL:Focus()
     self.focused = true
     self.focusMultiplier = 0
 
-    self:Animate("focusMultiplier", 5, 0.33, 0, 0.2)
+    -- valueName, to, duration, easingFn, callback)
+    self:Animate("focusMultiplier", 5, 0.33)
 end
 function PANEL:UnFocus()
     for _, pnl in ipairs(self.focusDisabledPanels) do

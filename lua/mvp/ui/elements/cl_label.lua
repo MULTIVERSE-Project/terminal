@@ -1,4 +1,4 @@
-PANEL = {}
+local PANEL = {}
 
 function PANEL:Init()
     self:SetTextColor(mvp.ui.config.colors.text)

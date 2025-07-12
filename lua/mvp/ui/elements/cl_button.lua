@@ -1,4 +1,4 @@
-PANEL = {}
+local PANEL = {}
 
 AccessorFunc(PANEL, "_colIdle", "ColorIdle")
 AccessorFunc(PANEL, "_colHover", "ColorHover")
@@ -72,6 +72,36 @@ function PANEL:OnEnabled()
 end
 
 mvp.ui.gui.Register("tui.Button", PANEL, "tui.Label")
+
+PANEL = {}
+
+function PANEL:Init()
+    self:SetColorIdle(mvp.ui.config.colors.textMuted)
+    self:SetColorHover(mvp.ui.config.colors.accent)
+
+    self:SetTextColor(mvp.ui.config.colors.text)
+    self:SetContentAlignment(4)
+
+    self.iconSize = mvp.ui.scale.GetScaleY(16)
+end
+
+function PANEL:Paint(w, h)
+    -- draw.RoundedBox(8, 0, 0, w, h, mvp.ui.config.colors.accent)
+
+    draw.RoundedBox(0, w - self.iconSize, h * 0.5 - self.iconSize * 0.5, self.iconSize, self.iconSize, self.backgroundColor)
+end
+
+function PANEL:PerformLayout(w, h)
+    local textW, textH = self:GetTextSize()
+
+    if (w ~= textW + self.iconSize + mvp.ui.scale.GetScaleX(5)) then
+        self:SetWide(textW + self.iconSize + mvp.ui.scale.GetScaleX(5))
+    end
+end
+
+mvp.ui.gui.Register("tui.EditButton", PANEL, "tui.Button")
+
+RunConsoleCommand("mvp_perfectparty_open_menu", "active_party")
 
 -- mvp.ui.gui.Test("mvp.Frame", 800, 600, function(pnl, w, h)
 --     pnl:MakePopup()

@@ -1,4 +1,4 @@
-PANEL = {}
+local PANEL = {}
 
 local secondaryColor = mvp.ui.config.colors.secondary
 
