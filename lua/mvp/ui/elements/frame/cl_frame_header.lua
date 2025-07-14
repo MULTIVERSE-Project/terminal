@@ -35,6 +35,6 @@ end
 
 mvp.ui.gui.Register("tui.Frame.Header", PANEL)
 
-mvp.ui.gui.Test("tui.Frame", mvp.ui.scale.GetScaleX(1400), mvp.ui.scale.GetScaleY(800), function(pnl, w, h)
-    pnl:MakePopup()
-end)
+-- mvp.ui.gui.Test("tui.Frame", mvp.ui.scale.GetScaleX(1400), mvp.ui.scale.GetScaleY(800), function(pnl, w, h)
+--     pnl:MakePopup()
+-- end)
