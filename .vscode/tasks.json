@@ -1,19 +1,25 @@
 {
-    "version": "2.0.0",
-    "tasks": [
-        {
-            "label": "Create symbolic link",
-            "type": "shell",
-            "command": "MKLINK /J \"D:\\Steam\\Client\\steamapps\\common\\GarrysMod\\garrysmod\\materials\\mvp\\terminal\" \"D:\\Development\\GMod\\SteamCMD\\steamapps\\common\\GarrysModDS\\garrysmod\\addons\\mvp_terminal\\materials\\mvp\\terminal\"",
-            "problemMatcher": [],
-            "windows": {
-                "options": {
-                    "shell": {
-                        "executable": "cmd.exe",
-                        "args": ["/c"]
-                    }
-                }
-            }
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Create symbolic link",
+      "type": "shell",
+      "command": "$config = Get-Content -Raw -Path '${workspaceFolder}\\project-config.json' | ConvertFrom-Json; $target = $config.symbolicLink.targetFolder; $source = Join-Path '${workspaceFolder}' $config.symbolicLink.sourceFolder; $targetParent = Split-Path $target -Parent; if (-not (Test-Path $targetParent)) { Write-Host \"Creating parent directory: $targetParent\"; New-Item -ItemType Directory -Path $targetParent -Force | Out-Null }; if (Test-Path $target) { Write-Host 'Removing existing link...'; cmd /c rmdir $target }; Write-Host \"Creating symbolic link from $target to $source\"; cmd /c mklink /J \"$target\" \"$source\"",
+      "problemMatcher": [],
+      "windows": {
+        "options": {
+          "shell": {
+            "executable": "powershell.exe",
+            "args": ["-Command"]
+          }
         }
-    ]
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      }
+    }
+  ]
 }

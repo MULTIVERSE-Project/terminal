@@ -1,0 +1,8 @@
+{
+  "symbolicLink": {
+    "sourceFolder": "materials\\mvp\\terminal",
+    "targetFolder": "D:\\Steam\\Client\\steamapps\\common\\GarrysMod\\garrysmod\\materials\\mvp\\terminal",
+
+    "description": "sourceFolder: relative path from workspace root to link. targetFolder: absolute path where the symbolic link should be created."
+  }
+}
