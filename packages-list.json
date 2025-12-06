@@ -4,11 +4,10 @@
         "name": "Radial Menus",
         "description": "Enables developers to create radial menus for their needs.",
         "isFree": true,
-        "links": {    
+        "links": {
             "workshop": "https://steamcommunity.com/sharedfiles/filedetails/?id=3172611631",
             "github": "https://github.com/MULTIVERSE-Project/radial-menu"
         },
-
         "version": "1.0.2",
         "author": "Kot @ mvp"
     },
@@ -17,11 +16,10 @@
         "name": "Simple DEFCONs",
         "description": "DEFCONs system for StarwarsRP servers.",
         "isFree": true,
-        "links": {    
+        "links": {
             "workshop": "https://steamcommunity.com/sharedfiles/filedetails/?id=3189667365",
             "github": "https://github.com/MULTIVERSE-Project/simple-protocols"
         },
-
         "version": "1.0.2",
         "author": "Kot @ mvp"
     },
@@ -34,8 +32,7 @@
         "links": {
             "store": "https://mvp.tebex.io/package/5308190"
         },
-
-        "version: "3.0.9",
+        "version": "3.0.9",
         "author": "Kot @ mvp"
     },
     {
