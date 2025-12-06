@@ -5,8 +5,12 @@
         "description": "Enables developers to create radial menus for their needs.",
         "isFree": true,
         "links": {    
-            "workshop": "https://steamcommunity.com/sharedfiles/filedetails/?id=3172611631"
-        }
+            "workshop": "https://steamcommunity.com/sharedfiles/filedetails/?id=3172611631",
+            "github": "https://github.com/MULTIVERSE-Project/radial-menu"
+        },
+
+        "version": "1.0.2",
+        "author": "Kot @ mvp"
     },
     {
         "id": "simpledefcons",
@@ -14,8 +18,12 @@
         "description": "DEFCONs system for StarwarsRP servers.",
         "isFree": true,
         "links": {    
-            "workshop": "https://steamcommunity.com/sharedfiles/filedetails/?id=3189667365"
-        }
+            "workshop": "https://steamcommunity.com/sharedfiles/filedetails/?id=3189667365",
+            "github": "https://github.com/MULTIVERSE-Project/simple-protocols"
+        },
+
+        "version": "1.0.2",
+        "author": "Kot @ mvp"
     },
     {
         "id": "perfecthands",
@@ -25,21 +33,26 @@
         "price": 5.99,
         "links": {
             "store": "https://mvp.tebex.io/package/5308190"
-        }
+        },
+
+        "version: "3.0.9",
+        "author": "Kot @ mvp"
     },
     {
         "id": "perfecthands_store",
         "name": "Perfect Hands Store",
         "description": "WIP. Allows players to buy animations for Perfect Hands.",
         "isFree": false,
-        "price": 4.99
+        "price": 4.99,
+        "available": false
     },
     {
         "id": "perfecthud",
         "name": "Perfect HUD",
-        "description": "A siple HUD with different integrations.",
+        "description": "A simple HUD with different integrations.",
         "isFree": false,
         "price": 5.99,
+        "available": false,
         "links": {
             "store": "https://mvp.tebex.io/package/6093184"
         }
