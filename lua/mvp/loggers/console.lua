@@ -13,34 +13,23 @@ local LEVEL_TO_COLOR_MAP = {
     [mvp.LOG.DEBUG] = Color(4, 0, 255),
 }
 
+local COLOR_WHITE = Color(255, 255, 255)
+local COLOR_YELLOW = Color(255, 255, 0)
+
 function LOGGER:Log(level, caller, ...)
     local shouldDisplayDebug = mvp.config and mvp.config.Get("debug", false)
     if (not shouldDisplayDebug and level == mvp.LOG.DEBUG) then
         return
     end
 
-    local color = LEVEL_TO_COLOR_MAP[level] or Color(255, 255, 255)
+    local color = LEVEL_TO_COLOR_MAP[level] or COLOR_WHITE
 
-    local msg = {}
-
-    msg[#msg + 1] = color
-    msg[#msg + 1] = "▌ "
-    msg[#msg + 1] = mvp.LOG[level]
-    msg[#msg + 1] = "\t"
-    msg[#msg + 1] = Color(255, 255, 255)
-    
-    if (caller) then
-        msg[#msg + 1] = "["
-        msg[#msg + 1] = Color(255, 255, 0)
-        msg[#msg + 1] = caller
-        msg[#msg + 1] = Color(255, 255, 255)
-        msg[#msg + 1] = "] "
-    end
-
-    table.Add(msg, {...})
-
-    MsgC(unpack(msg))
-    Msg("\n")
+    MsgC(
+        color, "▌ ", mvp.LOG[level], "\t",
+        COLOR_YELLOW, caller and ("[" .. caller .. "] ") or "",
+        COLOR_WHITE, ...,
+        "\n"
+    )
 end
 
 mvp.logger.Register(LOGGER)

@@ -36,7 +36,7 @@ function mvp.logger.Log(level, caller, ...)
             logger:Log(level, caller, unpack(args))
         end)
         
-        if (level == mvp.LOG.ERROR) then
+        if (level == mvp.LOG.ERROR and (mvp.config and mvp.config.Get("debug", false))) then
             pcall(function()
                 local trace = mvp.utils.GetTrace()
 
