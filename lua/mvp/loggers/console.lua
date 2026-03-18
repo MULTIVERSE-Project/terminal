@@ -16,21 +16,36 @@ local LEVEL_TO_COLOR_MAP = {
 local COLOR_WHITE = Color(255, 255, 255)
 local COLOR_YELLOW = Color(255, 255, 0)
 
+local noOp = function() end
+
+local msgC = MsgC
+local mvpLog = mvp.LOG
 function LOGGER:Log(level, caller, ...)
-    local shouldDisplayDebug = mvp.config and mvp.config.Get("debug", false)
-    if (not shouldDisplayDebug and level == mvp.LOG.DEBUG) then
-        return
+    if (level == mvpLog.DEBUG) then
+        if (not mvp.config or not mvp.config.Get("debug", false)) then
+            return 
+        end
     end
 
     local color = LEVEL_TO_COLOR_MAP[level] or COLOR_WHITE
 
-    MsgC(
-        color, "▌ ", mvp.LOG[level], "\t",
-        COLOR_YELLOW, caller and ("[" .. caller .. "] ") or "",
+    if (caller) then
+        msgC(
+            color, "▌ ", mvpLog[level], "\t",
+            COLOR_YELLOW, "[", caller, "] ",
+            COLOR_WHITE, ...,
+            "\n"
+        )
+        return 
+    end
+    
+    msgC(
+        color, "▌ ", mvpLog[level], "\t",
         COLOR_WHITE, ...,
         "\n"
     )
 end
+
 function LOGGER:LogOld(level, caller, ...)
     local shouldDisplayDebug = mvp.config and mvp.config.Get("debug", false)
     if (not shouldDisplayDebug and level == mvp.LOG.DEBUG) then
