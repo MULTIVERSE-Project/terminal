@@ -92,7 +92,7 @@ local function testOldNoCaller()
 end
 
 concommand.Add("mvp_log_test", function()
-    LuctusCompareOften(10, 0.1, 1000, {
+    LuctusCompareOften(10, 0.1, 5000, {
         {"new implementation, with caller", testNew},
         {"new implementation, without caller", testNewNoCaller},
 
