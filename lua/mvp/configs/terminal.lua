@@ -2,6 +2,45 @@ local TERMINAL_SECTION = mvp.config.RegisterSection("terminal", -1)
 
 local GENERAL_GROUP = mvp.config.RegisterCategory("general", TERMINAL_SECTION, 1)
 
+mvp.config.Add("exampleCustom", {key = "value", key2 = "value2"}, {
+    description = "Prefix for all commands.",
+    category = GENERAL_GROUP,
+
+    ui = {
+        hide = function(config)
+            return not mvp.config.Get("debug")
+        end,
+        type = "custom",
+        -- config - this config table, currentValue - current value of the config, onChangeFunc - function to call when value changes, parent - parent panel
+        onOpenEditor = function(config, currentValue, onChangeFunc, parent)
+            local panel = vgui.Create("DPanel", parent)
+            panel:Dock(FILL)
+
+            local textEntry = vgui.Create("DTextEntry", panel)
+            textEntry:Dock(TOP)
+            textEntry:SetMultiline(true)
+            textEntry:SetValue(util.TableToJSON(currentValue, true))
+
+            local saveButton = vgui.Create("DButton", panel)
+            saveButton:Dock(TOP)
+            saveButton:SetText("Save")
+
+            saveButton.DoClick = function()
+                local text = textEntry:GetValue()
+                local success, tableValue = pcall(util.JSONToTable, text)
+
+                if (success and istable(tableValue)) then
+                    onChangeFunc(tableValue)
+                else
+                    mvp.notification.Add(mvp.NOTIFICATION.ERROR, "Invalid JSON", "The JSON you have entered is invalid. Please correct it and try again.", 5)
+                end
+            end
+
+            return panel
+        end
+    } 
+}, 1)
+
 mvp.config.Add("prefix", "!", {
     description = "Prefix for all commands.",
     category = GENERAL_GROUP,
@@ -44,12 +83,35 @@ mvp.config.Add("language", "en", {
     }
 }, 2)
 
+mvp.config.Add("theme", "default", {
+    description = "Theme for Terminal to use.",
+    category = APPEARANCE_GROUP,
+
+    ui = {
+        type = "dropdown",
+        choices = function()
+            local storedLanguages = mvp.language.list
+            local languages = {}
+
+            for k, v in pairs(storedLanguages) do
+                languages[k] = k
+            end
+
+            return languages
+        end
+    },
+
+    postSet = function()
+        hook.Run("mvp.theme.Changed")
+    end
+}, 3)
+
 mvp.config.Add("useNotifications", true, {
     description = "Controls whether or not notifications are used.",
     category = APPEARANCE_GROUP,
 
     ui = {}
-}, 3)
+}, 4)
 
 mvp.config.Add("notificationsPosition", "bc", {
     description = "Position of notifications.",
@@ -74,7 +136,7 @@ mvp.config.Add("notificationsPosition", "bc", {
             return positions
         end
     }
-}, 4)
+}, 5)
 
 local ICONS_GROUP = mvp.config.RegisterCategory("webImages", TERMINAL_SECTION, 3)
 

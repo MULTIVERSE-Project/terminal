@@ -42,6 +42,8 @@ do
     mvp.ui.images.Register("loading", "https://i.imgur.com/mBQx6t0.png")
     local loadingMat = mvp.ui.images.Create("loading", "smooth mips")
 
+    local RNDX = mvp.RNDX
+
     function mvp.meta.image:Draw(x, y, w, h, color)
         color = color or color_white
         
@@ -59,6 +61,27 @@ do
             self._r = self._r + (FrameTime()  * 80) * rotationSpeed
             
             surface_DrawTexturedRectRotated(x + w * .5, y + h * .5, w, h, -self._r)
+        end
+    end
+
+    function mvp.meta.image:RNDX(x, y, w, h, color)
+        color = color or color_white
+        
+        local mat = self._material
+        if (mat) then 
+            return RNDX().Rect(x, y, w, h)
+                :Material(mat)
+                :Color(color)
+        elseif (loadingMat) then
+            self._r = self._r or 0
+
+            local rotationSpeed = 1 + math.abs(math.sin(CurTime()) * 3)
+            self._r = self._r + (FrameTime()  * 80) * rotationSpeed
+
+            return RNDX().Rect(x, y, w, h)
+                :Material(mat)
+                :Color(color)
+                :Rotation(-self._r)
         end
     end
 

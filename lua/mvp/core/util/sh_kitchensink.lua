@@ -27,6 +27,17 @@ function mvp.utils.UUID(length)
     end)
 end
 
+function mvp.utils.Hash(val)
+    local hash = 0
+    local len = string.len(val)
+
+    for i = 1, len do
+        hash = string.byte(val, i) + bit.lshift(hash, 6) + bit.lshift(hash, 16) - hash
+    end
+
+    return hash
+end
+
 function mvp.utils.Assert(value, funcName, argNum)
     assert(value, string.format("bad argument #%i to \"%s\" (got nil)", argNum, funcName))
 end
@@ -90,13 +101,14 @@ local function charWrap(text, remainingWidth, maxWidth)
     return text, totalWidth
 end
 
-function mvp.utils.WrapText(text, font, maxWidth)
+function mvp.utils.WrapText(text, font, maxWidth, lineHeight)
     local totalWidth = 0
     local totalHeight = 0
 
     surface.SetFont(font)
 
     local spaceWidth, spaceHeight = surface.GetTextSize(' ')
+    spaceHeight = lineHeight or spaceHeight
     text = text:gsub("(%s?[%S]+)", function(word)
             local char = string.sub(word, 1, 1)
             if char == "\n" or char == "\t" then

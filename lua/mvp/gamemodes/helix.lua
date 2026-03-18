@@ -23,7 +23,11 @@ function gm:TakeMoney(ply, sum)
 end
 
 function gm:FormatMoney(ply, sum)
-    return ix.currency.Get(amount)
+    return ix.currency.Get(sum)
+end
+
+function gm:GetAvailableModels(ply)
+    return {ply:GetCharacter():GetModel()}
 end
 
 mvp.gamemode.Register(gm)

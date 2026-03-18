@@ -126,7 +126,7 @@ mvp.loader.LoadFolder("thirdparty", true) -- true means load recursively
 
 mvp.loader.LoadFolder("core/util")
 
-mvp.loader.LoadFolder("core/ui")
+mvp.loader.LoadFolder("core/ui", true) -- true means load recursively
 
 if (CLIENT) then
     -- [Images]
@@ -186,6 +186,15 @@ mvp.loader.LoadFolder("credits") -- there is no need to initialize credits, they
 
 mvp.loader.LoadFolder("core/command")
 mvp.command.Init() 
+
+--[[ 
+
+    Themes
+    This loads core of the themes
+
+]]--
+mvp.loader.LoadFolder("core/theme")
+mvp.theme.Init()
 
 --[[ 
 

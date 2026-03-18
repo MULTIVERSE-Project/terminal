@@ -151,6 +151,8 @@ function mvp.notification.Add( notificationType, title, text, duration )
         end)
     end
 
+    notificationPanel:SetDrawOnTop(true)
+
     table.insert(mvp.notification.list, notificationPanel)
     mvp.notification.ProccesQueue()
 end

@@ -11,19 +11,23 @@ function gm:GetMoney(ply)
 end
 
 function gm:CanAfford(ply, sum)
-    return ply:getChar():hasMoney(amount) 
+    return ply:getChar():hasMoney(sum)
 end
 
 function gm:AddMoney(ply, sum)
-    return ply:getChar():giveMoney(amount)
+    return ply:getChar():giveMoney(sum)
 end
 
 function gm:TakeMoney(ply, sum)
-    return ply:getChar():takeMoney(amount)
+    return ply:getChar():takeMoney(sum)
 end
 
 function gm:FormatMoney(ply, sum)
-    return nut.currency.get(amount)
+    return nut.currency.get(sum)
+end
+
+function gm:GetAvailableModels(ply)
+    return {ply:GetModel()}
 end
 
 mvp.gamemode.Register(gm)

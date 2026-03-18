@@ -27,4 +27,19 @@ function gm:FormatMoney(ply, sum)
     return DarkRP.formatMoney(sum)
 end
 
+function gm:GetAvailableModels(ply)
+    local jobTable = ply:getJobTable()
+
+    if (jobTable and jobTable.model) then
+        local models = jobTable.model
+        if (type(models) == "string") then
+            return {models}
+        elseif (type(models) == "table") then
+            return models
+        end
+    end
+
+    return {ply:GetModel()}
+end
+
 mvp.gamemode.Register(gm)

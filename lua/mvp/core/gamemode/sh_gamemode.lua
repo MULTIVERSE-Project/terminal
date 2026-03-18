@@ -1,7 +1,7 @@
 mvp = mvp or {}
 mvp.gamemode = mvp.gamemode or {}
 
-mvp.gamemode.list = {}
+mvp.gamemode.list = mvp.gamemode.list or {}
 
 function mvp.gamemode.Register(gm)
     local id = gm:GetID()
@@ -83,4 +83,10 @@ function mvp.gamemode.FormatMoney(ply, amount)
     local gm = mvp.gamemode.GetActive()
 
     return gm:FormatMoney(ply, amount)
+end
+
+function mvp.gamemode.GetAvailableModels(ply)
+    local gm = mvp.gamemode.GetActive()
+
+    return gm:GetAvailableModels(ply)
 end

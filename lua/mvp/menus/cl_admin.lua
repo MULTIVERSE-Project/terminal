@@ -150,11 +150,3 @@ hook.Add("mvp.config.Updated", "ManageDefaultWarnings", function(key, value)
         mvp.menus.admin.RemoveNotification(key)
     end
 end)
-
-concommand.Add("mvp_terminal", function()
-    if (mvp.permissions.Check(LocalPlayer(), "mvp.terminal")) then
-        mvp.menus.admin.Open()
-    else
-        chat.AddText(mvp.colors.Red, mvp.q.Lang("general.no_permission"))
-    end
-end)

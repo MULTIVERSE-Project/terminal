@@ -37,6 +37,39 @@ function mvp.ui.images.Create(name, params)
     return image
 end
 
+function mvp.ui.images.FromMaterial(mat)
+    if (type(mat) ~= "IMaterial") then
+        return nil
+    end
+
+    local image = mvp.meta.image:New()
+    image:SetMaterial(mat)
+
+    return image
+end
+
+function mvp.ui.images.From(urlOrPathOrMaterial, params)
+    if (type(urlOrPathOrMaterial) == "IMaterial") then
+        return mvp.ui.images.FromMaterial(urlOrPathOrMaterial)
+    elseif (type(urlOrPathOrMaterial) == "string") then
+        if (mvp.ui.images.IsLink(urlOrPathOrMaterial)) then
+            return mvp.ui.images.Quick(urlOrPathOrMaterial, params)
+        else
+            local mat = Material(urlOrPathOrMaterial, params or "smooth")
+
+            if (mat) then
+                return mvp.ui.images.FromMaterial(mat)
+            else
+                return mvp.ui.images.Create("loading", params)
+            end
+        end
+    end
+end
+
+function mvp.ui.images.IsLink(urlToTest)
+    return isstring(urlToTest) and string.StartsWith(urlToTest, "http")
+end
+
 do
     local quickUrlCache = {}
 
