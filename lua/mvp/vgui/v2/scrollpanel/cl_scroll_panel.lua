@@ -56,8 +56,6 @@ end
 function PANEL:Clear()
     self.canvas.container:Clear()
     self.canvas:UpdateSize()
-
-    PrintTable(self:GetChildren())
 end
 
 function PANEL:Think()

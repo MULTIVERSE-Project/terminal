@@ -10,8 +10,10 @@ local gradientUp = Material("gui/gradient_up")
 local RNDX = mvp.RNDX
 
 function ENT:Initialize()
-    self.UI = table.Inherit(self.UI or {}, self._UI)
-    self.Actions = table.Inherit(self.Actions or {}, self._Actions)
+    print(self.Actions)
+
+    self.UI = table.Merge(self._UI, self.UI or {}, true)
+    self.Actions = table.Merge(self._Actions, self.Actions or {})
 
     local maxViewDist, minViewDist = self.View[1] ^ 2, self.View[2] ^ 2
     self.ViewDistSqr = {maxViewDist, minViewDist}

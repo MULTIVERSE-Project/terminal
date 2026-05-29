@@ -98,6 +98,9 @@ mvp.NOTIFICATION = {
     [5] = "FAIL"
 }
 
+MVP_ENT_ACTION_USE = "USE"
+MVP_ENT_ACTION_SHIFT_USE = "SHIFT_USE"
+
 mvp.loader.LoadFile("core/sh_data.lua")
 mvp.loader.LoadFile("core/sh_quick.lua") -- this file is loaded last, since it uses all other files
 

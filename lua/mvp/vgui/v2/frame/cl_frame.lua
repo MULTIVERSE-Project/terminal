@@ -29,6 +29,7 @@ function PANEL:Init()
     self:Combine(self._header, "SetTitle")
     self:Combine(self._header, "SetSubTitle")
     self:Combine(self._header, "SetIcon")
+    self:Combine(self._header, "SetPlayerInfoVisible")
 
     self._startTime = SysTime()
 end
@@ -54,7 +55,11 @@ function PANEL:Paint(w, h)
     -- rndxedMaterial(testImage, 0, 0, w, h, color_white):Draw()
 
     if (self._background) then
-        self._background:RNDX(0, 0, w, h, self:C("background", nil, 230)):Draw()
+        self._background:RNDX(0, 0, w, h, color_white):Draw()
+    end
+
+    if (self.AdditionalPaint) then
+        self:AdditionalPaint(w, h)
     end
 
     RNDX().Rect(0, 0, w, h):Blur(blurValue):Draw()
@@ -67,6 +72,10 @@ end
 
 mvp.ui.g.Register("mvp.v2.Frame", PANEL, "EditablePanel")
 
+-- local wardrobeIcon = Material("mvp/perfectbodygroups/wardrobe.png", "smooth mips")
 -- mvp.ui.g.Test("mvp.v2.Frame", 1, 1, function(frame)
 --     frame:MakePopup()
+--     frame:SetTitle("Персональные дела")
+--     frame:SetSubTitle("Этот терминал позволяет вам просматривать и управлять персональные дела.")
+--     frame:SetIcon(wardrobeIcon)
 -- end) 

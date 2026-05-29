@@ -30,4 +30,8 @@ function gm:GetAvailableModels(ply)
     return {ply:GetModel()}
 end
 
+function gm:GetJobTable(ply)
+    return ply:getChar():getClass()
+end
+
 mvp.gamemode.Register(gm)

@@ -90,3 +90,9 @@ function mvp.gamemode.GetAvailableModels(ply)
 
     return gm:GetAvailableModels(ply)
 end
+
+function mvp.gamemode.GetJobTable(ply)
+    local gm = mvp.gamemode.GetActive()
+
+    return gm:GetJobTable(ply)
+end

@@ -9,10 +9,6 @@ ENT.AdminOnly = true
 
 ENT.RenderGroup = RENDERGROUP_BOTH
 
--- Action Types
-MVP_ENT_ACTION_USE = "USE"
-MVP_ENT_ACTION_SHIFT_USE = "SHIFT_USE"
-
 -- For overwriting
 ENT.Model = "models/hunter/blocks/cube05x05x05.mdl"
 ENT.UI = {}
