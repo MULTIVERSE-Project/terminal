@@ -3,11 +3,16 @@ mvp.meta.gamemode = mvp.meta.gamemode or {}
 
 mvp.meta.gamemode.__proto = mvp.meta.gamemode
 
-function mvp.meta.gamemode:New()
+function mvp.meta.gamemode:New(id)
     local o = table.Copy(mvp.meta.gamemode.__proto)
 
     setmetatable(o, mvp.meta.gamemode)
     o.__index = self
+
+    if (id) then
+        o:SetID(id)
+        return o
+    end
 
     local cwd = debug.getinfo(2, "S").short_src
     local gamemodeFile = string.match(cwd, "mvp/gamemodes/([^/]+)%.lua")

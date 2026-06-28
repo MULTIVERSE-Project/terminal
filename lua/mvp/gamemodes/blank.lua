@@ -6,6 +6,8 @@ gm:SetAuthor("Kot")
 gm:SetVersion("1.0.0")
 gm:SetLicense("MIT")
 
+-- Economy functions
+
 function gm:GetMoney(ply)
     return 99999
 end
@@ -24,6 +26,16 @@ end
 
 function gm:FormatMoney(ply, sum)
     return tostring(sum) .. " mvp$"
+end
+
+-- Models functions
+
+function gm:GetAvailableModels(ply)
+    return {ply:GetModel()}
+end
+
+function gm:GetJobTable(ply)
+    return nil
 end
 
 mvp.gamemode.Register(gm)

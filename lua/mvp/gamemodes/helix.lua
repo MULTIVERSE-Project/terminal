@@ -23,7 +23,16 @@ function gm:TakeMoney(ply, sum)
 end
 
 function gm:FormatMoney(ply, sum)
-    return ix.currency.Get(amount)
+    return ix.currency.Get(sum)
+end
+
+function gm:GetAvailableModels(ply)
+    return {ply:GetCharacter():GetModel()}
+end
+
+function gm:GetJobTable(ply)
+    local class = ply:GetCharacter():GetClass()
+    return ix.class.list[class]
 end
 
 mvp.gamemode.Register(gm)

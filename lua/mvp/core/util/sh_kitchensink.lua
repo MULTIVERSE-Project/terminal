@@ -27,6 +27,17 @@ function mvp.utils.UUID(length)
     end)
 end
 
+function mvp.utils.Hash(val)
+    local hash = 0
+    local len = string.len(val)
+
+    for i = 1, len do
+        hash = string.byte(val, i) + bit.lshift(hash, 6) + bit.lshift(hash, 16) - hash
+    end
+
+    return hash
+end
+
 function mvp.utils.Assert(value, funcName, argNum)
     assert(value, string.format("bad argument #%i to \"%s\" (got nil)", argNum, funcName))
 end
@@ -73,7 +84,7 @@ end
 local function charWrap(text, remainingWidth, maxWidth)
     local totalWidth = 0
 
-    text = text:gsub('.', function(char)
+    text = text:gsub(utf8.charpattern, function(char)
         totalWidth = totalWidth + surface.GetTextSize(char)
 
         -- Wrap around when the max width is reached
@@ -90,15 +101,28 @@ local function charWrap(text, remainingWidth, maxWidth)
     return text, totalWidth
 end
 
-function mvp.utils.WrapText(text, font, maxWidth)
+function mvp.utils.WrapText(text, font, maxWidth, lineHeight, doNotSplitFirstWord)
     local totalWidth = 0
     local totalHeight = 0
 
     surface.SetFont(font)
 
     local spaceWidth, spaceHeight = surface.GetTextSize(' ')
+    spaceHeight = lineHeight or spaceHeight
+
+    if (doNotSplitFirstWord) then
+        local firstWord = string.match(text, "^(%s?[%S]+)")
+        local firstWordWidth = surface.GetTextSize(firstWord)
+
+        if (firstWordWidth > maxWidth) then
+            text = "\n" .. text
+        else
+            totalWidth = firstWordWidth
+        end
+    end
+    
     text = text:gsub("(%s?[%S]+)", function(word)
-            local char = string.sub(word, 1, 1)
+            local char = utf8.sub(word, 1, 1)
             if char == "\n" or char == "\t" then
                 totalWidth = 0
                 
@@ -301,4 +325,27 @@ function mvp.utils.ColorToFormattedString(col, onlyNumbers)
     end
 
     return "{{color:" .. col.r .. "," .. col.g .. "," .. col.b .. "," .. col.a .. "}}"
+end
+
+function mvp.utils.MaskFn(funcMask, funcDraw)
+    render.SetStencilWriteMask(255)
+    render.SetStencilTestMask(255)
+    render.SetStencilReferenceValue(0)
+    render.SetStencilPassOperation(STENCIL_KEEP)
+    render.SetStencilZFailOperation(STENCIL_KEEP)
+    render.ClearStencil()
+
+    render.SetStencilEnable(true)
+    render.SetStencilReferenceValue(1)
+    render.SetStencilCompareFunction(STENCIL_NEVER)
+    render.SetStencilFailOperation(STENCIL_REPLACE)
+
+    funcMask()
+
+    render.SetStencilCompareFunction(STENCIL_EQUAL)
+    render.SetStencilFailOperation(STENCIL_KEEP)
+
+    funcDraw()
+
+    render.SetStencilEnable(false)
 end

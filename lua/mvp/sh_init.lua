@@ -98,6 +98,9 @@ mvp.NOTIFICATION = {
     [5] = "FAIL"
 }
 
+MVP_ENT_ACTION_USE = "USE"
+MVP_ENT_ACTION_SHIFT_USE = "SHIFT_USE"
+
 mvp.loader.LoadFile("core/sh_data.lua")
 mvp.loader.LoadFile("core/sh_quick.lua") -- this file is loaded last, since it uses all other files
 
@@ -126,7 +129,7 @@ mvp.loader.LoadFolder("thirdparty", true) -- true means load recursively
 
 mvp.loader.LoadFolder("core/util")
 
-mvp.loader.LoadFolder("core/ui")
+mvp.loader.LoadFolder("core/ui", true) -- true means load recursively
 
 if (CLIENT) then
     -- [Images]
@@ -186,6 +189,15 @@ mvp.loader.LoadFolder("credits") -- there is no need to initialize credits, they
 
 mvp.loader.LoadFolder("core/command")
 mvp.command.Init() 
+
+--[[ 
+
+    Themes
+    This loads core of the themes
+
+]]--
+mvp.loader.LoadFolder("core/theme")
+mvp.theme.Init()
 
 --[[ 
 

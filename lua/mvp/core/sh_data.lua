@@ -7,17 +7,22 @@ mvp.data.cache = {
     map = {}, -- map cache
 } -- cache of data
 
+function mvp.data.GetPath(key, isMap)
+    local destination = isMap and (game.GetMap() .. "/") or "global/"
+    return mvp.data.bucket .. destination .. key .. ".txt"
+end
+
 function mvp.data.Set(key, value, isMap)
     -- mvp/global/[key].txt
     -- mvp/maps/[map]/[key].txt
 
     local destination = isMap and (game.GetMap() .. "/") or "global/"
 
-    local folderPath = mvp.data.bucket .. destination
-    local filePath = folderPath .. key .. ".txt"
+    local filePath = mvp.data.bucket .. destination .. key .. ".txt"
+    local fullFolderPath = string.GetPathFromFilename(filePath)
 
-    if not file.Exists(folderPath, "DATA") then
-        file.CreateDir(folderPath)
+    if not file.Exists(fullFolderPath, "DATA") then
+        file.CreateDir(fullFolderPath)
     end
 
     file.Write(filePath, util.TableToJSON({value}))

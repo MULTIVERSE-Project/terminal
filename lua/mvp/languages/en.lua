@@ -8,6 +8,8 @@ l["general.no_permission"] = "You don't have permission to do that."
 l["general.use"] = "Press {{btn:%s}} to interact"
 l["general.command_x"] = "Command: %s"
 
+l["general.unsaved_changes_prompt"] = "%d unsaved"
+
 l["general.screen_position.tl"] = "Top Left"
 l["general.screen_position.tc"] = "Top Center"
 l["general.screen_position.tr"] = "Top Right"
@@ -27,6 +29,7 @@ l["ui.general.save.thing"] = "Save %s"
 l["ui.general.close"] = "Close"
 l["ui.general.none"] = "None"
 l["ui.general.edit"] = "Edit"
+l["ui.general.discard_changes"] = "Discard"
 
 l["ui.home"] = "Home"
 l["ui.home.description"] = "This is the home page for the Terminal admin menu."
@@ -75,30 +78,49 @@ l["ui.notifications.gamemode.action.2"] = "Dissmiss"
 l["section.terminal"] = l["general.terminal"]
 l["section.terminal.general"] = "General"
 l["section.terminal.appearance"] = "Appearance"
-l["section.terminal.webImages"] = "Web Imagse"
+l["section.terminal.webImages"] = "Web Images"
 l["section.terminal.developer"] = "Developer"
 
+l["value.prefix"] = "Command prefix"
 l["value.prefix.description"] = "Prefix for the all commands."
+
 l["value.command.description"] = "Command for opening Terminal menu."
+
+l["value.allowConsoleCommand"] = "Enable console command"
 l["value.allowConsoleCommand.description"] = "Allow console command for opening Terminal menu."
 
+l["value.tag"] = "Chat tag"
 l["value.tag.description"] = "Tag for all chat messages."
+
+l["value.language"] = "Language"
 l["value.language.description"] = "Language for Terminal to use."
+
+l["value.theme"] = "Theme"
+l["value.theme.description"] = "Theme for Terminal to use."
+
+l["value.useNotifications"] = "Enable notifications"
 l["value.useNotifications.description"] = "Use notifications system. If set to false, Terminal will use chat for notifications."
+
+l["value.notificationsPosition"] = "Notifications position"
 l["value.notificationsPosition.description"] = "Position for notifications on screen."
 l["value.notificationsPosition.ps.title"] = "Terminal notifications position"
 l["value.notificationsPosition.ps.description"] = "This is where the notifications will appear on the screen."
 
+l["value.imagesProxy"] = "Images proxy"
 l["value.imagesProxy.description"] = "Use proxy for downloading images. Useful if you have issues with downloading images from the web."
 
+l["value.debug"] = "Debug mode"
 l["value.debug.description"] = "Enable debug mode."
 
 l["section.server"] = "Server"
 l["section.server.gamemode"] = "Gamemode"
 l["section.server.branding"] = "Branding"
 
+l["value.gamemode"] = "Gamemode"
 l["value.gamemode.description"] = "Gamemode for the server."
+l["value.logo"] = "Server logo"
 l["value.logo.description"] = "Branding for the server."
+l["value.servername"] = "Server name"
 l["value.servername.description"] = "Branding for the server."
 
 --[[

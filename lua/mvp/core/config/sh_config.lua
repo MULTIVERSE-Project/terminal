@@ -6,7 +6,7 @@ mvp.config.list = mvp.config.list or {}
 mvp.config.categories = {}
 mvp.config.sections = {}
 
-function mvp.config.RegisterSection(name, sortIndex)
+function mvp.config.RegisterSection(name, sortIndex, packageId)
     if (mvp.config.sections[name]) then 
         return name, mvp.config.sections[name] 
     end
@@ -14,12 +14,28 @@ function mvp.config.RegisterSection(name, sortIndex)
     local sectionTbl = {
         name = name,
         sortIndex = sortIndex or 99,
-        categories = {}
+        categories = {},
+        packageId = packageId or "terminal"
     }
 
     mvp.config.sections[name] = sectionTbl
 
     return name, sectionTbl
+end
+
+function mvp.config.GetSections(packageId)
+    local sections = {}
+
+    for name, section in pairs(mvp.config.sections) do
+        if (not packageId or section.packageId == packageId) then
+            sections[name] = section
+        end
+    end
+
+    return sections
+end
+function mvp.config.GetSection(name)
+    return mvp.config.sections[name]
 end
 
 function mvp.config.RegisterCategory(name, section, sortIndex)
@@ -84,6 +100,11 @@ function mvp.config.Add(key, defaultValue, configuration, sortIndex)
         end
     end
 
+    local uiConfig = configuration.ui or {}
+    if (uiConfig.hide == nil) then
+        uiConfig.hide = configuration.isServerOnly or false
+    end
+
     mvp.config.list[key] = {
         key = key,
         typeOf = typeOf,
@@ -99,7 +120,7 @@ function mvp.config.Add(key, defaultValue, configuration, sortIndex)
         preSet = configuration.preSet or function() end,
         postSet = configuration.postSet or function() end,
 
-        ui = configuration.ui or {},
+        ui = uiConfig,
         sortIndex = sortIndex or 99
     }
 
@@ -154,10 +175,16 @@ function mvp.config.Set(key, value)
     if (SERVER) then
         mvp.config.UpdateValue(key, value)
     else
+        if (not mvp.permissions.Check(LocalPlayer(), "mvp.terminal.configs")) then
+            return false
+        end
+
         net.Start("mvp.config.ChangeValue")
             net.WriteString(key)
             net.WriteType(value)
         net.SendToServer()
+
+        return true
     end
 end
 
