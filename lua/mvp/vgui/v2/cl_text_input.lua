@@ -39,7 +39,6 @@ end
 local mutators = {
     "Font",
     "HistoryEnabled",
-    "Multiline",
     "Numeric",
     "TabbingDisabled",
     "TextColor",
@@ -142,6 +141,16 @@ function PANEL:OnLoseFocus()
     self:SetHoverBlocked(false)
     self:OnCursorExited()
 end
+
+function PANEL:SetMultiline(bool)
+    self.textEntry:SetMultiline(bool)
+
+    self.textEntry:DockMargin(margin, margin, margin, margin)
+end
+function PANEL:IsMultiline()
+    return self.textEntry:IsMultiline()
+end
+
 -- function PANEL:IsHovered()
 --     -- print("Checking hover state. Hovered:", BaseClass.IsHovered(self), "Child Hovered:", self:IsChildHovered(), "Hover Blocked:", self:GetHoverBlocked(), "Text Entry Focused:", self._textEntryFocused)
 --     if (self._textEntryFocused) then return true end
@@ -177,9 +186,9 @@ function PANEL:Paint(w, h)
         :Outline(1 + (self._outlineAdd or 0))
         :Draw()
 
-    local x = s(h * 0.3)
     if (self:GetValue() == "" and text and text ~= "") then
-        draw.SimpleText(text, self:GetPlaceholderFont(), x, h * .5, textColor, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+        local isMultiline = self:IsMultiline()
+        draw.SimpleText(text, self:GetPlaceholderFont(), margin, isMultiline and margin or h * .5, textColor, TEXT_ALIGN_LEFT, isMultiline and TEXT_ALIGN_TOP or TEXT_ALIGN_CENTER)
     end
 end
 

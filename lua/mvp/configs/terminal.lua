@@ -90,11 +90,11 @@ mvp.config.Add("theme", "default", {
     ui = {
         type = "dropdown",
         choices = function()
-            local storedLanguages = mvp.language.list
+            local storedLanguages = mvp.theme.GetList()
             local languages = {}
 
             for k, v in pairs(storedLanguages) do
-                languages[k] = k
+                languages[k] = v:GetName() or v:GetID()
             end
 
             return languages

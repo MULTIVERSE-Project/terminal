@@ -175,10 +175,16 @@ function mvp.config.Set(key, value)
     if (SERVER) then
         mvp.config.UpdateValue(key, value)
     else
+        if (not mvp.permissions.Check(LocalPlayer(), "mvp.terminal.configs")) then
+            return false
+        end
+
         net.Start("mvp.config.ChangeValue")
             net.WriteString(key)
             net.WriteType(value)
         net.SendToServer()
+
+        return true
     end
 end
 

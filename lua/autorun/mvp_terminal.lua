@@ -12,7 +12,7 @@ AddCSLuaFile()
 
 if (SERVER) then
     AddCSLuaFile("mvp/cl_init.lua")
-    AddCSLuaFile("mvp/sh_init.lua")
+    AddCSLuaFile("mvp/sh_init.lua") 
 
     include("mvp/sv_init.lua")
 else

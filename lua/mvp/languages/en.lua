@@ -29,6 +29,7 @@ l["ui.general.save.thing"] = "Save %s"
 l["ui.general.close"] = "Close"
 l["ui.general.none"] = "None"
 l["ui.general.edit"] = "Edit"
+l["ui.general.discard_changes"] = "Discard"
 
 l["ui.home"] = "Home"
 l["ui.home.description"] = "This is the home page for the Terminal admin menu."
@@ -100,22 +101,26 @@ l["value.theme.description"] = "Theme for Terminal to use."
 l["value.useNotifications"] = "Enable notifications"
 l["value.useNotifications.description"] = "Use notifications system. If set to false, Terminal will use chat for notifications."
 
-
 l["value.notificationsPosition"] = "Notifications position"
 l["value.notificationsPosition.description"] = "Position for notifications on screen."
 l["value.notificationsPosition.ps.title"] = "Terminal notifications position"
 l["value.notificationsPosition.ps.description"] = "This is where the notifications will appear on the screen."
 
+l["value.imagesProxy"] = "Images proxy"
 l["value.imagesProxy.description"] = "Use proxy for downloading images. Useful if you have issues with downloading images from the web."
 
+l["value.debug"] = "Debug mode"
 l["value.debug.description"] = "Enable debug mode."
 
 l["section.server"] = "Server"
 l["section.server.gamemode"] = "Gamemode"
 l["section.server.branding"] = "Branding"
 
+l["value.gamemode"] = "Gamemode"
 l["value.gamemode.description"] = "Gamemode for the server."
+l["value.logo"] = "Server logo"
 l["value.logo.description"] = "Branding for the server."
+l["value.servername"] = "Server name"
 l["value.servername.description"] = "Branding for the server."
 
 --[[

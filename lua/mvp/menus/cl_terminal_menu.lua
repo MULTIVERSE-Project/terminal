@@ -86,6 +86,44 @@ mvp.menus.terminal.inputTypes = {
         return valueInput
     end,
 
+    ["dropdown"] = function(config)
+        local val = mvp.menus.admin.editedConfigs[config.key] ~= nil and mvp.menus.admin.editedConfigs[config.key] or config.value
+        
+        local choices = config.ui.choices()
+        local currentChoice = val
+
+        local currentChoiceText = choices[currentChoice] or mvp.q.Lang("ui.general.none")
+
+        local valueInput = vgui.Create("mvp.v2.Button", configPanel)
+        valueInput:SetFont(mvp.Font(20, 500))
+        valueInput:SetText(currentChoiceText)
+        valueInput:SetStyle(MVP_STYLE_SECONDARY)
+        valueInput:SetWide(s(200))
+
+        function valueInput:SetConfigValue(val)
+            self:SetText(choices[val] or mvp.q.Lang("ui.general.none"))
+        end
+
+        valueInput.DoClick = function()
+            local dropdown = vgui.Create("mvp.DropdownMenu")
+            dropdown:SetRoundness(mvp.ui.ScaleWithFactor(8))
+            dropdown:SetMinimumWidth(mvp.ui.Scale(200))
+
+            for k, v in pairs(choices) do
+                dropdown:AddOption(v, function()
+                    valueInput:SetText(v)
+                    valueInput.UpdateConfigValue(k)
+                end)
+            end
+
+            local x, y = valueInput:LocalToScreen(0, valueInput:GetTall())
+
+            dropdown:Open(x, y + s(10) * .5)
+        end
+
+        return valueInput
+    end,
+
     ["custom"] = function(config, content)
         local currentValue = mvp.menus.terminal.editedConfigs[config.key] or config.value
 
@@ -130,7 +168,6 @@ local function onChangeFuncBuilder(config)
         mvp.menus.terminal.frame:Call("ConfigEdited", true)
     end
 end
-
 local function buildSection(sectionContent, section)
     local categoryList = vgui.Create("mvp.v2.CategoryList", sectionContent)
     categoryList:Dock(FILL)
@@ -385,6 +422,24 @@ mvp.menus.terminal.pages = {
                 RNDX().Rect(hw + s(15), h * .5 - 1, w - hw - sw - s(30), 2)
                     :Color(pnl:C("foreground", 0.65))
                     :Draw()
+            end
+
+            local notice = vgui.Create("mvp.v2.Panel", content)
+            notice:Dock(TOP)
+            notice:DockMargin(0, s(10), 0, 0)
+            notice:SetTall(s(120))
+
+            notice.Paint = function(pnl, w, h)
+                local y = 0
+                local _, th = draw.SimpleText("Welcome to Terminal!", pnl:FF("default@semibold", 16), s(12), 0, pnl:C("foreground"), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
+                y = y + th + s(10)
+
+                _, th = draw.SimpleText("This is updated look of Terminal. We're still working on the dashboard page.", pnl:FF("default@light", 14), s(12), y, pnl:C("foreground", 0.75), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+                y = y + th + s(10)
+
+                _, th = draw.SimpleText("You can access settings and packages from the left menu.", pnl:FF("default@light", 14), s(12), y, pnl:C("foreground", 0.75), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+                y = y + th
+                _, th = draw.SimpleText("Setting for Terminal are under \"Settings\" page, settings for individual packages can be found on their respective pages in the \"Packages\" section.", pnl:FF("default@light", 14), s(12), y, pnl:C("foreground", 0.75), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
             end
         end,
     },
@@ -1093,14 +1148,19 @@ function mvp.menus.terminal.Open(defaultTab, ...)
 
                 local saveButton = vgui.Create("mvp.v2.Button", buttonsGrid)
                 saveButton:SetStyle(MVP_STYLE_SUCCESS)
-                saveButton:SetText(mvp.q.Lang("general.save_changes"))
+                saveButton:SetText(mvp.q.Lang("ui.general.save"))
                 saveButton:SetTall(s(30))
                 saveButton:SetMouseInputEnabled(true)
                 
                 saveButton.DoClick = function()
                     for k, v in pairs(mvp.menus.terminal.editedConfigs) do
                         print("Saving config:", k, "=", v)
-                        mvp.config.Set(k, v)
+                        local success = mvp.config.Set(k, v)
+
+                        if (not success) then
+                            mvp.notification.Add(mvp.NOTIFICATION.ERROR, mvp.q.Lang("ui.config.save_failed", k), mvp.q.Lang("ui.config.save_failed.description", k))
+                            return
+                        end
                     end
                     mvp.menus.terminal.editedConfigs = {}
 
@@ -1111,7 +1171,7 @@ function mvp.menus.terminal.Open(defaultTab, ...)
 
                 local resetButton = vgui.Create("mvp.v2.Button", buttonsGrid)
                 resetButton:SetStyle(MVP_STYLE_DANGER)
-                resetButton:SetText(mvp.q.Lang("general.discard_changes"))
+                resetButton:SetText(mvp.q.Lang("ui.general.discard_changes"))
                 resetButton:SetTall(s(30))
                 resetButton:SetMouseInputEnabled(true)
 
@@ -1167,11 +1227,9 @@ function mvp.menus.terminal.Open(defaultTab, ...)
     args = {}
 end
 
--- mvp.menus.terminal.Open("packages")
-
 concommand.Add("mvp_terminal", function()
     if (mvp.permissions.Check(LocalPlayer(), "mvp.terminal")) then
-        mvp.menus.terminal.Open("settings")
+        mvp.menus.terminal.Open()
     else
         chat.AddText(mvp.colors.Red, mvp.q.Lang("general.no_permission"))
     end

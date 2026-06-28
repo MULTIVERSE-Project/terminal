@@ -15,6 +15,10 @@ function ENT:Initialize()
     self.UI = table.Merge(self._UI, self.UI or {}, true)
     self.Actions = table.Merge(self._Actions, self.Actions or {})
 
+    if (self.ModifyUI) then
+        self:ModifyUI(self.UI)
+    end
+
     local maxViewDist, minViewDist = self.View[1] ^ 2, self.View[2] ^ 2
     self.ViewDistSqr = {maxViewDist, minViewDist}
 end
@@ -70,7 +74,7 @@ function ENT:DrawTranslucent()
     local drawPos = self:GetPos()
     if (not self.UI.CustomPos) then
         local _mMin, mMax = self:GetModelBounds()
-        drawPos = self:OBBCenter() + Vector(0, 0, (mMax.z * .5) + zOffset + uiH * 0.05)
+        drawPos = self:OBBCenter() + Vector(mMax.x, 0, zOffset + uiH * 0.05)
     else
         drawPos = self.UI.CustomPos + Vector(0, 0, zOffset)
     end

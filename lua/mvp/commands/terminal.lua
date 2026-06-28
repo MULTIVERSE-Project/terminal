@@ -15,7 +15,7 @@ if (SERVER) then
     util.AddNetworkString("mvp.terminal.open")
 else
     net.Receive("mvp.terminal.open", function()
-        mvp.menus.admin.Open()
+        mvp.menus.terminal.Open()
     end)
 end
 

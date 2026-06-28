@@ -6,7 +6,12 @@ include("shared.lua")
 util.AddNetworkString("mcore.entity.action")
 
 function ENT:Initialize()
-    self:SetModel(self.Model)
+    local model = self.Model or "models/props_c17/oildrum001.mdl"
+    if (self.ModelOverride) then
+        model = self:ModelOverride()
+    end
+
+    self:SetModel(model)
 
     self:PhysicsInit(SOLID_VPHYSICS)
     self:SetMoveType(MOVETYPE_VPHYSICS)
