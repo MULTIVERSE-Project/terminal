@@ -415,8 +415,8 @@ mvp.menus.terminal.pages = {
             header:SetTall(s(30))
 
             header.Paint = function(pnl, w, h)
-                local hw = draw.SimpleText("Dashboard", pnl:FF("header@semibold", 24), 0, h * .5, pnl:C("foreground"), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
-                local sw = draw.SimpleText("make Terminal yours", pnl:FF("default@light", 16), w, h * .5, pnl:C("foreground", 0.65), TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER)
+                local hw = draw.SimpleText(mvp.q.Lang("menu.terminal.dashboard"), pnl:FF("header@semibold", 24), 0, h * .5, pnl:C("foreground"), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+                local sw = draw.SimpleText(mvp.q.Lang("menu.terminal.dashboard.tag_line"), pnl:FF("default@light", 16), w, h * .5, pnl:C("foreground", 0.65), TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER)
 
                 RNDX().Rect(hw + s(15), h * .5 - 1, w - hw - sw - s(30), 2)
                     :Color(pnl:C("foreground", 0.65))
@@ -453,11 +453,11 @@ mvp.menus.terminal.pages = {
             header:Dock(TOP)
             header:SetTall(s(30))
 
-            local headerText = "Settings"
+            local headerText = mvp.q.Lang("menu.terminal.settings")
 
             header.Paint = function(pnl, w, h)
                 local hw = draw.SimpleText(headerText, pnl:FF("header@semibold", 24), 0, h * .5, pnl:C("foreground"), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
-                local sw = draw.SimpleText("make Terminal yours", pnl:FF("default@light", 16), w, h * .5, pnl:C("foreground", 0.65), TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER)
+                local sw = draw.SimpleText(mvp.q.Lang("menu.terminal.settings.tag_line"), pnl:FF("default@light", 16), w, h * .5, pnl:C("foreground", 0.65), TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER)
 
                 RNDX().Rect(hw + s(15), h * .5 - 1, w - hw - sw - s(30), 2)
                     :Color(pnl:C("foreground", 0.65))
@@ -541,7 +541,7 @@ mvp.menus.terminal.pages = {
 
             header.Paint = function(pnl, w, h)
                 local hw = draw.SimpleText(headerText, pnl:FF("header@semibold", 24), 0, h * .5, pnl:C("foreground"), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
-                local sw = draw.SimpleText("build your Terminal", pnl:FF("default@light", 16), w, h * .5, pnl:C("foreground", 0.65), TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER)
+                local sw = draw.SimpleText(mvp.q.Lang("menu.terminal.packages.tag_line"), pnl:FF("default@light", 16), w, h * .5, pnl:C("foreground", 0.65), TEXT_ALIGN_RIGHT, TEXT_ALIGN_CENTER)
 
                 RNDX().Rect(hw + s(15), h * .5 - 1, w - hw - sw - s(30), 2)
                     :Color(pnl:C("foreground", 0.65))

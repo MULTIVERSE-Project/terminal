@@ -66,8 +66,11 @@ l["menu.terminal.title"] = l["general.terminal"]
 l["menu.terminal.subTitle"] = "Administrative Interface"
 
 l["menu.terminal.dashboard"] = "Dashboard"
+l["menu.terminal.dashboard.tag_line"] = "make Terminal yours"
 l["menu.terminal.settings"] = "Settings"
+l["menu.terminal.settings.tag_line"] = "make Terminal yours"
 l["menu.terminal.packages"] = "Packages"
+l["menu.terminal.settings.tag_line"] = "build your own Terminal"
 
 --[[
     Config Section
