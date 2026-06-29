@@ -87,7 +87,7 @@ mvp.menus.terminal.inputTypes = {
     end,
 
     ["dropdown"] = function(config)
-        local val = mvp.menus.admin.editedConfigs[config.key] ~= nil and mvp.menus.admin.editedConfigs[config.key] or config.value
+        local val = mvp.menus.terminal.editedConfigs[config.key] ~= nil and mvp.menus.terminal.editedConfigs[config.key] or config.value
         
         local choices = config.ui.choices()
         local currentChoice = val
@@ -1154,7 +1154,6 @@ function mvp.menus.terminal.Open(defaultTab, ...)
                 
                 saveButton.DoClick = function()
                     for k, v in pairs(mvp.menus.terminal.editedConfigs) do
-                        print("Saving config:", k, "=", v)
                         local success = mvp.config.Set(k, v)
 
                         if (not success) then

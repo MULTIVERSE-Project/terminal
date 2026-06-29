@@ -4,7 +4,7 @@ ENT.Base = "base_gmodentity"
 ENT.PrintName = "ENT"
 ENT.Category = "Multiverse ✦ Bases"
 
-ENT.Spawnable = true
+ENT.Spawnable = false
 ENT.AdminOnly = true
 
 ENT.RenderGroup = RENDERGROUP_BOTH
