@@ -30,6 +30,7 @@ l["ui.general.close"] = "Close"
 l["ui.general.none"] = "None"
 l["ui.general.edit"] = "Edit"
 l["ui.general.discard_changes"] = "Discard"
+l["ui.general.open_editor"] = "Open Editor"
 
 l["ui.home"] = "Home"
 l["ui.home.description"] = "This is the home page for the Terminal admin menu."
@@ -57,19 +58,16 @@ l["ui.credits.terminal"] = l["general.terminal"]
 l["ui.credits.icons"] = "Icons"
 l["ui.credits.packages"] = "Packages"
 
-l["ui.notifications.servername.title"] = "Server name not set"
-l["ui.notifications.servername.description"] = "You haven't set a server name yet. Currently Terminal will use default value \"%s\" as your server name. You can set a server name in the settings."
-l["ui.notifications.servername.action.1"] = "Set server name"
+--[[
+    Menus
+]]--
 
-l["ui.notifications.logo.title"] = "Server logo not set"
-l["ui.notifications.logo.description"] = "You haven't set a server logo yet. Currently Terminal will use default value \"%s\" as your server logo. You can set a server logo in the settings."
-l["ui.notifications.logo.action.1"] = "Set server logo"
+l["menu.terminal.title"] = l["general.terminal"]
+l["menu.terminal.subTitle"] = "Administrative Interface"
 
-l["ui.notifications.gamemode.title"] = "Gamemode not set"
-l["ui.notifications.gamemode.description"] = "You haven't set a gamemode yet. Currently Terminal will use default value \"%s\" as your gamemode. You can set a gamemode in the settings."
-l["ui.notifications.gamemode.action.1"] = "Set gamemode"
-l["ui.notifications.gamemode.action.2"] = "Dissmiss"
-
+l["menu.terminal.dashboard"] = "Dashboard"
+l["menu.terminal.settings"] = "Settings"
+l["menu.terminal.packages"] = "Packages"
 
 --[[
     Config Section

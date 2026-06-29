@@ -128,7 +128,7 @@ mvp.menus.terminal.inputTypes = {
         local currentValue = mvp.menus.terminal.editedConfigs[config.key] or config.value
 
         local editButton = vgui.Create("mvp.v2.Button")
-        editButton:SetText("Open editor")
+        editButton:SetText(mvp.q.Lang("ui.general.open_editor"))
         editButton:SetStyle(MVP_STYLE_PRIMARY)
         editButton:SetWide(s(250))
 
@@ -408,7 +408,6 @@ end
 mvp.menus.terminal.pages = {
     {
         id = "dashboard",
-        title = "DASHBOARD",
         icon = Material("mvp/terminal/home.png", "smooth"),
         onClick = function(content)
             local header = vgui.Create("mvp.v2.Panel", content)
@@ -445,7 +444,6 @@ mvp.menus.terminal.pages = {
     },
     {
         id = "settings",
-        title = "SETTINGS",
         icon = Material("mvp/terminal/settings.png", "smooth"),
         onClick = function(content, extra)
             local sectionId = extra[1] or nil
@@ -491,7 +489,7 @@ mvp.menus.terminal.pages = {
                         mvp.menus.terminal.Open("settings", sectionId)
                     end
 
-                    headerText = "Settings / " .. (mvp.q.Lang("value." .. config.key) or config.key)
+                    headerText = mvp.q.Lang("menu.terminal.settings") .. " / " .. (mvp.q.Lang("value." .. config.key) or config.key)
 
                     if (config.ui.customTools) then
                         for _, tool in pairs(config.ui.customTools) do
@@ -529,7 +527,6 @@ mvp.menus.terminal.pages = {
     },
     {
         id = "packages",
-        title = "PACKAGES",
         icon = Material("mvp/terminal/packages.png", "smooth"),
         onClick = function(content, extra)
             local packageId = extra[1] or nil
@@ -575,7 +572,7 @@ mvp.menus.terminal.pages = {
                         mvp.menus.terminal.Open("packages", packageId, sectionId)
                     end
 
-                    headerText = "Packages / " .. pkg:GetName() .. " / " .. (mvp.q.Lang("value." .. config.key) or config.key)
+                    headerText = mvp.q.Lang("menu.terminal.packages") .. " / " .. pkg:GetName() .. " / " .. (mvp.q.Lang("value." .. config.key) or config.key)
 
                     if (config.ui.customTools) then
                         for _, tool in pairs(config.ui.customTools) do
@@ -628,7 +625,7 @@ mvp.menus.terminal.pages = {
                         mvp.menus.terminal.Open("packages")
                     end
 
-                    headerText = "Packages / " .. (v:GetName() or "Package")
+                    headerText = mvp.q.Lang("menu.terminal.packages") .. " / " .. (v:GetName() or "Package")
                     buildSectionsTabs(topBar, content, sections, sectionId)
                 end
 
@@ -821,7 +818,7 @@ mvp.menus.terminal.pages = {
                                 mvp.menus.terminal.Open("packages")
                             end
 
-                            headerText = "Packages / " .. (v:GetName() or "Package")
+                            headerText = mvp.q.Lang("menu.terminal.packages") .. " / " .. (v:GetName() or "Package")
                             buildSectionsTabs(topBar, content, sections)
                         end
                     end
@@ -955,7 +952,7 @@ mvp.menus.terminal.pages = {
                         backButton:SetAlign(TEXT_ALIGN_CENTER)
                         backButton:SizeToContentsX()
 
-                        headerText = "Packages / " .. (v.name or "Package")
+                        headerText = mvp.q.Lang("menu.terminal.packages") .. " / " .. (v.name or "Package")
                         backButton.DoClick = function()
                             mvp.menus.terminal.Open("packages")
                         end
@@ -1063,8 +1060,8 @@ function mvp.menus.terminal.Open(defaultTab, ...)
     mvp.menus.terminal.inputFiels = {}
 
     local frame = vgui.Create("mvp.v2.FrameWithSidebar")
-    frame:SetTitle("Terminal")
-    frame:SetSubTitle("Administrative Interface")
+    frame:SetTitle(mvp.q.Lang("menu.terminal.title"))
+    frame:SetSubTitle(mvp.q.Lang("menu.terminal.subTitle"))
 
     frame:SetSize(ScrW(), ScrH())
     frame:Center()
@@ -1076,7 +1073,7 @@ function mvp.menus.terminal.Open(defaultTab, ...)
     local args = {...}
 
     for _, page in ipairs(mvp.menus.terminal.pages) do
-        frame:AddButton(page.icon, page.title, function(content)
+        frame:AddButton(page.icon, mvp.q.Lang("menu.terminal." .. page.id), function(content)
             page.onClick(content, args)
         end, page.id == defaultTab)
     end
